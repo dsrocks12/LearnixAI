@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Select Subjects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            max-width: 600px;
+            text-align: center;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+        .class-section {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .class-section h2 {
+            color: #4facfe;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+        .checkbox-group label:hover {
+            background: #4facfe;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox-group input[type="checkbox"]:checked + label {
+            background: #00f2fe;
+            color: #fff;
+            font-weight: bold;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4facfe;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .submit-button:hover {
+            background: #00f2fe;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Select Subjects for Each Class</div>
+        <form action="3" method="POST">
+            <% selectedClasses.forEach(className => { %>
+                <div class="class-section">
+                    <h2><%= className %></h2>
+                    <div class="checkbox-group">
+                        <div>
+                            <input type="checkbox" id="<%= className %>-English" name="subjects[<%= className %>][]" value="English">
+                            <label for="<%= className %>-English">English</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Science" name="subjects[<%= className %>][]" value="Science">
+                            <label for="<%= className %>-Science">Science</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Hindi" name="subjects[<%= className %>][]" value="Hindi">
+                            <label for="<%= className %>-Hindi">Hindi</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-SocialScience" name="subjects[<%= className %>][]" value="Social Science">
+                            <label for="<%= className %>-SocialScience">Social Science</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Maths" name="subjects[<%= className %>][]" value="Maths">
+                            <label for="<%= className %>-Maths">Maths</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-ComputerScience" name="subjects[<%= className %>][]" value="Computer Science">
+                            <label for="<%= className %>-ComputerScience">Computer Science</label>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
