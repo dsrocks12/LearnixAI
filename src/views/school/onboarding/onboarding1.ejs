@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            max-width: 400px;
+            text-align: center;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4facfe;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+        .checkbox-group label:hover {
+            background: #4facfe;
+            color: #fff;
+            transform: translateY(-3px);
+        }
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox-group input[type="checkbox"]:checked + label {
+            background: #00f2fe;
+            color: #fff;
+            font-weight: bold;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #4facfe;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .submit-button:hover {
+            background: #00f2fe;
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Select Your Classes</div>
+        <form action="onboarding/2" method="POST">
+            <div class="checkbox-group">
+                <!-- Repeat for classes 1 to 12 -->
+                <div>
+                    <input type="checkbox" id="class1" name="selectedClasses[]" value="Class 1">
+                    <label for="class1">Class 1</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class2" name="selectedClasses[]" value="Class 2">
+                    <label for="class2">Class 2</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class3" name="selectedClasses[]" value="Class 3">
+                    <label for="class3">Class 3</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class4" name="selectedClasses[]" value="Class 4">
+                    <label for="class4">Class 4</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class5" name="selectedClasses[]" value="Class 5">
+                    <label for="class5">Class 5</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class6" name="selectedClasses[]" value="Class 6">
+                    <label for="class6">Class 6</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class7" name="selectedClasses[]" value="Class 7">
+                    <label for="class7">Class 7</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class8" name="selectedClasses[]" value="Class 8">
+                    <label for="class8">Class 8</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class9" name="selectedClasses[]" value="Class 9">
+                    <label for="class9">Class 9</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class10" name="selectedClasses[]" value="Class 10">
+                    <label for="class10">Class 10</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class11" name="selectedClasses[]" value="Class 11">
+                    <label for="class11">Class 11</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="class12" name="selectedClasses[]" value="Class 12">
+                    <label for="class12">Class 12</label>
+                </div>
+            </div>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

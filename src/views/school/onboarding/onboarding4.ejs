@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Step 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .class-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .class-container h3 {
+            margin: 0 0 10px;
+        }
+        .student-inputs {
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Onboarding Step 4: Add Students to Classes</h1>
+    <form action="/5" method="POST">
+        <% selectedClasses.forEach((className, index) => { %>
+            <div class="class-container">
+                <h3>Class: <%= className %></h3>
+                <div class="student-inputs" id="students-<%= index %>">
+                    <input type="email" name="students[<%= className %>][]" placeholder="Enter student email" required>
+                </div>
+                <button type="button" onclick="addStudentField('<%= index %>')">Add Another Student</button>
+
+            </div>
+        <% }); %>
+        <button type="submit">Save Students</button>
+    </form>
+
+    <script>
+        // Function to add additional student input fields for a specific class
+        function addStudentField(classIndex) {
+            const container = document.getElementById(`students-${classIndex}`);
+            const input = document.createElement('input');
+            input.type = 'email';
+            input.name = `students[${container.id.split('-')[1]}][]`;
+            input.placeholder = 'Enter student email';
+            input.required = true;
+            container.appendChild(input);
+        }
+    </script>
+</body>
+</html>
