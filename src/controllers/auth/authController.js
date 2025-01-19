@@ -1,7 +1,4 @@
-const User = require('../../models/User');
 const SuperAdmin = require('../../models/superAdmin/superAdmin');
-
-const bcrypt = require('bcrypt');
 
 
 exports.SchoolLogin = async (req, res) => {
@@ -14,8 +11,8 @@ exports.SchoolLogin = async (req, res) => {
         if (check) {
             // Compare the entered password with the stored password
             if (check.SchoolPassword == password) {
-                // Render the onboarding page if login is successful
-                res.render('school/onboarding/onboarding1');
+                // Render the onboarding page and send check.name to the next page
+                res.render('school/onboarding/onboarding1', { name: check.name });
             } else {
                 res.status(401).send("Wrong password");
             }
@@ -28,7 +25,6 @@ exports.SchoolLogin = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 
 

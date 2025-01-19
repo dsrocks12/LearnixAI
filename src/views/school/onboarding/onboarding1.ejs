@@ -80,8 +80,11 @@
     <div class="container">
         <div class="title">Select Your Classes</div>
         <form action="onboarding/2" method="POST">
+            <!-- Hidden input field to pass 'name' to the next page -->
+            <input type="hidden" name="name" value="<%= name %>">
+
             <div class="checkbox-group">
-                <!-- Repeat for classes 1 to 12 -->
+                <!-- Checkboxes for selecting classes -->
                 <div>
                     <input type="checkbox" id="class1" name="selectedClasses[]" value="Class 1">
                     <label for="class1">Class 1</label>

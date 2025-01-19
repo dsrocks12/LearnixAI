@@ -72,6 +72,7 @@
             const emailGroup = document.createElement('div');
             emailGroup.className = 'email-input-group';
             emailGroup.innerHTML = `
+
                 <input type="email" name="teachers[${subjectId}][]" placeholder="Enter teacher's email" required>
                 <button type="button" class="add-button" onclick="removeEmailField(this)">Remove</button>
             `;
@@ -86,7 +87,10 @@
 <body>
     <div class="container">
         <h1>Add Teachers</h1>
+        <!-- Hidden input field for name -->
         <form action="4" method="POST">
+            <input type="hidden" name="name" value="<%= name %>"> <!-- Send name to POST request -->
+
             <% Object.keys(data).forEach(className => { %>
                 <div class="class-section">
                     <h2><%= className %></h2>
