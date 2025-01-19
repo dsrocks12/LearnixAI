@@ -12,6 +12,11 @@ const subjectsEnum = Object.freeze({
 
 // Schema for the subject
 const subjectSchema = new mongoose.Schema({
+    schoolName:{
+        type: String,
+        required: true,
+        default: null
+    },
     
     classNumber: {
         type: String,
@@ -33,6 +38,12 @@ const subjectSchema = new mongoose.Schema({
 
 // Schema for the class
 const classSchema = new mongoose.Schema({
+    schoolName:{
+        type:String,
+        required:true,
+        default: null
+    },
+
     classNumber:{
         type: String,
         required: true,
@@ -46,23 +57,10 @@ const classSchema = new mongoose.Schema({
   
 });
 
-// Schema for the school
-const schoolSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        default: null
-    },
-    classes: {
-        type: [classSchema],  // Array of class objects
-        required: true
-    },
-
-});
 
 // Models
 const Subject = mongoose.model('Subject', subjectSchema);
 const Class = mongoose.model('Class', classSchema);
-const School = mongoose.model('School', schoolSchema);
 
-module.exports = { Subject, Class, School };
+
+module.exports = { Subject, Class };

@@ -16,8 +16,12 @@ router.get('/onboarding/3',(req,res)=>{
     res.render('/school/onboarding/onboarding3');
 
 });
-router.get('/onboarding/3',(req,res) =>{
+router.get('/onboarding/4',(req,res) =>{
     res.render('/school/onboarding/onboarding4');
+});
+
+router.get('/onboarding/5', (req,res)=>{
+    res.render('/school/onboarding/onboarding5');
 })
 
 router.post('/onboarding',authController.SchoolLogin);

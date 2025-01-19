@@ -1,18 +1,28 @@
-const Subject = require('../../models/school/onboarding')
+const Subject = require('../../models/school/onboarding');
+const Class = require('../../models/school/onboarding'); // Import the Class model
 
 
 exports.onboarding1 = async (req, res) => {
-    const selectedClasses = req.body['selectedClasses[]']; // Check if this is being populated correctly
-    console.log(selectedClasses); // Debug: Check if this is outputting the correct value
-    
-    res.render('school/onboarding/onboarding2', { selectedClasses: selectedClasses });
-}
+    // console.log(req.body);
+
+    // Destructure using correct keys from req.body
+    const { name, selectedClasses } = req.body;
+
+    console.log('Selected Classes:', selectedClasses); // Debug: Log selected classes
+    console.log('Name:', name); // Debug: Log name
+
+    // Render 'onboarding2' and send both 'selectedClasses' and 'name' to the next page
+    res.render('school/onboarding/onboarding2', { selectedClasses, name });
+};
+
+
 
 
 exports.onboarding2 = async (req, res) => {
     try {
         const rawData = req.body; // Incoming data from the form
         const transformedData = {};
+        const { name } = req.body; // Extract 'name' from the incoming data
 
         // Transform raw data into the required structure
         for (const key in rawData) {
@@ -28,10 +38,10 @@ exports.onboarding2 = async (req, res) => {
             }
         }
 
-        console.log("Transformed Data:", transformedData); // Debug: Verify the final structure
+        // console.log("Transformed Data:", transformedData); // Debug: Verify the final structure
 
-        // Render the next view with the transformed data
-        res.render('school/onboarding/onboarding3', { data: transformedData });
+        // Render the next view with the transformed data and name
+        res.render('school/onboarding/onboarding3', { data: transformedData, name: name });
     } catch (error) {
         console.error("Error in onboarding2 controller:", error);
         res.status(500).send("An error occurred while processing the data.");
@@ -42,7 +52,9 @@ exports.onboarding2 = async (req, res) => {
 exports.onboarding3 = async (req, res) => {
     try {
         const data = req.body;
-        console.log(data);
+        const schoolName = req.body.name; // Assuming the name is passed as 'name' in the form
+        // console.log('School Name:', schoolName);
+        // console.log('Form Data:', data);
 
         // Collect parsed subjects to avoid duplicates
         const processedSubjects = new Set();
@@ -68,7 +80,9 @@ exports.onboarding3 = async (req, res) => {
                     if (!processedSubjects.has(uniqueKey)) {
                         processedSubjects.add(uniqueKey);
 
+                        // Create and save a new subject document with the schoolName
                         const subject = new Subject.Subject({
+                            schoolName: schoolName,  // Add the school name
                             classNumber: className,
                             name: subjectName,
                             teacherEmails: Array.isArray(teacherEmail)
@@ -94,15 +108,69 @@ exports.onboarding3 = async (req, res) => {
 };
 
 
-exports.onboarding4 = async(req,res) =>{
-    try{
-        const data = req.body;
-        console.log(data);
+
+
+
+
+exports.onboarding4 = async (req, res) => {
+    try {
+        const data = req.body; // Get the data from the request body
+        console.log('Received Data:', data);
+
+        // Extract and validate the school name
+        const schoolName = data.Name;
+        if (!schoolName || typeof schoolName !== 'string' || schoolName.trim() === '') {
+            console.error('School Name is required and must be a valid string');
+            return res.status(400).send('School Name is required');
+        }
+
+        // Parse Selected Classes into an array if needed
+        let selectedClasses = data['Selected Classes'];
+        if (typeof selectedClasses === 'string') {
+            try {
+                selectedClasses = JSON.parse(selectedClasses); // Convert string to array if passed as a string
+            } catch (parseError) {
+                console.error('Error parsing Selected Classes:', parseError);
+                return res.status(400).send('Invalid Selected Classes format');
+            }
+        }
+
+        // Ensure selectedClasses is an array
+        if (!Array.isArray(selectedClasses) || selectedClasses.length === 0) {
+            console.error('Selected Classes is not a valid array');
+            return res.status(400).send('Selected Classes must be a non-empty array');
+        }
+
+        // Iterate over the selected classes and save each class
+        for (const className of selectedClasses) {
+            const studentEmailsKey = `students[${className}][]`;
+            const studentEmails = data[studentEmailsKey];
+
+            if (!studentEmails) {
+                console.log(`No student emails found for class: ${className}`);
+                continue; // Skip if no emails are provided for the class
+            }
+
+            // Normalize studentEmails to an array
+            const emails = Array.isArray(studentEmails)
+                ? studentEmails
+                : [studentEmails];
+
+            // Create and save a class document
+            const classDocument = new Class({
+                schoolName, // Use the extracted school name
+                classNumber: className,
+                studentEmails: emails,
+            });
+
+            await classDocument.save();
+            console.log(`Saved class: ${className} with students: ${emails}`);
+        }
+
+        // Redirect to the next onboarding step or send a response
         res.render('school/onboarding/onboarding5');
-    }catch(error){
-        console.log(error);
+    } catch (error) {
+        console.error('Error in onboarding4:', error);
+        res.status(500).send('Internal Server Error');
     }
-
-}
-
-
+};
