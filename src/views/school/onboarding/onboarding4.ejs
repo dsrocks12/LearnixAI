@@ -28,26 +28,29 @@
 <body>
     <h1>Onboarding Step 4: Add Students to Classes</h1>
     <form action="5" method="POST">
+        <!-- Add a hidden field for the school name -->
+        <input type="hidden" name="name" value="<%= name %>" required>
+
         <% selectedClasses.forEach((className, index) => { %>
             <div class="class-container">
                 <h3>Class: <%= className %></h3>
                 <div class="student-inputs" id="students-<%= index %>">
                     <input type="email" name="students[<%= className %>][]" placeholder="Enter student email" required>
                 </div>
-                <button type="button" onclick="addStudentField('<%= index %>')">Add Another Student</button>
-
+                <button type="button" onclick="addStudentField('<%= index %>', '<%= className %>')">Add Another Student</button>
             </div>
         <% }); %>
+
         <button type="submit">Save Students</button>
     </form>
 
     <script>
         // Function to add additional student input fields for a specific class
-        function addStudentField(classIndex) {
+        function addStudentField(classIndex, className) {
             const container = document.getElementById(`students-${classIndex}`);
             const input = document.createElement('input');
             input.type = 'email';
-            input.name = `students[${container.id.split('-')[1]}][]`;
+            input.name = `students[${className}][]`;
             input.placeholder = 'Enter student email';
             input.required = true;
             container.appendChild(input);
