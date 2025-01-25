@@ -20,8 +20,9 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use('/', homeRoutes);
-app.use('/school',schoolRoutes)
+app.use('/school',schoolRoutes);
 
 // Define Port for Application
 const port = 5000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+
