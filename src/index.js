@@ -28,10 +28,9 @@ app.set('view engine', 'ejs');
 
 // Routes
 app.use('/', homeRoutes);
-app.use('/school', schoolRoutes);
-app.use('/teacher/auth', teacherRoutes); 
-app.use('/student/auth', studentRoutes); 
+app.use('/school',schoolRoutes)
 
 // Define Port for Application
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server listening on port ${port}`));
+

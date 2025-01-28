@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher List - <%= schoolName %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .teacher-list {
+            padding: 20px;
+        }
+        .class-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .class-section:last-child {
+            border-bottom: none;
+        }
+        .class-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subject {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        .subject-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+        }
+        .teacher-emails {
+            margin-left: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+        .teacher-emails span {
+            display: inline-block;
+            background: #f1f1f1;
+            color: #555;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 3px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- School Name Header -->
+        <div class="header">
+            <%= schoolName %>
+        </div>
+
+        <!-- Teacher List -->
+        <div class="teacher-list">
+            <% teacherList.forEach(teacher => { %>
+                <div class="class-section">
+                    <!-- Class Header -->
+                    <div class="class-header">Class <%= teacher.classNumber %></div>
+                    
+                    <!-- Subject Details -->
+                    <div class="subject">
+                        <div class="subject-name">Subject: <%= teacher.subjectName %></div>
+                        
+                        <!-- Teacher Emails -->
+                        <div class="teacher-emails">
+                            Emails:
+                            <% teacher.teacherEmails.forEach(email => { %>
+                                <span><%= email %></span>
+                            <% }); %>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>

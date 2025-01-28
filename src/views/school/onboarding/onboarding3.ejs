@@ -33,15 +33,16 @@
         .subject-section {
             margin-top: 10px;
         }
-        .email-input-group {
+        .teacher-input-group {
             margin: 10px 0;
         }
-        .email-input-group input {
-            width: calc(100% - 120px);
+        .teacher-input-group input {
+            width: calc(50% - 10px);
             padding: 8px;
             margin-right: 10px;
+            margin-bottom: 5px;
         }
-        .add-button {
+        .add-button, .remove-button {
             padding: 8px 15px;
             background: #4facfe;
             color: #fff;
@@ -49,7 +50,7 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        .add-button:hover {
+        .add-button:hover, .remove-button:hover {
             background: #00f2fe;
         }
         .submit-button {
@@ -68,17 +69,18 @@
         }
     </style>
     <script>
-        function addEmailField(subjectId) {
-            const emailGroup = document.createElement('div');
-            emailGroup.className = 'email-input-group';
-            emailGroup.innerHTML = `
-                <input type="email" name="teachers[${subjectId}][]" placeholder="Enter teacher's email" required>
-                <button type="button" class="add-button" onclick="removeEmailField(this)">Remove</button>
+        function addTeacherField(subjectId) {
+            const teacherGroup = document.createElement('div');
+            teacherGroup.className = 'teacher-input-group';
+            teacherGroup.innerHTML = `
+                <input type="email" name="teachers[${subjectId}][email][]" placeholder="Teacher's Email" required>
+                <input type="text" name="teachers[${subjectId}][name][]" placeholder="Teacher's Name" required>
+                <button type="button" class="remove-button" onclick="removeTeacherField(this)">Remove</button>
             `;
-            document.getElementById(subjectId).appendChild(emailGroup);
+            document.getElementById(subjectId).appendChild(teacherGroup);
         }
 
-        function removeEmailField(button) {
+        function removeTeacherField(button) {
             button.parentElement.remove();
         }
     </script>
@@ -86,9 +88,8 @@
 <body>
     <div class="container">
         <h1>Add Teachers</h1>
-        <!-- Hidden input field for name -->
         <form action="4" method="POST">
-            <input type="hidden" name="name" value="<%= name %>"> <!-- Send name to POST request -->
+            <input type="hidden" name="name" value="<%= name %>">
             <% Object.keys(subjects).forEach(className => { %>
                 <div class="class-section">
                     <h2><%= className %></h2>
@@ -96,8 +97,8 @@
                         <div class="subject-section">
                             <h3><%= subject %></h3>
                             <div id="<%= className %>_<%= subject %>"></div>
-                            <button type="button" class="add-button" onclick="addEmailField('<%= className %>_<%= subject %>')">
-                                Add Teacher Email
+                            <button type="button" class="add-button" onclick="addTeacherField('<%= className %>_<%= subject %>')">
+                                Add Teacher
                             </button>
                         </div>
                     <% }); %>
