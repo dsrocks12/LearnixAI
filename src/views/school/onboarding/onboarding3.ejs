@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Add Teachers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .class-section {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+        }
+        .class-section:last-child {
+            border-bottom: none;
+        }
+        .subject-section {
+            margin-top: 10px;
+        }
+        .teacher-input-group {
+            margin: 10px 0;
+        }
+        .teacher-input-group input {
+            width: calc(50% - 10px);
+            padding: 8px;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+        .add-button, .remove-button {
+            padding: 8px 15px;
+            background: #4facfe;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .add-button:hover, .remove-button:hover {
+            background: #00f2fe;
+        }
+        .submit-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #4facfe;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background: #00f2fe;
+        }
+    </style>
+    <script>
+        function addTeacherField(subjectId) {
+            const teacherGroup = document.createElement('div');
+            teacherGroup.className = 'teacher-input-group';
+            teacherGroup.innerHTML = `
+                <input type="email" name="teachers[${subjectId}][email][]" placeholder="Teacher's Email" required>
+                <input type="text" name="teachers[${subjectId}][name][]" placeholder="Teacher's Name" required>
+                <button type="button" class="remove-button" onclick="removeTeacherField(this)">Remove</button>
+            `;
+            document.getElementById(subjectId).appendChild(teacherGroup);
+        }
+
+        function removeTeacherField(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Teachers</h1>
+        <form action="4" method="POST">
+            <input type="hidden" name="name" value="<%= name %>">
+            <% Object.keys(subjects).forEach(className => { %>
+                <div class="class-section">
+                    <h2><%= className %></h2>
+                    <% subjects[className].forEach(subject => { %>
+                        <div class="subject-section">
+                            <h3><%= subject %></h3>
+                            <div id="<%= className %>_<%= subject %>"></div>
+                            <button type="button" class="add-button" onclick="addTeacherField('<%= className %>_<%= subject %>')">
+                                Add Teacher
+                            </button>
+                        </div>
+                    <% }); %>
+                </div>
+            <% }); %>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

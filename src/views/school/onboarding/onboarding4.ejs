@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Step 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .class-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .class-container h3 {
+            margin: 0 0 10px;
+        }
+        .student-input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .student-input-group input {
+            margin-right: 10px;
+            padding: 5px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Onboarding Step 4: Add Students to Classes</h1>
+    <form action="5" method="POST">
+        <!-- Add a hidden field for the school name -->
+        <input type="hidden" name="name" value="<%= name %>" required>
+
+        <% selectedClasses.forEach((className, index) => { %>
+            <div class="class-container">
+                <h3>Class: <%= className %></h3>
+                <div class="student-inputs" id="students-<%= index %>">
+                    <div class="student-input-group">
+                        <input type="text" name="students[<%= className %>][names][]" placeholder="Enter student name" required>
+                        <input type="email" name="students[<%= className %>][emails][]" placeholder="Enter student email" required>
+                    </div>
+                </div>
+                <button type="button" onclick="addStudentField('<%= index %>', '<%= className %>')">Add Another Student</button>
+            </div>
+        <% }); %>
+
+        <button type="submit">Save Students</button>
+    </form>
+
+    <script>
+        // Function to add additional student input fields for a specific class
+        function addStudentField(classIndex, className) {
+            const container = document.getElementById(`students-${classIndex}`);
+            const group = document.createElement('div');
+            group.className = 'student-input-group';
+
+            const nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.name = `students[${className}][names][]`;
+            nameInput.placeholder = 'Enter student name';
+            nameInput.required = true;
+
+            const emailInput = document.createElement('input');
+            emailInput.type = 'email';
+            emailInput.name = `students[${className}][emails][]`;
+            emailInput.placeholder = 'Enter student email';
+            emailInput.required = true;
+
+            group.appendChild(nameInput);
+            group.appendChild(emailInput);
+            container.appendChild(group);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <!-- Assuming the schoolName variable is available on the page -->
+    <script>
+        // Get the school name (e.g., from a data attribute or JavaScript variable)
+        const schoolName = "John Doe"; // Replace this with dynamic data if needed
+    </script>
+
+    <button onclick="location.href='/school/teachers?schoolName=' + encodeURIComponent(schoolName)">View Teachers</button>
+    <button onclick="location.href='/school/students?schoolName=' + encodeURIComponent(schoolName)">View Students</button>
+    <button onclick="location.href='/school/classes?schoolName=' + encodeURIComponent(schoolName)">View Classes</button>
+    <button onclick="location.href='/school/subjects?schoolName=' + encodeURIComponent(schoolName)">View Subjects</button>
+
+</body>
+</html>
