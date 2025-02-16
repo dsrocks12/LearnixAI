@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Enum for subjects
+
 const subjectsEnum = Object.freeze({
     English: "English",
     Science: "Science",
@@ -10,7 +10,7 @@ const subjectsEnum = Object.freeze({
     ComputerScience: "Computer Science"
 });
 
-// Schema for the subject
+
 const subjectSchema = new mongoose.Schema({
     schoolName: {
         type: String,
@@ -32,11 +32,11 @@ const subjectSchema = new mongoose.Schema({
         type: [
             {
                 email: {
-                    type: String, // Email address
+                    type: String,
                     required: true
                 },
                 teacherName: {
-                    type: String, // Name of the teacher
+                    type: String, 
                     required: true
                 }
             }
@@ -46,10 +46,10 @@ const subjectSchema = new mongoose.Schema({
     }
 });
 
-// Freeze the subjectsEnum to prevent modifications
+
 Object.freeze(subjectsEnum);
 
-// Create the Subject model
+
 const Subject = mongoose.model('Subject', subjectSchema);
 
 module.exports = Subject;

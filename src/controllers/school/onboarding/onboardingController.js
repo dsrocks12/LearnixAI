@@ -1,5 +1,11 @@
 const Subject = require('../../../models/school/subjectModel');
 const Class = require('../../../models/school/classModel'); // Import the Class model
+const SuperAdmin = require('../../../models/superAdmin/superAdmin'); // Import SuperAdmin model
+const Teacher = require('../../../models/teacher/teachermodel');
+const Student = require("../../../models/student/studentModel"); // Replace with the correct path
+
+
+
 
 
 exports.onboarding1 = async (req, res) => {
@@ -52,153 +58,163 @@ exports.onboarding2 = async (req, res) => {
     }
 };
 
+
 exports.onboarding3 = async (req, res) => {
     try {
-        // Log the incoming request body for debugging
-        // console.log(req.body);
-
-        // Extract the school name and teacher data from the form
         const { name, teachers } = req.body;
 
-        // Collect parsed subjects to avoid duplicates
+        // Fetch the school region from SuperAdmin
+        const schoolData = await SuperAdmin.findOne({ name: name });
+        if (!schoolData) {
+            return res.status(404).send('School not found');
+        }
+        const region = schoolData.region;
+
+        // Process and save teachers
         const processedSubjects = new Set();
         const selectedClasses = new Set();
 
-        // Iterate over the teachers object to process each subject and class
         for (const key in teachers) {
-            const match = key.match(/^(.+?)_(.+?)$/); // Match 'Class_Subject' format
+            const match = key.match(/^(.+?)_(.+?)$/);
             if (match) {
-                const className = match[1]; // Extract the class name
-                const subjectName = match[2]; // Extract the subject name
-                const teacherEmails = teachers[key].email; // Get the teacher emails array
-                const teacherNames = teachers[key].name; // Get the teacher names array
+                const className = match[1];
+                const subjectName = match[2];
+                const teacherEmails = teachers[key].email;
+                const teacherNames = teachers[key].name;
+                const teacherPasswords = teachers[key].password;
 
-                // Add the class name to the set of selected classes
                 selectedClasses.add(className);
 
-                // Generate a unique identifier for class and subject
                 const uniqueKey = `${className}_${subjectName}`;
 
-                // Avoid duplicates by checking the processed subjects set
                 if (!processedSubjects.has(uniqueKey)) {
                     processedSubjects.add(uniqueKey);
 
-                    // Combine teacher emails and names into an array of objects
+                    // Save subject entry
                     const teacherData = teacherEmails.map((email, index) => ({
                         email,
-                        teacherName: teacherNames[index], // Match name by index
+                        teacherName: teacherNames[index],
                     }));
 
-                    // Create and save a new subject document
                     const subject = new Subject({
-                        schoolName: name, // Add the school name
+                        schoolName: name,
                         classNumber: className,
                         name: subjectName,
-                        teacherEmails: teacherData, // Save teacher data (email + name)
+                        teacherEmails: teacherData,
                     });
 
-                    // Save the subject document to the database
                     await subject.save();
+                }
+
+                // Save teachers into the Teacher model
+                for (let i = 0; i < teacherEmails.length; i++) {
+                    const existingTeacher = await Teacher.findOne({ email: teacherEmails[i] });
+                    if (!existingTeacher) {
+                        const newTeacher = new Teacher({
+                            schoolName: name,
+                            region: region,
+                            email: teacherEmails[i],
+                            password: teacherPasswords[i], // Password stored as plain text (not recommended for production)
+                        });
+
+                        await newTeacher.save();
+                    }
                 }
             }
         }
 
-        // Convert the set of selected classes to an array
-        const selectedClassesArray = Array.from(selectedClasses);
-
-        // Pass the school name, selected classes, and teacher data to the next view
         res.render('school/onboarding/onboarding4', {
             name: name,
-            selectedClasses: selectedClassesArray,
+            selectedClasses: Array.from(selectedClasses),
             teachers: teachers,
         });
+
     } catch (error) {
-        console.error('Error saving subjects:', error);
-        res.status(500).send('An error occurred while saving subjects.');
+        console.error('Error saving teachers:', error);
+        res.status(500).send('An error occurred while saving teachers.');
     }
 };
 
 
 exports.onboarding4 = async (req, res) => {
     try {
-        console.log(req.body); // Log the request body for debugging
+        console.log(req.body);
 
-        const { students, name: schoolName } = req.body; // Destructure the request body
+        const { students, name: schoolName } = req.body;
 
-        // Validate school name
-        if (!schoolName || typeof schoolName !== 'string' || schoolName.trim() === '') {
-            console.error('School Name is required and must be a valid string');
-            return res.status(400).send('School Name is required and must be a valid string.');
+        if (!schoolName || typeof schoolName !== "string" || schoolName.trim() === "") {
+            console.error("School Name is required and must be a valid string");
+            return res.status(400).send("School Name is required and must be a valid string.");
         }
 
-        // Validate students object
-        if (!students || typeof students !== 'object' || Object.keys(students).length === 0) {
-            console.error('Students data is invalid or missing');
-            return res.status(400).send('Students data must be provided.');
+        if (!students || typeof students !== "object" || Object.keys(students).length === 0) {
+            console.error("Students data is invalid or missing");
+            return res.status(400).send("Students data must be provided.");
         }
 
+        // Fetch the region based on schoolName from SuperAdmin
+        const superAdmin = await SuperAdmin.findOne({ name: schoolName.trim() });
+
+        if (!superAdmin) {
+            console.error("No school found with the given name");
+            return res.status(404).send("No school found with the given name.");
+        }
+
+        const schoolRegion = superAdmin.region;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const classDocuments = [];
+        const studentDocuments = [];
 
-        // Iterate over the students object and prepare classes
         for (const [classNumber, classData] of Object.entries(students)) {
-            // Validate classData structure
             if (
                 !classNumber ||
-                typeof classNumber !== 'string' ||
+                typeof classNumber !== "string" ||
                 !classData ||
-                typeof classData !== 'object' ||
+                typeof classData !== "object" ||
                 !Array.isArray(classData.emails) ||
-                classData.emails.length === 0
+                classData.emails.length === 0 ||
+                !Array.isArray(classData.names) ||
+                classData.names.length !== classData.emails.length ||
+                !Array.isArray(classData.passwords) ||
+                classData.passwords.length !== classData.emails.length
             ) {
                 console.warn(`Invalid data for class: ${classNumber}`);
                 continue;
             }
 
-            // Ensure the names and emails are aligned
-            if (!Array.isArray(classData.names) || classData.names.length !== classData.emails.length) {
-                console.warn(`Names and emails mismatch for class: ${classNumber}`);
-                continue;
+            for (let i = 0; i < classData.emails.length; i++) {
+                const email = classData.emails[i].trim();
+                const studentName = classData.names[i].trim();
+                const password = classData.passwords[i].trim();
+
+                if (!emailRegex.test(email)) {
+                    console.warn(`Invalid email: ${email} for class: ${classNumber}`);
+                    continue;
+                }
+
+                studentDocuments.push({
+                    schoolName: schoolName.trim(),
+                    region: schoolRegion, // Use region from SuperAdmin
+                    email,
+                    password,
+                });
             }
-
-            // Build the studentDetails array
-            const studentDetails = classData.emails.map((email, index) => {
-                return {
-                    email: email.trim(),
-                    studentName: classData.names[index].trim(),
-                };
-            });
-
-            // Filter and validate emails
-            const validEmails = studentDetails.filter(student => emailRegex.test(student.email));
-            if (validEmails.length === 0) {
-                console.warn(`No valid student emails for class: ${classNumber}`);
-                continue;
-            }
-
-            classDocuments.push({
-                schoolName: schoolName.trim(),
-                classNumber: classNumber.trim(),
-                studentDetails: validEmails, // Add the valid student details here
-            });
         }
 
-        // Save all valid classes in one batch
-        if (classDocuments.length > 0) {
+        if (studentDocuments.length > 0) {
             try {
-                await Class.insertMany(classDocuments);
-                console.log(`Saved ${classDocuments.length} classes successfully.`);
+                await Student.insertMany(studentDocuments);
+                console.log(`Saved ${studentDocuments.length} students successfully.`);
                 res.redirect(`/school/dashboard?schoolName=${encodeURIComponent(schoolName)}`);
             } catch (err) {
-                console.error('Error saving classes:', err);
-                res.status(500).send('Failed to save classes.');
+                console.error("Error saving students:", err);
+                res.status(500).send("Failed to save students.");
             }
         } else {
-            console.warn('No valid classes to save.');
-            res.status(400).send('No valid classes to save.');
+            console.warn("No valid students to save.");
+            res.status(400).send("No valid students to save.");
         }
     } catch (error) {
-        console.error('Error in onboarding4:', error);
-        res.status(500).send('Internal Server Error');
+        console.error("Error in onboarding4:", error);
+        res.status(500).send("Internal Server Error");
     }
 };

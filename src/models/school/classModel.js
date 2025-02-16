@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// Schema for the class
+
 const classSchema = new mongoose.Schema({
     schoolName: {
         type: String,
@@ -16,21 +16,24 @@ const classSchema = new mongoose.Schema({
         type: [
             {
                 email: {
-                    type: String,  // Email ID of the student
+                    type: String,  
                     required: true
                 },
                 studentName: {
-                    type: String,  // Name of the student
+                    type: String, 
                     required: true
                 }
             }
         ],
         required: true,
-        default: [] // Default to an empty array
+        default: [] 
     }
 });
+      
 
-// Create the Class model
 const Class = mongoose.model('Class', classSchema);
-
+                                              
 module.exports = Class;
+       
+
+

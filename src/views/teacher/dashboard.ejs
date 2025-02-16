@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Welcome, <%= teacher.name %> 👋</h2>
+        <p class="text-center"><strong>School:</strong> <%= teacher.schoolName %> | <strong>Region:</strong> <%= teacher.region %></p>
+
+        <!-- 📚 Classes Section -->
+        <div class="card my-4">
+            <div class="card-header bg-primary text-white">📖 Classes You Teach</div>
+            <div class="card-body">
+                <% if (classes && classes.length > 0) { %>
+                    <ul class="list-group">
+                        <% classes.forEach(classItem => { %>
+                            <li class="list-group-item">
+                                <strong>Class:</strong> <%= classItem.classNumber %> - <strong>Subject:</strong> <%= classItem.subjectName %> 
+                                <br> <small><%= classItem.students.length %> students</small>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No classes assigned.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- 📝 Assignments Section -->
+        <div class="card my-4">
+            <div class="card-header bg-warning">📝 Assignments</div>
+            <div class="card-body">
+                <% if (assignments && assignments.length > 0) { %>
+                    <ul class="list-group">
+                        <% assignments.forEach(assignment => { %>
+                            <li class="list-group-item">
+                                <strong>Title:</strong> <%= assignment.title %> <br>
+                                <strong>Class:</strong> <%= assignment.classNumber %> | <strong>Subject:</strong> <%= assignment.subject %>
+                                <br> <small>Due: <%= new Date(assignment.dueDate).toLocaleDateString() %></small>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No assignments found.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- 📢 Announcements Section -->
+        <div class="card my-4">
+            <div class="card-header bg-danger text-white">📢 Announcements</div>
+            <div class="card-body">
+                <% if (announcements && announcements.length > 0) { %>
+                    <ul class="list-group">
+                        <% announcements.forEach(announcement => { %>
+                            <li class="list-group-item">
+                                <strong>Class:</strong> <%= announcement.classNumber %> | <strong>Subject:</strong> <%= announcement.subject %>
+                                <br> <%= announcement.message %>
+                                <br> <small>Posted on: <%= new Date(announcement.createdAt).toLocaleDateString() %></small>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No announcements available.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- 📚 Study Materials Section -->
+        <div class="card my-4">
+            <div class="card-header bg-success text-white">📚 Study Materials</div>
+            <div class="card-body">
+                <% if (studyMaterials && studyMaterials.length > 0) { %>
+                    <ul class="list-group">
+                        <% studyMaterials.forEach(material => { %>
+                            <li class="list-group-item">
+                                <strong>Title:</strong> <%= material.title %> <br>
+                                <strong>Class:</strong> <%= material.classNumber %> | <strong>Subject:</strong> <%= material.subject %>
+                                <br> <small>Uploaded on: <%= new Date(material.uploadedAt).toLocaleDateString() %></small>
+                                <br> <a href="<%= material.fileUrls[0] %>" target="_blank" class="btn btn-sm btn-primary mt-2">View File</a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No study materials available.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- ✅ Assignment Submissions -->
+        <div class="card my-4">
+            <div class="card-header bg-info">✅ Assignment Submissions</div>
+            <div class="card-body">
+                <% if (submissions && submissions.length > 0) { %>
+                    <ul class="list-group">
+                        <% submissions.forEach(submission => { %>
+                            <li class="list-group-item">
+                                <strong>Student:</strong> <%= submission.studentName %> <br>
+                                <strong>Class:</strong> <%= submission.classNumber %> | <strong>Subject:</strong> <%= submission.subject %>
+                                <br> <small>Submitted on: <%= new Date(submission.submittedAt).toLocaleDateString() %></small>
+                                <br> <a href="<%= submission.submissionFiles[0] %>" target="_blank" class="btn btn-sm btn-primary mt-2">View Submission</a>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No submissions yet.</p>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Logout Button -->
+        <div class="text-center">
+            <a href="/teacher/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

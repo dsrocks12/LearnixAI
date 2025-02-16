@@ -1,36 +1,40 @@
 const mongoose = require('mongoose');
+
 const BoardEnum = Object.freeze({
     ICSE: "ICSE",
     CBSE: "CBSE",
-    SSC:  "SSC",
+    SSC: "SSC",
 });
 
 const SuperAdminSchema = new mongoose.Schema({
-    name:{
+    name: {
         type: String,
         required: true,
-        },
+    },
+    region: {
+        type: String,  // Added region field
+        required: true,
+    },
     board: {
         type: String,
         enum: Object.values(BoardEnum),
     },
-    SchoolAffiliationCode:{
+    SchoolAffiliationCode: {
         type: Number,
         unique: true
     },
-    access:{
+    access: {
         type: Boolean,
         default: true,
     },
-    SchoolEmail:{
+    SchoolEmail: {
         type: String,
         unique: true,
     },
-    SchoolPassword:{
+    SchoolPassword: {
         type: String,
         unique: true
     }
-
 });
 
-module.exports = mongoose.model('SuperAdmin',SuperAdminSchema);
+module.exports = mongoose.model('SuperAdmin', SuperAdminSchema);
