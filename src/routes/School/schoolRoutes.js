@@ -3,14 +3,12 @@ const router = express.Router();
 const authController = require('../../controllers/auth/authController');
 const { onboarding1, onboarding2, onboarding3, onboarding4 } = require('../../controllers/school/onboarding/onboardingController');
 console.log("Before importing controllers...");
-const {  getTeacherDashboard } = require('../../controllers/teach/teacherDashboardController'); // Correct path
-const { getStudentDashboard } = require('../../controllers/student/studentdashboardController'); // Correct path
+
 console.log("After importing controllers...");
 const SuperAdmin = require('../../models/superAdmin/superAdmin'); // Ensure correct path
-
+const {ShowClasses} = require('../../controllers/school/dashboard/dashboardController')
 // Debug: Verify the imported functions
-console.log("teacher:", getTeacherDashboard);
-console.log("student:", getStudentDashboard);
+
 
 // -------------------------------- Onboarding Routes --------------------------------
 
@@ -41,11 +39,9 @@ router.post('/onboarding/3', onboarding2);
 router.post('/onboarding/4', onboarding3);
 router.post('/onboarding/5', onboarding4);
 
-// -------------------------------- Dashboard Routes --------------------------------
+// --------------------------------SCHOOL Dashboard Routes --------------------------------
+router.get('/students', ShowClasses);
 
-// Use the imported functions
-router.get('/teachers',  getTeacherDashboard); // Teacher Dashboard
-router.get('/students', getStudentDashboard); // Student Dashboard
 
 // -------------------------------- Fetch All Schools Route --------------------------------
 

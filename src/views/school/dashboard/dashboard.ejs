@@ -21,16 +21,20 @@
 </head>
 <body>
     <h1>Dashboard</h1>
-    <!-- Assuming the schoolName variable is available on the page -->
+
     <script>
-        // Get the school name (e.g., from a data attribute or JavaScript variable)
-        const schoolName = "John Doe"; // Replace this with dynamic data if needed
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const schoolName = urlParams.get('schoolName'); // Extract schoolName from query
+
+        // Ensure schoolName is not null to avoid broken links
+        if (schoolName) {
+            document.write(`<button onclick="location.href='/school/teachers?schoolName=${encodeURIComponent(schoolName)}'">View Teachers</button>`);
+            document.write(`<button onclick="location.href='/school/students?schoolName=${encodeURIComponent(schoolName)}'">View Students</button>`);
+        } else {
+            document.write("<p>Error: schoolName is missing from the URL.</p>");
+        }
     </script>
-
-    <button onclick="location.href='/school/teachers?schoolName=' + encodeURIComponent(schoolName)">View Teachers</button>
-    <button onclick="location.href='/school/students?schoolName=' + encodeURIComponent(schoolName)">View Students</button>
-    <button onclick="location.href='/school/classes?schoolName=' + encodeURIComponent(schoolName)">View Classes</button>
-    <button onclick="location.href='/school/subjects?schoolName=' + encodeURIComponent(schoolName)">View Subjects</button>
-
+    
 </body>
 </html>

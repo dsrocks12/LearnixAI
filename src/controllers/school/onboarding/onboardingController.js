@@ -135,7 +135,6 @@ exports.onboarding3 = async (req, res) => {
     }
 };
 
-
 exports.onboarding4 = async (req, res) => {
     try {
         console.log(req.body);
@@ -163,6 +162,7 @@ exports.onboarding4 = async (req, res) => {
         const schoolRegion = superAdmin.region;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const studentDocuments = [];
+        const classDocuments = [];
 
         for (const [classNumber, classData] of Object.entries(students)) {
             if (
@@ -181,6 +181,8 @@ exports.onboarding4 = async (req, res) => {
                 continue;
             }
 
+            const classStudentDetails = [];
+
             for (let i = 0; i < classData.emails.length; i++) {
                 const email = classData.emails[i].trim();
                 const studentName = classData.names[i].trim();
@@ -191,28 +193,58 @@ exports.onboarding4 = async (req, res) => {
                     continue;
                 }
 
+                // Prepare student data for Student collection
                 studentDocuments.push({
                     schoolName: schoolName.trim(),
                     region: schoolRegion, // Use region from SuperAdmin
                     email,
                     password,
                 });
+
+                // Prepare student details for Class collection
+                classStudentDetails.push({
+                    email,
+                    studentName,
+                });
+            }
+
+            if (classStudentDetails.length > 0) {
+                classDocuments.push({
+                    schoolName: schoolName.trim(),
+                    classNumber: classNumber.trim(),
+                    studentDetails: classStudentDetails,
+                });
             }
         }
 
+        // Save student login details into Student collection
         if (studentDocuments.length > 0) {
             try {
                 await Student.insertMany(studentDocuments);
                 console.log(`Saved ${studentDocuments.length} students successfully.`);
-                res.redirect(`/school/dashboard?schoolName=${encodeURIComponent(schoolName)}`);
             } catch (err) {
                 console.error("Error saving students:", err);
-                res.status(500).send("Failed to save students.");
+                return res.status(500).send("Failed to save students.");
             }
-        } else {
-            console.warn("No valid students to save.");
-            res.status(400).send("No valid students to save.");
         }
+
+        // Save student details into Class collection
+        if (classDocuments.length > 0) {
+            try {
+                await Class.insertMany(classDocuments);
+                console.log(`Saved ${classDocuments.length} classes successfully.`);
+            } catch (err) {
+                console.error("Error saving class details:", err);
+                return res.status(500).send("Failed to save class details.");
+            }
+        }
+
+        if (studentDocuments.length === 0 && classDocuments.length === 0) {
+            console.warn("No valid students to save.");
+            return res.status(400).send("No valid students to save.");
+        }
+
+        res.redirect(`/school/dashboard?schoolName=${encodeURIComponent(schoolName)}`);
     } catch (error) {
         console.error("Error in onboarding4:", error);
         res.status(500).send("Internal Server Error");

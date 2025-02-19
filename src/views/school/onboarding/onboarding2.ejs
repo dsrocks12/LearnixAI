@@ -90,7 +90,7 @@
         <div class="title">Select Subjects for Each Class</div>
         <form action="3" method="POST">
             <!-- Hidden inputs for Name and Selected Classes -->
-            <input type="hidden" name="name" value="John Doe">
+            <input type="hidden" name="name"  value="<%= name %>">
             <input type="hidden" name="selectedClasses" value="<%= JSON.stringify(selectedClasses) %>">
 
             <% selectedClasses.forEach(className => { %>
