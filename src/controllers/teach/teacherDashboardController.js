@@ -11,58 +11,55 @@ console.log("teacherDashboardController.js file is executing...");
 
 const getTeacherDashboard = async (req, res) => {
     try {
-        // console.log("📌 getTeacherDashboard function STARTED...");
-
         const { email } = req.query;
-        // console.log("📨 Received Request with email:", email);
-
         if (!email) {
-            // console.error("❌ Missing email parameter in request");
             return res.status(400).json({ message: "❌ Teacher Email is required" });
         }
 
         const teacher = await TeacherModel.findOne({ email });
-        // console.log("🔍 Teacher Query Result:", teacher);
-
         if (!teacher) {
-            // console.error("Teacher Not Found for email:", email);
             return res.status(404).json({ message: "❌ Teacher Not Found" });
         }
 
-        // console.log(`✅ Teacher Found: ${teacher.name}, Email: ${teacher.email}`);
+        // Fetch subjects where the teacher's email is inside teacherEmails array
+        const subjects = await Subject.find({ 
+            teacherEmails: { $elemMatch: { email: teacher.email } }
+        });
 
-  
-        const subjects = await Subject.find({ teacherEmail: teacher.email });
-        // console.log(`📚 Subjects Found: ${subjects.length}`, subjects);
+        // Group subjects by classNumber
+        const classDataMap = new Map();
 
-    
-        const classData = await Promise.all(subjects.map(async (subject) => {
-            // console.log("🔄 Fetching class data for subject:", subject.name);
-            const classDetails = await Class.findOne({
-                schoolName: teacher.schoolName,
-                classNumber: subject.classNumber
-            });
+        for (const subject of subjects) {
+            const classNumber = subject.classNumber;
 
-            return {
-                classNumber: subject.classNumber,
-                subjectName: subject.name,
-                students: classDetails ? classDetails.studentDetails : []
-            };
-        }));
+            if (!classDataMap.has(classNumber)) {
+                classDataMap.set(classNumber, {
+                    classNumber: classNumber,
+                    subjects: [],
+                    students: []
+                });
+            }
 
-        // console.log(`🏫 Classes Retrieved: ${classData.length}`, classData);
+            classDataMap.get(classNumber).subjects.push(subject.name);
 
+            if (classDataMap.get(classNumber).students.length === 0) {
+                const classDetails = await Class.findOne({
+                    schoolName: teacher.schoolName,
+                    classNumber: classNumber
+                });
+
+                if (classDetails) {
+                    classDataMap.get(classNumber).students = classDetails.studentDetails || [];
+                }
+            }
+        }
+
+        const classData = Array.from(classDataMap.values());
 
         const assignments = await Assignment.find({ teacherEmail: teacher.email });
         const announcements = await Announcement.find({ teacherEmail: teacher.email });
         const studyMaterials = await StudyMaterial.find({ teacherEmail: teacher.email });
         const submissions = await Submission.find({ teacherEmail: teacher.email });
-
-        // console.log(`📝 Assignments: ${assignments.length}, 📢 Announcements: ${announcements.length}, 📂 Study Materials: ${studyMaterials.length}, 📥 Submissions: ${submissions.length}`);
-
-      
-        const viewPath = path.join(__dirname, "../../views/teacher/dashboard.ejs");
-        // console.log("🛠 Checking EJS file at:", viewPath);
 
         return res.render("teacher/dashboard", {
             teacher: {
@@ -84,7 +81,5 @@ const getTeacherDashboard = async (req, res) => {
     }
 };
 
-
-// console.log("Exporting getTeacherDashboard function:", typeof getTeacherDashboard);
 
 module.exports = { getTeacherDashboard };

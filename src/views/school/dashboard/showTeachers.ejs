@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers List</title>
+    <style>
+        #editTeacherForm {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Teachers List</h1>
+
+    <% if (teachers && teachers.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Teacher Name</th>
+                    <th>Email</th>
+                    <th>Subjects</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% teachers.forEach(teacher => { %>
+                    <tr>
+                        <td><%= teacher.teacherName %></td>
+                        <td><%= teacher.email %></td>
+                        <td><%= teacher.subjects.join(", ") %></td> 
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <br>
+        <button onclick="openEditForm()">Edit a Teacher</button>
+
+     
+        <div id="editTeacherForm">
+            <h2>Edit Teacher</h2>
+            <label for="teacherSelect">Select a Teacher:</label>
+            <select id="teacherSelect" onchange="fillTeacherDetails()">
+                <option value="">-- Select a Teacher --</option>
+                <% teachers.forEach(teacher => { %>
+                    <option value="<%= teacher.email %>"
+                        data-name="<%= teacher.teacherName %>"
+                        data-subjects="<%= teacher.subjects.join(', ') %>">
+                        <%= teacher.teacherName %> (<%= teacher.email %>)
+                    </option>
+                <% }); %>
+            </select>
+
+            <br><br>
+            <label>Teacher Name:</label>
+            <input type="text" id="teacherName" /><br>
+
+            <label>Email:</label>
+            <input type="email" id="teacherEmail" /><br>
+
+            <label>Subjects:</label>
+            <input type="text" id="teacherSubjects" /><br>
+
+            <br>
+            <button onclick="updateTeacher()">Update</button>
+            <button onclick="closeEditForm()">Cancel</button>
+        </div>
+
+        <script>
+            function openEditForm() {
+                document.getElementById('editTeacherForm').style.display = 'block';
+            }
+
+            function closeEditForm() {
+                document.getElementById('editTeacherForm').style.display = 'none';
+            }
+
+            function fillTeacherDetails() {
+                let selectedTeacher = document.getElementById("teacherSelect");
+                let selectedOption = selectedTeacher.options[selectedTeacher.selectedIndex];
+
+                if (selectedOption.value) {
+                    document.getElementById("teacherName").value = selectedOption.getAttribute("data-name");
+                    document.getElementById("teacherEmail").value = selectedOption.value;
+                    document.getElementById("teacherSubjects").value = selectedOption.getAttribute("data-subjects");
+                } else {
+                    document.getElementById("teacherName").value = "";
+                    document.getElementById("teacherEmail").value = "";
+                    document.getElementById("teacherSubjects").value = "";
+                }
+            }
+
+            function updateTeacher() {
+                let email = document.getElementById("teacherEmail").value;
+                let name = document.getElementById("teacherName").value;
+                let subjects = document.getElementById("teacherSubjects").value;
+
+                if (!email || !name || !subjects) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                fetch('/school/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ teacherEmail: email, teacherName: name, newSubjects: subjects })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || "Teacher updated successfully!");
+                    location.reload();
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        </script>
+
+    <% } else { %>
+        <p>No teachers found.</p>
+    <% } %>
+</body>
+</html>

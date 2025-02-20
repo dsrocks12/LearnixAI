@@ -12,23 +12,40 @@
         <p class="text-center"><strong>School:</strong> <%= teacher.schoolName %> | <strong>Region:</strong> <%= teacher.region %></p>
 
         <!-- 📚 Classes Section -->
-        <div class="card my-4">
-            <div class="card-header bg-primary text-white">📖 Classes You Teach</div>
-            <div class="card-body">
-                <% if (classes && classes.length > 0) { %>
-                    <ul class="list-group">
-                        <% classes.forEach(classItem => { %>
-                            <li class="list-group-item">
-                                <strong>Class:</strong> <%= classItem.classNumber %> - <strong>Subject:</strong> <%= classItem.subjectName %> 
-                                <br> <small><%= classItem.students.length %> students</small>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No classes assigned.</p>
-                <% } %>
-            </div>
-        </div>
+            
+<!-- 📚 Classes Section -->
+<div class="card my-4">
+    <div class="card-header bg-primary text-white">📖 Classes You Teach</div>
+    <div class="card-body">
+        <button class="btn btn-sm btn-info view-classes-btn">View Classes</button>
+        <ul class="list-group mt-2 class-list" style="display: none;">
+            <% classes.forEach(classItem => { %>
+                <li class="list-group-item">
+                    <strong>Class:  </strong> <%= classItem.classNumber %> 
+                    <strong>       Subject:</strong> <%= classItem.subjects.join(", ") %>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewButton = document.querySelector(".view-classes-btn");
+        const classList = document.querySelector(".class-list");
+
+        viewButton.addEventListener("click", function () {
+            if (classList.style.display === "none") {
+                classList.style.display = "block";
+                viewButton.textContent = "Hide Classes";
+            } else {
+                classList.style.display = "none";
+                viewButton.textContent = "View Classes";
+            }
+        });
+    });
+</script>
+
 
         <!-- 📝 Assignments Section -->
         <div class="card my-4">

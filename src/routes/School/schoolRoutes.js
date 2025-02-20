@@ -6,7 +6,8 @@ console.log("Before importing controllers...");
 
 console.log("After importing controllers...");
 const SuperAdmin = require('../../models/superAdmin/superAdmin'); // Ensure correct path
-const {ShowClasses} = require('../../controllers/school/dashboard/dashboardController')
+const { ShowClasses, ShowTeachers, UpdateTeacher } = require('../../controllers/school/dashboard/dashboardController');
+//const {ShowTeachers}=require('../../controllers/school/dashboard/showTeacher');
 // Debug: Verify the imported functions
 
 
@@ -41,6 +42,12 @@ router.post('/onboarding/5', onboarding4);
 
 // --------------------------------SCHOOL Dashboard Routes --------------------------------
 router.get('/students', ShowClasses);
+router.get('/teachers',ShowTeachers);
+
+//Teacher ke updation ka route lawde
+
+router.post('/update', UpdateTeacher);
+
 
 
 // -------------------------------- Fetch All Schools Route --------------------------------
@@ -59,6 +66,6 @@ router.get('/api/schools', async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
-console.log("✅ Imported getTeacherDashboard:", typeof getTeacherDashboard);
-console.log("✅ Imported getTeacherDashboard:", typeof getStudentDashboard);
+console.log("Imported getTeacherDashboard:", typeof getTeacherDashboard);
+console.log("Imported getTeacherDashboard:", typeof getStudentDashboard);
 module.exports = router;

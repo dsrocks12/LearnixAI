@@ -24,11 +24,11 @@ const subjectSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        enum: Object.values(subjectsEnum), // Restrict to predefined subject names
+        enum: Object.values(subjectsEnum),
         required: true,
         default: null
     },
-    teacherEmails: {
+   teacherEmails: {
         type: [
             {
                 email: {

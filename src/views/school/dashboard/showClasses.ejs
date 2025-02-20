@@ -23,6 +23,7 @@
                     const classNumber = button.getAttribute("data-class-number");
                     button.onclick = function() {
                         window.location.href = `/school/students?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
+                        window.location.href = `/school/teachers?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
                     };
                 });
             }

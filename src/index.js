@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 
 const schoolRoutes = require('./routes/School/schoolRoutes');
@@ -50,5 +50,12 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error", error: err.message });
 });
 
-const PORT = process.env.PORT || 14000;
+app._router.stack.forEach((r) => {
+  if (r.route && r.route.path) {
+      console.log(`🛣️ Route registered: ${r.route.path}`);
+  }
+});
+
+
+const PORT = process.env.PORT || 15000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
