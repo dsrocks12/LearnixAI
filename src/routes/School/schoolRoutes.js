@@ -6,7 +6,7 @@ console.log("Before importing controllers...");
 
 console.log("After importing controllers...");
 const SuperAdmin = require('../../models/superAdmin/superAdmin'); // Ensure correct path
-const { ShowClasses, ShowTeachers, UpdateTeacher } = require('../../controllers/school/dashboard/dashboardController');
+const { ShowClasses, ShowTeachers, UpdateTeacher, UpdateStudent } = require('../../controllers/school/dashboard/dashboardController');
 //const {ShowTeachers}=require('../../controllers/school/dashboard/showTeacher');
 // Debug: Verify the imported functions
 
@@ -47,7 +47,7 @@ router.get('/teachers',ShowTeachers);
 //Teacher ke updation ka route lawde
 
 router.post('/update', UpdateTeacher);
-
+router.post('/update/student', UpdateStudent);
 
 
 // -------------------------------- Fetch All Schools Route --------------------------------

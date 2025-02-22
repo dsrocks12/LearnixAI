@@ -44,7 +44,6 @@
         <br>
         <button onclick="openEditForm()">Edit a Teacher</button>
 
-     
         <div id="editTeacherForm">
             <h2>Edit Teacher</h2>
             <label for="teacherSelect">Select a Teacher:</label>
@@ -60,6 +59,11 @@
             </select>
 
             <br><br>
+            <!-- Hidden fields to store old values -->
+            <input type="hidden" id="oldTeacherName">
+            <input type="hidden" id="oldTeacherEmail">
+            <input type="hidden" id="oldTeacherSubjects">
+
             <label>Teacher Name:</label>
             <input type="text" id="teacherName" /><br>
 
@@ -88,6 +92,12 @@
                 let selectedOption = selectedTeacher.options[selectedTeacher.selectedIndex];
 
                 if (selectedOption.value) {
+                    // Set old values
+                    document.getElementById("oldTeacherName").value = selectedOption.getAttribute("data-name");
+                    document.getElementById("oldTeacherEmail").value = selectedOption.value;
+                    document.getElementById("oldTeacherSubjects").value = selectedOption.getAttribute("data-subjects");
+
+                    // Set new values (pre-filled)
                     document.getElementById("teacherName").value = selectedOption.getAttribute("data-name");
                     document.getElementById("teacherEmail").value = selectedOption.value;
                     document.getElementById("teacherSubjects").value = selectedOption.getAttribute("data-subjects");
@@ -99,11 +109,15 @@
             }
 
             function updateTeacher() {
-                let email = document.getElementById("teacherEmail").value;
-                let name = document.getElementById("teacherName").value;
-                let subjects = document.getElementById("teacherSubjects").value;
+                let oldName = document.getElementById("oldTeacherName").value;
+                let oldEmail = document.getElementById("oldTeacherEmail").value;
+                let oldSubjects = document.getElementById("oldTeacherSubjects").value;
 
-                if (!email || !name || !subjects) {
+                let newName = document.getElementById("teacherName").value;
+                let newEmail = document.getElementById("teacherEmail").value;
+                let newSubjects = document.getElementById("teacherSubjects").value;
+
+                if (!newEmail || !newName || !newSubjects) {
                     alert("All fields are required!");
                     return;
                 }
@@ -111,7 +125,14 @@
                 fetch('/school/update', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ teacherEmail: email, teacherName: name, newSubjects: subjects })
+                    body: JSON.stringify({
+                        oldTeacherName: oldName,
+                        oldTeacherEmail: oldEmail,
+                        oldSubjects: oldSubjects,
+                        newTeacherName: newName,
+                        newTeacherEmail: newEmail,
+                        newSubjects: newSubjects
+                    })
                 })
                 .then(response => response.json())
                 .then(data => {

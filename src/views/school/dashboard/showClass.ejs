@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class List</title>
+    <style>
+        button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const schoolName = urlParams.get("schoolName");
+            
+            if (schoolName) {
+                document.querySelectorAll("button").forEach(button => {
+                    const classNumber = button.getAttribute("data-class-number");
+                    button.onclick = function() {
+                        window.location.href = `/school/students?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
+                    };
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Class List</h1>
+
+    <% if (classes && classes.length > 0) { %>
+        <% classes.forEach(classItem => { %>
+            <button data-class-number="<%= classItem.classNumber %>">
+                Class <%= classItem.classNumber %>
+            </button>
+        <% }); %>
+    <% } else { %>
+        <p>No classes found.</p>
+    <% } %>
+</body>
+</html>

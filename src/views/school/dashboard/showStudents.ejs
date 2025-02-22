@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student List</title>
+    <title>Students List</title>
+    <style>
+        #editStudentForm {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <h1>Student List</h1>
+    <h1>Students List</h1>
 
-    <% if (students.length > 0) { %>
+    <% if (students && students.length > 0) { %>
         <table border="1">
             <thead>
                 <tr>
@@ -22,12 +35,96 @@
                         <td><%= student.studentName %></td>
                         <td><%= student.email %></td>
                     </tr>
-                <% }) %>
+                <% }); %>
             </tbody>
         </table>
+
+        <br>
+        <button onclick="openEditForm()">Edit a Student</button>
+
+        <div id="editStudentForm">
+            <h2>Edit Student</h2>
+            <label for="studentSelect">Select a Student:</label>
+            <select id="studentSelect" onchange="fillStudentDetails()">
+                <option value="">-- Select a Student --</option>
+                <% students.forEach(student => { %>
+                    <option value="<%= student.email %>"
+                        data-name="<%= student.studentName %>">
+                        <%= student.studentName %> (<%= student.email %>)
+                    </option>
+                <% }); %>
+            </select>
+
+            <br><br>
+            <input type="hidden" id="oldStudentName">
+            <input type="hidden" id="oldStudentEmail">
+
+            <label>Student Name:</label>
+            <input type="text" id="studentName" /><br>
+
+            <label>Email:</label>
+            <input type="email" id="studentEmail" /><br>
+
+            <br>
+            <button onclick="updateStudent()">Update</button>
+            <button onclick="closeEditForm()">Cancel</button>
+        </div>
+
+        <script>
+            function openEditForm() {
+                document.getElementById('editStudentForm').style.display = 'block';
+            }
+
+            function closeEditForm() {
+                document.getElementById('editStudentForm').style.display = 'none';
+            }
+
+            function fillStudentDetails() {
+                let selectedStudent = document.getElementById("studentSelect");
+                let selectedOption = selectedStudent.options[selectedStudent.selectedIndex];
+
+                if (selectedOption.value) {
+                    document.getElementById("oldStudentName").value = selectedOption.getAttribute("data-name");
+                    document.getElementById("oldStudentEmail").value = selectedOption.value;
+                    document.getElementById("studentName").value = selectedOption.getAttribute("data-name");
+                    document.getElementById("studentEmail").value = selectedOption.value;
+                } else {
+                    document.getElementById("studentName").value = "";
+                    document.getElementById("studentEmail").value = "";
+                }
+            }
+
+            function updateStudent() {
+                let oldName = document.getElementById("oldStudentName").value;
+                let oldEmail = document.getElementById("oldStudentEmail").value;
+                let newName = document.getElementById("studentName").value;
+                let newEmail = document.getElementById("studentEmail").value;
+
+                if (!newEmail || !newName) {
+                    alert("All fields are required!");
+                    return;
+                }
+
+                fetch('/school/update/student', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        oldStudentName: oldName,
+                        oldStudentEmail: oldEmail,
+                        newStudentName: newName,
+                        newStudentEmail: newEmail
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || "Student updated successfully!");
+                    location.reload();
+                })
+                .catch(error => console.error("Error:", error));
+            }
+        </script>
     <% } else { %>
         <p>No students found.</p>
     <% } %>
-
 </body>
 </html>
