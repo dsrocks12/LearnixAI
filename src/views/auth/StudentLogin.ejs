@@ -207,7 +207,7 @@ a {
     transition: 0.3s;
 }
 
-button:hover {
+.div-wrapper:hover {
     background: linear-gradient(90deg, #5a67d8, #6b46c1);
 }
 
@@ -500,9 +500,9 @@ button:hover {
                         <input type="password" id="password" name="password" placeholder="Enter your password" required>
                     </div>
                     
-                    <button type="submit" class="div-wrapper">
+                    <button type="submit" id="loginButton" class="div-wrapper">
                         <div class="text-wrapper-4">Login</div>
-                      </button>
+                    </button>                    
                 </form>
                 
                 <div class="message" id="message"></div>
@@ -547,6 +547,7 @@ button:hover {
     </div>
 
     <script>
+
         async function fetchSchools() {
             const schoolDropdown = document.getElementById("schoolDropdown");
             const messageBox = document.getElementById("message");
