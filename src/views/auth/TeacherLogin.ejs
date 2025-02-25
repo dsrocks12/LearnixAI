@@ -4,86 +4,546 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Login</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 
-        .container {
-            text-align: center;
-            background-color: white;
-            border-radius: 8px;
-            padding: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 350px;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+html, body {
+    height: 100%;
+    font-family: 'Michroma-Regular', Helvetica, sans-serif;
+}
 
-        select, input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
+button:focus-visible {
+    outline: 2px solid #4a90e2;
+}
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+a {
+    text-decoration: none;
+}
 
-        button:disabled {
-            background-color: #a5d6a7;
-            cursor: not-allowed;
-        }
+.teacher-login .text-wrapper-12 {
+    position: absolute;
+    width: 154px;
+    top: 17px;
+    left: -08px;
+    right: 10px;
+    background-clip: text;
+    font-family: 'Righteous', Helvetica;
+    font-weight: 500;
+    color: rgb(255, 215, 0);
+    font-size: 26px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+}
 
-        button:hover:not(:disabled) {
-            background-color: #0056b3;
-        }
+.teacher-login .overlap-2 {
+    position: absolute;
+    width: 165px;
+    height: 65px;
+    top: 0;
+    left: 0;
+}
 
-        .message {
-            margin-top: 15px;
-            color: red;
-            font-size: 14px;
-        }
+.teacher-login .rectangle-2 {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 0;
+    left: 92px;
+    background-color: #111010f0;
+    border-radius: 100px;
+}
 
-        .loading {
-            color: blue;
-        }
-    </style>
+.teacher-login .whatsapp-image {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 8px;
+    left: 102px;
+}
+
+.teacher-login .overlap-group {
+    position: absolute;
+    width: 1251px;
+    height: 666px;
+    top: 29px;
+    left: 15px;
+}
+
+.teacher-login {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.teacher-login .overlap-wrapper {
+    width: 1440px;
+    height: 785px;
+    background-color: #ffffff;
+}
+
+.teacher-login .overlap {
+    position: relative;
+    width: 1266px;
+    height: 695px;
+    top: 30px;
+    left: 65px;
+}
+
+.teacher-login .rectangle {
+    position: relative; /* Ensure it acts as a reference for absolute elements */
+    width: 1088px;
+    height: 522px;
+    top: 92px;
+    left: 106px;
+    background-color: #d9d9d9;
+    border-radius: 52px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align content to the right */
+    padding-right: 40px;
+}
+
+.teacher-login .div-login-card {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 53%;
+    left: 718px;
+    height: 441px;
+    width: 364px;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 2;
+}
+
+
+.teacher-login .div-log {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.teacher-login .form {
+    position: absolute;
+    width: 322px;
+    height: 221px;
+    top: 69px;
+    left: 21px;
+}
+
+.teacher-login .label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 5px; /* Provides spacing below label */
+    text-align: left;
+}
+
+.text-wrapper-2, .text-wrapper-3 {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 5px; /* Ensures spacing between label and input */
+}
+
+.teacher-login select, 
+.teacher-login input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-bottom: 15px; /* Adds spacing between input fields */
+}
+
+
+.teacher-login select:focus, input:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.div-form-group, .div-form-group-2 {
+    display: flex;
+    flex-direction: column; /* Aligns label and input in a column */
+    align-items: flex-start; /* Aligns label with the start of the input */
+    margin-bottom: 15px; /* Adds spacing between form groups */
+}
+
+.div-form-group input:focus, 
+.div-form-group-2 input:focus {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: 0.3s;
+    border-color: black;
+    outline: none; /* Removes default browser outline */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle glow effect */
+}
+
+.teacher-login .div-wrapper {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #5a67d8, #6b46c1);
+}
+
+.message {
+    margin-top: 15px;
+    color: #d9534f;
+    font-size: 14px;
+}
+
+/*CSS for all landscapes, lines and ellipse  images*/
+
+.teacher-login .ellipse {
+    position: absolute;
+    width: 290px;
+    height: 249px;
+    top: 33px;
+    left: 531px;
+    border-radius: 145px / 124.5px;
+    background: linear-gradient(270deg, rgb(90.11, 15.23, 91.37) 0%, rgb(234.29, 77.99, 236.94) 100%);
+}
+
+.teacher-login .div {
+    position: absolute;
+    width: 290px;
+    height: 249px;
+    top: 417px;
+    left: 0;
+    border-radius: 145px / 124.5px;
+    background: linear-gradient(270deg, rgb(90.11, 15.23, 91.37) 0%, rgb(234.29, 77.99, 236.94) 100%);
+}
+
+.teacher-login .image {
+    position: absolute;
+    width: 507px;
+    height: 529px;
+    top: 87px;
+    left: 106px;
+    z-index: 2;
+  }
+
+  .teacher-login .AI-powered-learning {
+    position: absolute;
+    top: 300px;
+    left: 290px;
+    font-family: "Outfit-ExtraBold", Helvetica;
+    font-weight: 800;
+    color: #fdfdfd;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    z-index: 3;
+}
+
+.teacher-login .ellipse-7 {
+    position: absolute;
+    width: 102px;
+    height: 95px;
+    top: 294px;
+    left: 81px;
+    z-index: 4;
+}
+
+.teacher-login .ellipse-8 {
+    position: absolute;
+    width: 102px;
+    height: 95px;
+    top: 293px;
+    left: 530px;
+    z-index: 4;
+}
+
+.teacher-login .ellipse-9 {
+    position: absolute;
+    width: 102px;
+    height: 73px;
+    top: 161px;
+    left: 309px;
+    z-index: 4;
+}
+
+.teacher-login .ellipse-10 {
+    position: absolute;
+    width: 102px;
+    height: 73px;
+    top: 396px;
+    left: 309px;
+    z-index: 4;
+}
+
+.teacher-login .element-million-learners {
+    position: absolute;
+    top: 172px;
+    left: 324px;
+    font-family: "Outfit-ExtraBold", Helvetica;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: -0.26px;
+    line-height: normal;
+    z-index: 5;
+}
+
+.teacher-login .element-doubt-clearance {
+    position: absolute;
+    height: 48px;
+    top: 310px;
+    left: 534px;
+    font-family: "Outfit-ExtraBold", Helvetica;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: -0.26px;
+    line-height: normal;
+    z-index: 5;
+}
+
+
+.teacher-login .personalized {
+    position: absolute;
+    top: 402px;
+    left: 320px;
+    font-family: "Outfit-ExtraBold", Helvetica;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: -0.26px;
+    line-height: normal;
+    z-index: 5;
+}
+
+.teacher-login .seamless-CBSE-ICSE {
+    position: absolute;
+    top: 310px;
+    left: 88px;
+    font-family: "Outfit-ExtraBold", Helvetica;
+    font-weight: 800;
+    color: #ffffff;
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+    z-index: 5;
+}
+
+.teacher-login .ellipse-3 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 337px;
+    left: 184px;
+    background-color: #d9d9d9;
+    border-radius: 2.5px;
+    z-index: 5;
+  }
+  
+  .teacher-login .ellipse-4 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 390px;
+    left: 358px;
+    background-color: #ffffff;
+    border-radius: 2.5px;
+    z-index: 5;
+  }
+  
+  .teacher-login .ellipse-5 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 335px;
+    left: 528px;
+    background-color: #d9d9d9;
+    border-radius: 2.5px;
+    z-index: 5;
+  }
+  
+  .teacher-login .ellipse-6 {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 226px;
+    left: 357px;
+    background-color: #d9d9d9;
+    border-radius: 2.5px;
+    z-index: 5;
+  }
+
+.teacher-login .line-2 {
+    width: 1px;
+    height: 41px;
+    top: 231px;
+    left: 359px;
+    position: absolute;
+    object-fit: cover;
+    z-index: 6;
+}
+
+.teacher-login .line-1 {
+    width: 82px;
+    height: 1px;
+    top: 337px;
+    left: 446px;
+    position: absolute;
+    object-fit: cover;
+    z-index: 6;
+}
+
+.teacher-login .line-3 {
+    width: 1px;
+    height: 41px;
+    top: 349px;
+    left: 360px;
+    position: absolute;
+    object-fit: cover;
+    z-index: 6;
+}
+
+.teacher-login .line {
+    width: 89px;
+    height: 2px;
+    top: 338px;
+    left: 184px;
+    position: absolute;
+    object-fit: cover;
+    z-index: 6;
+}
+
+.teacher-login .ellipse-2 {
+    position: absolute;
+    width: 189px;
+    height: 159px;
+    top: 378px;
+    left: 302px;
+    background-color: #e122e4;
+    border-radius: 104.5px / 89.5px;
+    overflow: hidden;
+}
+
+.teacher-login .pngtree-vector-male {
+    position: absolute;
+    width: 50%; /* Ensures it scales with the ellipse */
+    height: 50%; /* Maintains aspect ratio */
+    top: 355px;
+    left: 308px;
+    object-fit: cover; /* Ensures the image fills the ellipse without distortion */
+    border-radius: 50%; /* Matches the ellipse shape */
+    z-index: 1;
+}
+
+
+</style>
+
+
 </head>
 <body>
-    <div class="container">
-        <h1>Teacher Login</h1>
-        <form id="teacherForm">
-            <select id="schoolDropdown">
-                <option value="">Select Your School</option>
-            </select>
-            <p id="loading" class="loading"></p>
 
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit" id="loginButton">Login</button>
-        </form>
+    <div class="teacher-login">
+        <div class="overlap-wrapper">
+          <div class="overlap">
+            <div class="overlap-group">
+              <div class="ellipse"></div>
+              <div class="div"></div>
+              <div class="rectangle"></div>
+              
+              <div class="div-login-card">
+                <div class="div-log">Teacher Login</div>
+                
+                <!--Login form-->
+                <form id="teacherForm">
+                    <div class="div-form-group">
+                        
+                        <select id="schoolDropdown" name="school" required>
+                            <option value="">Select Your School</option>
+                        </select>
+                        <p id="loading" class="loading"></p>
+                    </div>
+                    
+                    <div class="div-form-group">
+                        <label for="email" class="text-wrapper-2">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="div-form-group-2">
+                        <label for="password" class="text-wrapper-3">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="div-wrapper">
+                        <div class="text-wrapper-4">Login</div>
+                      </button>
+                </form>
+                
+                <div class="message" id="message"></div>
 
-        <div class="message" id="message"></div>
+                <img class="pngtree-vector-male" alt="image" src="/images/teacher2.webp" />
+                <div class="ellipse-2"></div>
+              </div>
+
+              <img class="image" src="/images/landscape.png" />
+              <div class="AI-powered-learning">AI-Powered Learning, <br />Unlimited Potential</div>
+              <img class="ellipse-7" src="/images/ellipse_west.png" />
+              <img class="ellipse-8" src="/images/ellipse_east.png" />
+              <img class="ellipse-9" src="/images/ellipse_north.png" />
+              <img class="ellipse-10" src="/images/ellipse_south.png" />
+
+              <div class="ellipse-3"></div>
+              <div class="ellipse-4"></div>
+              <div class="ellipse-5"></div>
+              <div class="ellipse-6"></div>
+
+              <img class="line" src="/images/line_west.png" />
+              <img class="line-1" src="/images/line_east.png" />
+              <img class="line-2" src="/images/line_north.png" />
+              <img class="line-3" src="/images/line_south.png" />
+
+              <div class="element-million-learners">10 Million+ <br />Learners <br />Empowered</div>
+              <div class="element-doubt-clearance">24/7 Doubt <br />Clearance with<br />AI Tutors</div>
+              <div class="personalized">Personalized<br />Learning <br />Journeys</div>
+              <div class="seamless-CBSE-ICSE">Seamless <br />CBSE&amp; ICSE <br />Support</div>
+
+                
+              
+            </div>
+            <div class="overlap-2">
+                <div class="rectangle-2"></div>
+                <div class="text-wrapper-12">Learni</div>
+                <img class="whatsapp-image" src="/images/logo.png" />
+                
+              </div>
+        </div>
+    </div>
     </div>
 
     <script>
@@ -127,37 +587,37 @@
     
         async function loginTeacher(event) {
     event.preventDefault();
-
+    
     const schoolName = document.getElementById("schoolDropdown").value.split("|")[0];
     const region = document.getElementById("schoolDropdown").value.split("|")[1];
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
-
+    
     // Combine schoolName and region into selectedSchool
     const selectedSchool = `${schoolName}|${region}`;
-
+    
     // Debug: Log the form data
     console.log("Form Data:", { selectedSchool, email, password });
-
+    
     if (!selectedSchool || !email || !password) {
         alert("Please fill in all fields.");
         return;
     }
-
+    
     const loginButton = document.getElementById("loginButton");
     loginButton.disabled = true;
     loginButton.innerText = "Logging in...";
-
+    
     try {
         const response = await fetch("http://localhost:5000/teacher/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ selectedSchool, email, password }),
         });
-
+    
         const data = await response.json();
         console.log("Server Response:", data);
-
+    
         if (response.ok) {
             window.location.href = data.redirect;
         } else {
@@ -170,11 +630,11 @@
         loginButton.disabled = false;
         loginButton.innerText = "Login";
     }
-}
-
+    }
+    
         window.onload = fetchSchools;
         document.getElementById("teacherForm").addEventListener("submit", loginTeacher);
     </script>
-    
+
 </body>
 </html>
