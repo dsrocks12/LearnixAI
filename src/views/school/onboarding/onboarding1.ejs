@@ -3,139 +3,513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class Selection</title>
+    <title>Classes Selection</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 20px 30px;
-            max-width: 400px;
-            text-align: center;
-        }
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #4facfe;
-        }
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f1f1f1;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background 0.3s, transform 0.2s;
-            cursor: pointer;
-        }
-        .checkbox-group label:hover {
-            background: #4facfe;
-            color: #fff;
-            transform: translateY(-3px);
-        }
-        .checkbox-group input[type="checkbox"] {
-            display: none;
-        }
-        .checkbox-group input[type="checkbox"]:checked + label {
-            background: #00f2fe;
-            color: #fff;
-            font-weight: bold;
-        }
-        .submit-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #4facfe;
-            color: #fff;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
-        .submit-button:hover {
-            background: #00f2fe;
-            transform: translateY(-3px);
-        }
-    </style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+      * {
+        -webkit-font-smoothing: antialiased;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0px;
+        height: 100%;
+        
+      }
+      /* a blue color as a generic focus style */  
+      button:focus-visible {
+        outline: 2px solid #4a90e2 !important;
+        outline: -webkit-focus-ring-color auto 5px !important;
+      }
+      a {
+        text-decoration: none;
+      }
+
+      .desktop {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+      .desktop .rectangle {
+  position: absolute;
+  width: 1404px;
+  height: 476px;
+  top: 173px;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 10px;
+  background: linear-gradient(
+    270deg,
+    rgb(153, 153, 153) 0%,
+    rgb(255, 255, 255) 40%
+  );
+  }
+
+  .brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 80px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+  }
+
+  .logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+  }
+
+  .logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: -1;
+  }
+
+
+  .polygon {
+    position: absolute;
+    width: 905px;
+    height: 789px;
+    top: 0;
+    left: 584px;
+    z-index: -1; /* Sends polygon behind other elements */
+  }
+
+  .ellipse-16 {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 95px;
+    left: 991px;
+    z-index: -1; /* Ensures the ellipse stays behind the form */
+  }
+
+  .ellipse-17 {
+    position: absolute;
+    width: 218px;
+    height: 252px;
+    top: 537px;
+    left: 1270px;
+    z-index: -1; /* Ensures the image stays behind the form */
+}
+
+  .rectangle {
+  position: absolute;
+  width: 1404px;
+  height: 476px;
+  top: 173px;
+  left: 0;
+  border-radius: 10px;
+  background: linear-gradient(270deg, rgb(153, 153, 153) 0%, rgb(255, 255, 255) 40%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  padding-left: 100px;
+  position: relative; /* Ensures proper positioning */
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 400;
+  font-family: "Nokora-Regular", Arial, Helvetica, sans-serif;
+  margin-bottom: 80px; /* Adds space between title and form */
+  position: relative;
+  left: 0px;
+  line-height: normal;
+}
+
+.sub-title {
+    position: absolute;
+    top: 110px;
+    left: 0px;
+    padding-left: 100px;
+    font-family: "Nokora-Regular", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+
+.line {
+    position: absolute;
+    width: 143px;
+    height: 1px;
+    top: 75.5px;
+    left: 368px;
+    object-fit: cover;
+}
+
+.check-box {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 68px;
+  left: 378px;
+}
+
+.check-box-2 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 68px;
+  left: 411px;
+}
+
+.check-box-3 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 68px;
+  left: 444px;
+}
+
+.check-box-4 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 68px;
+  left: 477px;
+}
+
+.check-box-5 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 68px;
+  left: 510px;
+}
+
+
+.selected-count {
+  font-size: 30px;
+  font-weight: 400;
+  font-family: "Metrophobic-Regular", Arial, Helvetica, sans-serif;
+  color: #333;
+  position: absolute;
+  top: 50%; /* Moves it to the vertical center */
+  right: 150px; /* Aligns it to the right */
+  transform: translateY(-50%); /* Ensures exact vertical centering */
+  line-height: normal;
+}
+
+.press-confirm-to {
+  position: absolute;
+  height: 40px;
+  top: calc(50% + 30px); /* Places it just below .selected-count */
+  right: 180px;
+  font-family: "Metrophobic-Regular", Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.rectangle form {
+  display: flex;
+  flex-direction: column;
+}
+
+.submit-button {
+    position: absolute;
+    width: 130px;
+    height: 34px;
+    top: 315px; /* Positioning just below .press-confirm-to */
+    left: 945px;
+    border-radius: 40px;
+    box-shadow: 0px 4px 4px #00000080;
+    background: linear-gradient(180deg, rgb(234, 78, 237) 0%);
+    border: 2px solid;
+    border-color: #ea4dec;
+    
+    /* Flexbox to keep text centered */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px; /* Prevents text overflow */
+    white-space: nowrap; /* Ensures text stays on one line */
+}
+
+.submit-button:hover{
+    background-color: #ea4dec;
+}
+
+.reset-button {
+    position: absolute;
+    width: 130px;
+    height: 34px;
+    top: 315px; /* Same as .submit-button */
+    left: 1090px; /* Positioned to the right of .submit-button */
+    border-radius: 40px;
+    box-shadow: 0px 4px 4px #00000080;
+    border: 2px solid;
+    border-color: #ea4dec;
+    
+    /* Flexbox to keep text centered */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px; /* Prevents text overflow */
+    white-space: nowrap; /* Ensures text stays on one line */
+}
+
+.reset-button:hover{
+    background-color: #ea4dec;
+}
+
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping to the next line */
+  gap: 15px; /* Adds spacing between checkboxes */
+  max-width: 500px; /* Ensures proper alignment */
+  cursor: pointer;
+}
+
+.checkbox-group div {
+  position: relative;
+  width: 151px;
+  height: 40px;
+  border-radius: 40px;
+  border: 3px solid #ea4eed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px; /* Space between rows */
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  display: none; /* Hide default checkbox */
+}
+
+.checkbox-group label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox-group div:nth-child(3n + 1) {
+  clear: left;
+}
+
+.checkbox-group div:hover {
+  background-color: #ff00ff;
+  border-color: #ff00ff; /* Light hover effect */
+}
+
+ </style>
 </head>
 <body>
-    <div class="container">
-        <div class="title">Select Your Classes</div>
-        <form action="onboarding/2" method="POST">
-            <!-- Hidden input field to pass 'name' to the next page -->
-            <input type="hidden" name="name" value="<%= name %>">
+    <div class="desktop">
 
-            <div class="checkbox-group">
-                <!-- Checkboxes for selecting classes -->
-                <div>
-                    <input type="checkbox" id="class1" name="selectedClasses[]" value="Class 1">
-                    <label for="class1">Class 1</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class2" name="selectedClasses[]" value="Class 2">
-                    <label for="class2">Class 2</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class3" name="selectedClasses[]" value="Class 3">
-                    <label for="class3">Class 3</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class4" name="selectedClasses[]" value="Class 4">
-                    <label for="class4">Class 4</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class5" name="selectedClasses[]" value="Class 5">
-                    <label for="class5">Class 5</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class6" name="selectedClasses[]" value="Class 6">
-                    <label for="class6">Class 6</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class7" name="selectedClasses[]" value="Class 7">
-                    <label for="class7">Class 7</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class8" name="selectedClasses[]" value="Class 8">
-                    <label for="class8">Class 8</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class9" name="selectedClasses[]" value="Class 9">
-                    <label for="class9">Class 9</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class10" name="selectedClasses[]" value="Class 10">
-                    <label for="class10">Class 10</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class11" name="selectedClasses[]" value="Class 11">
-                    <label for="class11">Class 11</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="class12" name="selectedClasses[]" value="Class 12">
-                    <label for="class12">Class 12</label>
-                </div>
+    <!-- Insert Brand Name -->
+    <div class="brand-name">Learni</div>
+    <!-- Logo Image -->
+    <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+    <!-- Background Element -->
+    <div class="logo-bg"></div>
+
+    <!-- Polygon Image Below the Form -->
+    <img src="/images/polygon_r.png" alt="Polygon Shape" class="polygon">
+
+    <!-- Ellipse Image Below the Form -->
+    <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-16">
+
+    <!-- Ellipse Image Positioned as per CSS -->
+    <img src="/images/ellipse-17.png" alt="Ellipse Shape" class="ellipse-17">
+
+
+        <div class="rectangle">
+            <div class="title">Step 1 of 4</div>
+            <div class="sub-title">Add Classes :</div> <!-- New subtitle added -->
+
+            <!-- Line before checkboxes -->
+             <img src="/images/line-5.png" alt="Line" class="line">
+
+            <!-- Checkbox Images -->
+             <img src="/images/selected-checkbox.png" alt=" Selected-Checkbox" class="check-box">
+             <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-2">
+             <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-3">
+             <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-4">
+
+      <!-- Form -->         
+      <form action="onboarding/2" method="POST">
+        <!-- Hidden input field to pass 'name' to the next page -->
+        <input type="hidden" name="name" value="<%= name %>">
+    
+        <div class="checkbox-group">
+            <!-- Checkboxes for selecting classes -->
+            <div class="checkbox-item" onclick="toggleCheckbox('class1')">
+                <input type="checkbox" id="class1" name="selectedClasses[]" value="Class 1">
+                <label for="class1">Class 1</label>
             </div>
-            <button type="submit" class="submit-button">Submit</button>
-        </form>
+            <div class="checkbox-item" onclick="toggleCheckbox('class2')">
+                <input type="checkbox" id="class2" name="selectedClasses[]" value="Class 2">
+                <label for="class2">Class 2</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class3')">
+                <input type="checkbox" id="class3" name="selectedClasses[]" value="Class 3">
+                <label for="class3">Class 3</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class4')">
+                <input type="checkbox" id="class4" name="selectedClasses[]" value="Class 4">
+                <label for="class4">Class 4</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class5')">
+                <input type="checkbox" id="class5" name="selectedClasses[]" value="Class 5">
+                <label for="class5">Class 5</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class6')">
+                <input type="checkbox" id="class6" name="selectedClasses[]" value="Class 6">
+                <label for="class6">Class 6</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class7')">
+                <input type="checkbox" id="class7" name="selectedClasses[]" value="Class 7">
+                <label for="class7">Class 7</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class8')">
+                <input type="checkbox" id="class8" name="selectedClasses[]" value="Class 8">
+                <label for="class8">Class 8</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class9')">
+                <input type="checkbox" id="class9" name="selectedClasses[]" value="Class 9">
+                <label for="class9">Class 9</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class10')">
+                <input type="checkbox" id="class10" name="selectedClasses[]" value="Class 10">
+                <label for="class10">Class 10</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class11')">
+                <input type="checkbox" id="class11" name="selectedClasses[]" value="Class 11">
+                <label for="class11">Class 11</label>
+            </div>
+            <div class="checkbox-item" onclick="toggleCheckbox('class12')">
+                <input type="checkbox" id="class12" name="selectedClasses[]" value="Class 12">
+                <label for="class12">Class 12</label>
+            </div>
+        </div>
+    
+        <button type="submit" class="submit-button">Confirm Selection</button>
+        <button type="button" class="reset-button" onclick="resetSelection()">Reset Selection</button>
+    </form>
+    
+        <!-- Selected items count -->
+        <div class="selected-count">You have selected <span id="selectedCount">0</span> items</div>
+        <div class="press-confirm-to">Press Confirm to proceed to the next step of <br> Onboarding!</div>
     </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".checkbox-group input[type='checkbox']");
+        const countDisplay = document.getElementById("selectedCount");
+        const resetButton = document.querySelector(".reset-button");
+        const submitButton = document.querySelector(".submit-button");
+        const checkboxItems = document.querySelectorAll(".checkbox-item");
+
+        function updateCount() {
+            const selectedCount = document.querySelectorAll(".checkbox-group input[type='checkbox']:checked").length;
+            countDisplay.textContent = selectedCount;
+        }
+
+        function restoreSelections() {
+            const savedSelections = JSON.parse(localStorage.getItem("selectedClasses")) || [];
+
+            checkboxes.forEach(checkbox => {
+                if (savedSelections.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                    checkbox.parentNode.style.backgroundColor = "#ea4eed"; // Apply selected styles
+                }
+            });
+
+            updateCount(); // Update count after restoring selections
+        }
+
+        checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", function () {
+                this.parentNode.style.backgroundColor = this.checked ? "#ea4eed" : "#ffffff";
+                updateCount();
+            });
+
+            // Improve accessibility: Ensure clicking the label toggles the checkbox.
+            checkbox.nextElementSibling.addEventListener("click", function (event) {
+                event.preventDefault();
+                checkbox.click();
+            });
+        });
+
+        // Ensure clicking anywhere in `.checkbox-item` toggles the checkbox
+        checkboxItems.forEach((item) => {
+            item.addEventListener("click", function (event) {
+                const checkbox = this.querySelector("input[type='checkbox']");
+                
+                if (event.target.tagName !== "INPUT" && event.target.tagName !== "LABEL") {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event("change"));
+                }
+            });
+        });
+
+        // Restore selections on page load
+        restoreSelections();
+
+        // Prevent form submission if no checkbox is selected
+        submitButton.addEventListener("click", function (event) {
+            const selectedValues = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            if (selectedValues.length === 0) {
+                event.preventDefault();
+                alert("Please select at least one option before proceeding!");
+            } else {
+                localStorage.setItem("selectedClasses", JSON.stringify(selectedValues)); // Save selections
+            }
+        });
+
+        // Reset button: Clear selections and reload page
+        resetButton.addEventListener("click", function () {
+            localStorage.removeItem("selectedClasses"); // Remove saved selections
+            location.reload(); // Reload page for a full reset
+        });
+    });
+</script>
+
+
+  
 </body>
 </html>
