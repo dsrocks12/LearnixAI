@@ -1,72 +1,81 @@
 const TeacherModel = require("../../models/teacher/teachermodel");
 const Subject = require("../../models/school/subjectModel");
-const Class = require("../../models/school/classModel");
 const Assignment = require("../../models/teacherDashboard/assignmentModel");
 const Announcement = require("../../models/teacherDashboard/announcementModel");
 const StudyMaterial = require("../../models/teacherDashboard/studyMaterialModel");
 const Submission = require("../../models/teacherDashboard/submissionModel");
-const path = require("path"); 
 
-console.log("teacherDashboardController.js file is executing...");
+console.log("TeacherDashboardController.js file is executing...");
 
 const getTeacherDashboard = async (req, res) => {
     try {
         const { email } = req.query;
+      
+
         if (!email) {
-            return res.status(400).json({ message: "❌ Teacher Email is required" });
+            console.log("Missing teacher email in request");
+            return res.status(400).json({ message: " Teacher Email is required" });
         }
 
-        const teacher = await TeacherModel.findOne({ email });
+       
+        const teacher = await TeacherModel.findOne({ email: new RegExp(`^${email}$`, "i") });
+
         if (!teacher) {
-            return res.status(404).json({ message: "❌ Teacher Not Found" });
+            console.log(" Teacher not found in database.");
+            return res.status(404).json({ message: " Teacher Not Found" });
         }
 
-        // Fetch subjects where the teacher's email is inside teacherEmails array
+        console.log("🔍 Teacher lookup result:", teacher);
+
+       
         const subjects = await Subject.find({ 
-            teacherEmails: { $elemMatch: { email: teacher.email } }
+            schoolName: teacher.schoolName, 
+            "teacherEmails.email": { $regex: new RegExp(`^${email}$`, "i") } 
         });
 
-        // Group subjects by classNumber
+        console.log("📚 Subjects found for teacher:", subjects);
+
+       
         const classDataMap = new Map();
 
-        for (const subject of subjects) {
-            const classNumber = subject.classNumber;
+for (const subject of subjects) {
+   
+    const cleanClassNumber = subject.classNumber.replace(/class\s*/i, "").trim(); 
 
-            if (!classDataMap.has(classNumber)) {
-                classDataMap.set(classNumber, {
-                    classNumber: classNumber,
-                    subjects: [],
-                    students: []
-                });
-            }
+    if (!classDataMap.has(cleanClassNumber)) {
+        classDataMap.set(cleanClassNumber, {
+            classNumber: cleanClassNumber, 
+            subjects: [],
+        });
+    }
+    classDataMap.get(cleanClassNumber).subjects.push(subject.name);
+}
 
-            classDataMap.get(classNumber).subjects.push(subject.name);
-
-            if (classDataMap.get(classNumber).students.length === 0) {
-                const classDetails = await Class.findOne({
-                    schoolName: teacher.schoolName,
-                    classNumber: classNumber
-                });
-
-                if (classDetails) {
-                    classDataMap.get(classNumber).students = classDetails.studentDetails || [];
-                }
-            }
-        }
 
         const classData = Array.from(classDataMap.values());
+        console.log("📊 Final processed class data:", classData);
 
-        const assignments = await Assignment.find({ teacherEmail: teacher.email });
-        const announcements = await Announcement.find({ teacherEmail: teacher.email });
-        const studyMaterials = await StudyMaterial.find({ teacherEmail: teacher.email });
-        const submissions = await Submission.find({ teacherEmail: teacher.email });
+        
+        console.log("🕵️ Fetching teacher-related dashboard data...");
+        const [assignments, announcements, studyMaterials, submissions] = await Promise.all([
+            Assignment.find({ teacherEmail: teacher.email }),
+            Announcement.find({ teacherEmail: teacher.email }),
+            StudyMaterial.find({ teacherEmail: teacher.email }),
+            Submission.find({ teacherEmail: teacher.email })
+        ]);
 
+        console.log("Assignments found:", assignments.length);
+        console.log("Announcements found:", announcements.length);
+        console.log("Study Materials found:", studyMaterials.length);
+        console.log("Submissions found:", submissions.length);
+
+        
         return res.render("teacher/dashboard", {
             teacher: {
-                name: teacher.name,
+                name: teacher.name || "Unknown",
                 email: teacher.email,
-                schoolName: teacher.schoolName,
-                region: teacher.region
+                schoolName: teacher.schoolName || "Unknown School",
+                region: teacher.region || "Unknown Region",
             },
             classes: classData,
             assignments,
@@ -80,6 +89,5 @@ const getTeacherDashboard = async (req, res) => {
         return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 };
-
 
 module.exports = { getTeacherDashboard };

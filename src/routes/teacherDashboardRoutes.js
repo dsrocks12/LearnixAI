@@ -1,11 +1,11 @@
 const express = require("express");
-const router = express.Router();
+
 
 const { getTeacherDashboard } = require("../controllers/teach/teacherDashboardController");
-
-if (typeof getTeacherDashboard !== "function") {
-    throw new Error("getTeacherDashboard is not a function. Check its export in teacherDashboardController.js.");
-}
+const { getClassDashboard } = require("../controllers/teach/teacherClassController");
+console.log("✅ Imported getTeacherDashboard:", getTeacherDashboard);
+console.log("✅ Imported getClassDashboard:", getClassDashboard);
+const router = express.Router();
 
 router.get("/", async (req, res, next) => {
     try {
@@ -15,5 +15,10 @@ router.get("/", async (req, res, next) => {
         next(error);
     }
 });
+
+// Route for class-specific dashboard
+
+router.get("/class/:classNumber/:subjectName", getClassDashboard);
+
 
 module.exports = router;

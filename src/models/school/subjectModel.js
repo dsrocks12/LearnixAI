@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const subjectsEnum = Object.freeze({
     English: "English",
     Science: "Science",
@@ -9,7 +8,6 @@ const subjectsEnum = Object.freeze({
     Maths: "Maths",
     ComputerScience: "Computer Science"
 });
-
 
 const subjectSchema = new mongoose.Schema({
     schoolName: {
@@ -28,19 +26,11 @@ const subjectSchema = new mongoose.Schema({
         required: true,
         default: null
     },
-   teacherEmails: {
-        type: [
-            {
-                email: {
-                    type: String,
-                    required: true
-                },
-                teacherName: {
-                    type: String, 
-                    required: true
-                }
-            }
-        ],
+    teacherEmails: {
+        type: [{
+            email: { type: String, required: true },  // ✅ Match DB structure
+            teacherName: { type: String, required: true }
+        }],
         required: true,
         default: []
     }
@@ -48,7 +38,6 @@ const subjectSchema = new mongoose.Schema({
 
 
 Object.freeze(subjectsEnum);
-
 
 const Subject = mongoose.model('Subject', subjectSchema);
 

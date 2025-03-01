@@ -3,7 +3,7 @@ const router = express.Router();
 
 
 const { getStudentDashboard } = require("../controllers/student/studentDashboardController"); 
-
+const { getStudentClassDashboard } = require("../controllers/student/studentClassController");
 
 console.log("🛠️ Imported getStudentDashboard:", typeof getStudentDashboard);
 
@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-
+router.get("/subject/:subjectId", getStudentClassDashboard);
 console.log(" Student Dashboard Router Loaded Successfully");
 
 module.exports = router;

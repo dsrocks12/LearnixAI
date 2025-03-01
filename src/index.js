@@ -2,8 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
-//const bcrypt = require('bcrypt');
-
 
 const schoolRoutes = require('./routes/School/schoolRoutes');
 const homeRoutes = require('./routes/home/homeRoute');
@@ -11,13 +9,17 @@ const teacherRoutes = require('./routes/Teacher/teacherRoutes');
 const studentRoutes = require('./routes/Student/studentRoutes');
 const teacherDashboardRoutes = require('./routes/teacherDashboardRoutes');
 const studentDashboardRoutes = require('./routes/studentDashboardRoutes');
+const announcementRoutes = require('./routes/TeacherDashboard/announcementRoutes');
+// const assignmentRoutes = require('./routes/teacher/assignmentRoutes');
+// const materialRoutes = require('./routes/teacher/materialRoutes');
+// const submissionRoutes = require('./routes/teacher/submissionRoutes');
 
 const app = express();
 
 connectDB()
-  .then(() => console.log("Database Connected Successfully"))
+  .then(() => console.log("✅ Database Connected Successfully"))
   .catch(err => {
-    console.error("Database Connection Failed:", err);
+    console.error("❌ Database Connection Failed:", err);
     process.exit(1);
   });
 
@@ -35,27 +37,48 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// ✅ Register Routes
 app.use('/', homeRoutes);
-app.use('/school', schoolRoutes);
-app.use('/teacher', teacherRoutes);
-app.use('/student', studentRoutes);
 app.use('/teacher/dashboard', teacherDashboardRoutes);
 app.use('/student/dashboard', studentDashboardRoutes);
 
+app.use('/school', schoolRoutes);
+app.use('/teacher', teacherRoutes);
+app.use('/student', studentRoutes);
+
+// ✅ New Routes Added
+app.use('/teacher/announcement', announcementRoutes);
+// app.use('/teacher/assignment', assignmentRoutes);
+// app.use('/teacher/material', materialRoutes);
+// app.use('/teacher/submission', submissionRoutes);
+
+// ❌ Handle 404 Routes
 app.use((req, res) => {
-  res.status(404).json({ message: "Route Not Found" });
+  res.status(404).json({ message: "❌ Route Not Found" });
 });
 
+// ❌ Handle Server Errors
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: "Internal Server Error", error: err.message });
+  console.error("❌ Server Error:", err);
+  res.status(500).json({ message: "❌ Internal Server Error", error: err.message });
 });
 
-app._router.stack.forEach((r) => {
-  if (r.route && r.route.path) {
-      console.log(`🛣️ Route registered: ${r.route.path}`);
-  }
-});
+// ✅ Debugging: List all registered routes
+const listRoutes = (app) => {
+  console.log("\n🔍 Listing all registered routes:");
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      console.log(`✅ ${middleware.route.stack[0].method.toUpperCase()} ${middleware.route.path}`);
+    } else if (middleware.name === "router") {
+      middleware.handle.stack.forEach((subMiddleware) => {
+        if (subMiddleware.route) {
+          console.log(`✅ ${subMiddleware.route.stack[0].method.toUpperCase()} ${middleware.regexp} -> ${subMiddleware.route.path}`);
+        }
+      });
+    }
+  });
+};
+listRoutes(app);
 
-
-const PORT = process.env.PORT || 15000;
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+const PORT = process.env.PORT || 13000;
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));

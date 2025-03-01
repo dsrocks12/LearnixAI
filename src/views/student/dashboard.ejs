@@ -5,118 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            transition: background 0.3s;
+        }
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        .sidebar i {
+            margin-right: 10px;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .subject-card {
+            background: linear-gradient(135deg, #a4508b, #5f0a87);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+            width: 220px;
+        }
+        .subject-card:hover {
+            transform: scale(1.05);
+        }
+        .no-subjects {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2 class="text-center">Welcome, <%= student.name %> 👋</h2>
-        <p class="text-center"><strong>School:</strong> <%= student.schoolName %> | <strong>Region:</strong> <%= student.region %></p>
+    <div class="sidebar">
+        <h2>Learnit</h2>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-calendar-alt"></i> Learnit Calendar</a>
+        <a href="#"><i class="fas fa-book"></i> Enrolled</a>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+    </div>
+    
+    <div class="content">
+        <h2>Welcome, <%= student.email %> 👋</h2> 
+        <p><strong>School:</strong> <%= student.schoolName %></p>
+        <p><strong>Region:</strong> <%= student.region %></p>
 
-        <!-- 📖 Subjects Section -->
-        <div class="card my-4">
-            <div class="card-header bg-primary text-white">📚 Your Subjects</div>
-            <div class="card-body">
-                <% if (subjects && subjects.length > 0) { %>
-                    <ul class="list-group">
-                        <% subjects.forEach(subject => { %>
-                            <li class="list-group-item">
-                                <strong>Subject:</strong> <%= subject.name %>
-                                <br> <small>Teacher: <%= subject.teacherName || "Not assigned" %></small>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No subjects assigned.</p>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- 📝 Assignments Section -->
-        <div class="card my-4">
-            <div class="card-header bg-warning">📝 Assignments</div>
-            <div class="card-body">
-                <% if (assignments && assignments.length > 0) { %>
-                    <ul class="list-group">
-                        <% assignments.forEach(assignment => { %>
-                            <li class="list-group-item">
-                                <strong>Title:</strong> <%= assignment.title %> <br>
-                                <strong>Subject:</strong> <%= assignment.subject %>
-                                <br> <small>Due: <%= new Date(assignment.dueDate).toLocaleDateString() %></small>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No assignments found.</p>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- 📢 Announcements Section -->
-        <div class="card my-4">
-            <div class="card-header bg-danger text-white">📢 Announcements</div>
-            <div class="card-body">
-                <% if (announcements && announcements.length > 0) { %>
-                    <ul class="list-group">
-                        <% announcements.forEach(announcement => { %>
-                            <li class="list-group-item">
-                                <strong>Subject:</strong> <%= announcement.subject %>
-                                <br> <%= announcement.message %>
-                                <br> <small>Posted on: <%= new Date(announcement.createdAt).toLocaleDateString() %></small>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No announcements available.</p>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- 📚 Study Materials Section -->
-        <div class="card my-4">
-            <div class="card-header bg-success text-white">📚 Study Materials</div>
-            <div class="card-body">
-                <% if (studyMaterials && studyMaterials.length > 0) { %>
-                    <ul class="list-group">
-                        <% studyMaterials.forEach(material => { %>
-                            <li class="list-group-item">
-                                <strong>Title:</strong> <%= material.title %> <br>
-                                <strong>Subject:</strong> <%= material.subject %>
-                                <br> <small>Uploaded on: <%= new Date(material.uploadedAt).toLocaleDateString() %></small>
-                                <br> <a href="<%= material.fileUrls[0] %>" target="_blank" class="btn btn-sm btn-primary mt-2">View File</a>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No study materials available.</p>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- ✅ Submitted Assignments Section -->
-        <div class="card my-4">
-            <div class="card-header bg-info">✅ Submitted Assignments</div>
-            <div class="card-body">
-                <% if (submissions && submissions.length > 0) { %>
-                    <ul class="list-group">
-                        <% submissions.forEach(submission => { %>
-                            <li class="list-group-item">
-                                <strong>Title:</strong> <%= submission.assignmentTitle %> <br>
-                                <strong>Subject:</strong> <%= submission.subject %>
-                                <br> <small>Submitted on: <%= new Date(submission.submittedAt).toLocaleDateString() %></small>
-                                <br> <a href="<%= submission.submissionFiles[0] %>" target="_blank" class="btn btn-sm btn-primary mt-2">View Submission</a>
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } else { %>
-                    <p>No submissions yet.</p>
-                <% } %>
-            </div>
-        </div>
-
-        <!-- Logout Button -->
-        <div class="text-center">
-            <a href="/student/logout" class="btn btn-danger">Logout</a>
+        <p><strong>Quote of the Day:</strong> <span id="quote">Loading...</span></p>
+        
+        <h4>Your Courses</h4>
+        <div class="row">
+            <% if (subjects.length === 0) { %>
+                <div class="no-subjects">No subjects assigned yet.</div>
+            <% } else { %>
+                <% subjects.forEach(subject => { %>
+                    <div class="subject-card" onclick="window.location.href='/student/dashboard/subject/<%= subject.id %>'">
+                        <h5><%= subject.name %></h5>
+                        <p>👨‍🏫 <%= subject.teacherNames %></p>
+                    </div>
+                <% }) %>
+            <% } %>
         </div>
     </div>
+
+    <script>
+        // Random Quote Generator
+        const quotes = [
+            "Education is the most powerful weapon which you can use to change the world.",
+            "Success is not the key to happiness. Happiness is the key to success.",
+            "You become what you think about most of the time.",
+            "The beautiful thing about learning is that no one can take it away from you."
+        ];
+        document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
