@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Study Material</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    .content {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .btn-primary, .btn-secondary {
+      padding: 10px;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+    }
+    .btn-primary { background-color: #007bff; border: none; }
+    .btn-secondary { background-color: #6c757d; border: none; }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h2>Upload Study Material</h2>
+    
+    <form action="/teacher/studyMaterial/upload" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="classNumber" value="<%= classNumber || '' %>">
+      <input type="hidden" name="subjectName" value="<%= subjectName || '' %>">
+      
+      <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input type="text" id="title" name="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="file" class="form-label">Upload File:</label>
+        <input type="file" id="file" name="file" class="form-control" required>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <a href="/teacher/dashboard/class/<%= classNumber || '' %>" class="btn btn-secondary">Back</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

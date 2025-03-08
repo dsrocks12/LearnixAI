@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const announcementSchema = new mongoose.Schema({
+    
     classNumber: { type: String, required: true },
     subjectName: { type: String, required: true },
     title: { type: String, required: true },
@@ -9,3 +10,5 @@ const announcementSchema = new mongoose.Schema({
 
 const Announcement = mongoose.model("Announcement", announcementSchema);
 module.exports = Announcement;
+
+

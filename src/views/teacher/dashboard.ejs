@@ -112,7 +112,7 @@
                 <% classes.forEach(classItem => { %>
                     <% classItem.subjects.forEach(subject => { %> 
                         <div class="class-card" 
-                            onclick="window.location.href='/teacher/dashboard/class/<%= classItem.classNumber %>/<%= subject %>'">
+                            onclick="redirectToClass('<%= classItem.classNumber %>', '<%= subject %>', '<%= teacher.email %>', '<%= teacher.schoolName %>')">
                             <h5>Class <%= classItem.classNumber %> - <%= subject %></h5>
                         </div>
                     <% }) %>
@@ -134,6 +134,13 @@
             "Make use of visuals and diagrams for better explanations."
         ];
         document.getElementById("tip").innerText = tips[Math.floor(Math.random() * tips.length)];
+
+        // Redirect function with encoded URL parameters
+        function redirectToClass(classNumber, subject, email, schoolName) {
+            const encodedEmail = encodeURIComponent(email);
+            const encodedSchool = encodeURIComponent(schoolName);
+            window.location.href = `/teacher/dashboard/class/${classNumber}/${subject}?email=${encodedEmail}&school=${encodedSchool}`;
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

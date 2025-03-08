@@ -12,12 +12,29 @@
                 fetch(`/teacher/announcement/delete/${announcementId}`, { method: 'POST' })
                     .then(response => response.json())
                     .then(data => {
-                        alert(" Announcement deleted successfully");
-                        window.location.href = "/teacher/dashboard/class/<%= classNumber %>/<%= subjectName %>";
+                        alert("Announcement deleted successfully");
+                        window.location.href = window.location.href; // Refresh page
                     })
                     .catch(error => alert("❌ Error deleting announcement"));
             }
         }
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const email = getQueryParam("email");
+            const schoolName = getQueryParam("school");
+
+            // Update the "Create Assignment" link dynamically
+            const assignmentLink = document.getElementById("createAssignment");
+            if (assignmentLink) {
+                const baseUrl = `/teacher/assignment/new?classNumber=<%= classNumber %>&subject=<%= subjectName %>`;
+                assignmentLink.href = `${baseUrl}&email=${encodeURIComponent(email)}&school=${encodeURIComponent(schoolName)}`;
+            }
+        });
     </script>
     <style>
         body {
@@ -90,6 +107,8 @@
         <!-- Assignments Section -->
         <div class="section">
             <h3>📝 Assignments</h3>
+            <a id="createAssignment" href="#" class="btn btn-primary">➕ Create Assignment</a>
+            <hr>
             <% if (assignments.length === 0) { %>
                 <p>No assignments posted.</p>
             <% } else { %>
@@ -104,16 +123,33 @@
         <!-- Study Materials Section -->
         <div class="section">
             <h3>📚 Study Materials</h3>
+            <a href="/teacher/studyMaterial/new?classNumber=<%= classNumber %>&subjectName=<%= subjectName %>" class="btn btn-primary">➕ Upload Material</a>
+            <hr>
             <% if (studyMaterials.length === 0) { %>
                 <p>No study materials uploaded.</p>
             <% } else { %>
                 <% studyMaterials.forEach(material => { %>
                     <div class="material-item">
                         <a href="<%= material.fileUrl %>" target="_blank"><%= material.title %></a>
+                        <button onclick="confirmDeleteMaterial('<%= material._id %>')" class="btn btn-danger btn-sm">🗑 Delete</button>
                     </div>
                 <% }) %>
             <% } %>
         </div>
+
+        <script>
+            function confirmDeleteMaterial(materialId) {
+                if (confirm("Are you sure you want to delete this study material?")) {
+                    fetch(`/teacher/studyMaterial/delete/${materialId}`, { method: 'POST' })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert("✅ Study Material deleted successfully");
+                            window.location.reload();
+                        })
+                        .catch(error => alert("❌ Error deleting study material"));
+                }
+            }
+        </script>
 
         <!-- Submissions Section -->
         <div class="section">
@@ -128,8 +164,6 @@
                 <% }) %>
             <% } %>
         </div>
-
-    
     </div>
 </body>
 </html>

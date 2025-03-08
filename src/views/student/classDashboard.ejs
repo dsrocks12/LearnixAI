@@ -30,32 +30,35 @@
     <div class="content">
         <h2>Subject <%= subjectName %> Dashboard</h2>
 
+        <!-- Announcements Section -->
         <div class="section">
-            <div class="section">
-                <h3>📢 Announcements</h3>
-                <% if (announcements.length === 0) { %>
-                    <p>No announcements yet.</p>
-                <% } else { %>
-                    <ul>
-                        <% announcements.forEach(announcement => { %>
-                            <li>
-                                <strong><%= announcement.title %></strong>: <%= announcement.message %> <br> 
-                                <small>🕒 <%= new Date(announcement.createdAt).toLocaleString("en-US", { 
+            <h3>📢 Announcements</h3>
+            <% if (announcements.length === 0) { %>
+                <p>No announcements yet.</p>
+            <% } else { %>
+                <ul>
+                    <% announcements.forEach(announcement => { %>
+                        <li>
+                            <strong><%= announcement.title %></strong>: <%= announcement.message %> <br>
+                            <small>
+                                🕒 <%= new Date(announcement.createdAt).toLocaleString("en-US", { 
                                     weekday: 'short', 
                                     year: 'numeric', 
                                     month: 'short', 
                                     day: 'numeric', 
                                     hour: '2-digit', 
                                     minute: '2-digit' 
-                                }) %></small>
-                                <br>
-                                <small>👨‍🏫 Posted by: <%= teacherName %></small> 
-                            </li>
-                        <% }) %>
-                    </ul>
-                <% } %>
-            </div>
-            
+                                }) %>
+                            </small>
+                            <br>
+                            <small>👨‍🏫 Posted by: <%= teacherName %></small>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+        </div>
+
+        <!-- Assignments Section -->
         <div class="section">
             <h3>📝 Assignments</h3>
             <% if (assignments.length === 0) { %>
@@ -63,13 +66,15 @@
             <% } else { %>
                 <ul>
                     <% assignments.forEach(assignment => { %>
-                        <li><strong><%= assignment.title %></strong> - Due: <%= assignment.dueDate.toDateString() %></li>
+                        <li>
+                            <strong><%= assignment.title %></strong> - Due: <%= assignment.dueDate.toDateString() %>
+                        </li>
                     <% }) %>
                 </ul>
             <% } %>
         </div>
 
-        
+        <!-- Study Materials Section -->
         <div class="section">
             <h3>📚 Study Materials</h3>
             <% if (studyMaterials.length === 0) { %>
@@ -77,7 +82,21 @@
             <% } else { %>
                 <ul>
                     <% studyMaterials.forEach(material => { %>
-                        <li><a href="<%= material.fileUrl %>" target="_blank"><%= material.title %></a></li>
+                        <li>
+                            <strong><%= material.title %></strong> 
+                            - <a href="<%= material.fileUrl %>" target="_blank">View File</a>
+                            <br>
+                            <small>
+                                Uploaded on: <%= new Date(material.createdAt).toLocaleString("en-US", { 
+                                    weekday: 'short', 
+                                    year: 'numeric', 
+                                    month: 'short', 
+                                    day: 'numeric', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit' 
+                                }) %>
+                            </small>
+                        </li>
                     <% }) %>
                 </ul>
             <% } %>

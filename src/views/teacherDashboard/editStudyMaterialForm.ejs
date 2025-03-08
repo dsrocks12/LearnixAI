@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Study Material</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="mb-4">📚 Edit Study Material</h2>
+    
+    <form action="/teacher/studyMaterial/update/<%= studyMaterial._id %>" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="classNumber" value="<%= studyMaterial.classNumber %>">
+      <input type="hidden" name="subjectName" value="<%= studyMaterial.subjectName %>">
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Title:</label>
+        <input type="text" class="form-control" name="title" value="<%= studyMaterial.title %>" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Current File:</label>
+        <p><a href="<%= studyMaterial.fileUrl %>" target="_blank"><%= studyMaterial.fileUrl %></a></p>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Upload New File (optional):</label>
+        <input type="file" class="form-control" name="file">
+      </div>
+
+      <div class="d-flex gap-3">
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="/teacher/dashboard/class/<%= studyMaterial.classNumber %>/<%= studyMaterial.subjectName %>" class="btn btn-secondary">🔙 Back</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

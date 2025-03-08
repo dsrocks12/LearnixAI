@@ -40,7 +40,7 @@ const loginStudent = async (req, res) => {
         const encodedEmail = encodeURIComponent(student.email);
 
         // Redirect URL with encoded email
-        const redirectUrl = `http://localhost:13000/student/dashboard?email=${encodedEmail}`;
+        const redirectUrl = `http://localhost:5000/student/dashboard?email=${encodedEmail}`;
 
         return res.status(200).json({
             message: "✅ Student Login Successful.",

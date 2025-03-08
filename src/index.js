@@ -10,8 +10,8 @@ const studentRoutes = require('./routes/Student/studentRoutes');
 const teacherDashboardRoutes = require('./routes/teacherDashboardRoutes');
 const studentDashboardRoutes = require('./routes/studentDashboardRoutes');
 const announcementRoutes = require('./routes/TeacherDashboard/announcementRoutes');
-// const assignmentRoutes = require('./routes/teacher/assignmentRoutes');
-// const materialRoutes = require('./routes/teacher/materialRoutes');
+const assignmentRoutes = require('./routes/TeacherDashboard/assignmentRoutes');
+const materialRoutes = require('./routes/TeacherDashboard/studyMaterialRoutes');
 // const submissionRoutes = require('./routes/teacher/submissionRoutes');
 
 const app = express();
@@ -25,6 +25,7 @@ connectDB()
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(cors({
   origin: "*",
@@ -48,8 +49,8 @@ app.use('/student', studentRoutes);
 
 // ✅ New Routes Added
 app.use('/teacher/announcement', announcementRoutes);
-// app.use('/teacher/assignment', assignmentRoutes);
-// app.use('/teacher/material', materialRoutes);
+app.use('/teacher/assignment', assignmentRoutes);
+app.use('/teacher/studyMaterial', materialRoutes);
 // app.use('/teacher/submission', submissionRoutes);
 
 // ❌ Handle 404 Routes

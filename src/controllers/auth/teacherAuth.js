@@ -36,7 +36,7 @@ const loginTeacher = async (req, res) => {
         console.log("Teacher Login Successful.");
 
         const encodedEmail = encodeURIComponent(teacher.email);
-        const redirectUrl = `http://localhost:13000/teacher/dashboard?email=${encodedEmail}`;
+        const redirectUrl = `http://localhost:5000/teacher/dashboard?email=${encodedEmail}`;
 
         return res.status(200).json({
             message: "Teacher Login Successful.",

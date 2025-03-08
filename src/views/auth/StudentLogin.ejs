@@ -97,7 +97,7 @@
     
             try {
                 console.log("➡️ Fetching schools from backend...");
-                const response = await fetch("http://localhost:13000/school/api/schools");
+                const response = await fetch("http://localhost:5000/school/api/schools");
     
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -149,7 +149,7 @@
             loginButton.innerText = "Logging in...";
 
             try {
-                const response = await fetch("http://localhost:13000/student/login", {
+                const response = await fetch("http://localhost:5000/student/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ selectedSchool, email, password }),
