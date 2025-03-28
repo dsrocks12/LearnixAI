@@ -3,18 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject <%= subjectName %> Dashboard</title>
+    <title>Subject: <%= subjectName %> Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        body {
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
-        }
+            @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Metrophobic&family=Righteous&display=swap'); 
+    body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    }
+
+        /* Brand Elements */
+.brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 80px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.2px;
+    line-height: normal;
+}
+
+.logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+}
+
+.logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: -1;
+}
+
+.ellipse-top {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: -90px;
+    left: 1100px;
+}
+
+/* Content Wrapper */
+.all-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.section {
+    width: 90%;
+    max-width: 1195px;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.all-content h2{
+    font-family: 'Metrophobic', sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+
+/* Section Styling */
+.content-box {
+    padding: 20px;
+    max-width: 1195px;
+    background: transparent;
+    border: 3px solid #ab11ae;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 90%;
+}
+
+h3 {
+    font-size: 40px;
+    font-family: 'Metrophobic', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    max-width: 800px;
+    width: 90%;
+    margin-bottom: 20px; /* Reduced space */
+    text-align: left; /* Align text to the left */
+    padding-left: 0px; /* Align with content inside .content-box */
+}
+
+.ellipse-left {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 97vh;
+    left: -90px;
+    z-index: -1;
+}
+
+.ellipse-right {
+    position: absolute;
+    width: 290px;
+    height: 249px;
+    top: 106vh;
+    left: 1150px;
+    z-index: -1;
+}
+
+.ellipse-mid {
+    position: absolute;
+    left: 380px;
+    width: 290px;
+    height: 249px;
+    top: 200vh;
+    z-index: -1;
+}
+
+.announcement-item, .assignment-item, .material-item, .submission-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#FDF9FF 0%, #9B8CA0 97%);
+}
         .content {
             padding: 20px;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .section {
+        .assignments-section {
+            width: 100%;
             margin-bottom: 20px;
             padding: 15px;
             background: white;
@@ -22,85 +156,92 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .section h3 {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .timestamp {
+            font-size: 0.9rem;
+            color: gray;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h2>Subject <%= subjectName %> Dashboard</h2>
 
-        <!-- Announcements Section -->
-        <div class="section">
-            <h3>📢 Announcements</h3>
-            <% if (announcements.length === 0) { %>
-                <p>No announcements yet.</p>
-            <% } else { %>
-                <ul>
-                    <% announcements.forEach(announcement => { %>
-                        <li>
-                            <strong><%= announcement.title %></strong>: <%= announcement.message %> <br>
-                            <small>
-                                🕒 <%= new Date(announcement.createdAt).toLocaleString("en-US", { 
+    <div class="brand-name">Learni</div>
+    <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+    <div class="logo-bg"></div>
+    <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
+
+    
+    <div class="all-content">
+        <h2>Subject: <%= subjectName %> Dashboard</h2>
+
+            <div class="section">
+                <h3>Announcements</h3>
+                <div class="content-box">
+                <% if (announcements.length === 0) { %>
+                    <p>No announcements yet.</p>
+                <% } else { %>
+                    
+                        <% announcements.forEach(announcement => { %>
+                            <div class="announcement-item">
+                                <strong>📢<%= announcement.title %></strong>: <%= announcement.message %> <br> 
+                                <small>🕛Posted on:<%= new Date(announcement.createdAt).toLocaleString("en-US", { 
                                     weekday: 'short', 
                                     year: 'numeric', 
                                     month: 'short', 
                                     day: 'numeric', 
                                     hour: '2-digit', 
                                     minute: '2-digit' 
-                                }) %>
-                            </small>
-                            <br>
-                            <small>👨‍🏫 Posted by: <%= teacherName %></small>
-                        </li>
-                    <% }) %>
-                </ul>
-            <% } %>
+                                }) %></small>
+                                <br>
+                                <small>🧑‍🏫Posted by: <%= teacherName %></small> 
+                            </div>                            
+                        <% }) %>
+                    
+                <% } %>
+            </div>
+            <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-left">
+            <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-right">
         </div>
-
-        <!-- Assignments Section -->
+            
         <div class="section">
-            <h3>📝 Assignments</h3>
+            <h3>Assignments</h3>
+            <div class="content-box">
             <% if (assignments.length === 0) { %>
                 <p>No assignments posted.</p>
             <% } else { %>
-                <ul>
+                
                     <% assignments.forEach(assignment => { %>
-                        <li>
-                            <strong><%= assignment.title %></strong> - Due: <%= assignment.dueDate.toDateString() %>
-                        </li>
+                        <div class="assignment-item">
+                        <strong><%= assignment.title %></strong> - Due: <%= assignment.dueDate.toDateString() %>
+                    </div>
                     <% }) %>
-                </ul>
+                
             <% } %>
         </div>
+        <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
+        </div>
 
-        <!-- Study Materials Section -->
+        
         <div class="section">
-            <h3>📚 Study Materials</h3>
+            <h3>Study Materials</h3>
+            <div class="content-box">
             <% if (studyMaterials.length === 0) { %>
                 <p>No study materials uploaded.</p>
             <% } else { %>
-                <ul>
+                
                     <% studyMaterials.forEach(material => { %>
-                        <li>
-                            <strong><%= material.title %></strong> 
-                            - <a href="<%= material.fileUrl %>" target="_blank">View File</a>
-                            <br>
-                            <small>
-                                Uploaded on: <%= new Date(material.createdAt).toLocaleString("en-US", { 
-                                    weekday: 'short', 
-                                    year: 'numeric', 
-                                    month: 'short', 
-                                    day: 'numeric', 
-                                    hour: '2-digit', 
-                                    minute: '2-digit' 
-                                }) %>
-                            </small>
-                        </li>
+                    <div class="material-item">
+                        <a href="<%= material.fileUrl %>" target="_blank"><%= material.title %></a>
+                    </div>
                     <% }) %>
-                </ul>
+                
             <% } %>
         </div>
+        </div>
+    
     </div>
 </body>
 </html>

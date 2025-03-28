@@ -6,58 +6,249 @@
     <title>Create Announcement</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Metrophobic&family=Righteous&display=swap'); 
+
         body {
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
         }
-        .content {
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        
+        .desktop {
+            position: relative;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 110vh;
+            z-index: 0;
         }
-        .btn-primary {
-            background-color: #007bff;
+
+        .brand-name {
+            position: absolute;
+            width: 154px;
+            top: 42px;
+            left: 80px;
+            font-family: "Righteous", Helvetica;
+            font-weight: 400;
+            color: rgb(255, 215, 0); /* Gold color */
+            font-size: 24px;
+            letter-spacing: 7.20px;
+            line-height: normal;
+            z-index: 1;
+        }
+        
+        .logo {
+            position: absolute;
+            width: 49px;
+            height: 50px;
+            top: 30px;
+            left: 185px;
+            z-index: 1;
+        }
+        .logo-bg {
+            position: absolute;
+            width: 70px;
+            height: 65px;
+            top: 24px;
+            left: 175px;
+            background-color: #111010f0;
+            border-radius: 100px;
+            z-index: 0;
+        }
+
+        .ellipse-top {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: -90px;
+    left: 1100px;
+    z-index: -1;
+}
+
+.ellipse-left {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 58vh;
+    left: -90px;
+    z-index: -1;
+}
+
+.ellipse-right {
+    position: absolute;
+    width: 290px;
+    height: 249px;
+    top: 72vh;
+    left: 1050px;
+    z-index: -1;
+}
+
+        .container {
+            overflow-y: scroll;
+    min-width: 896px ;
+    min-height: 601px;
+    width: 50%; /* Adjust width as needed */
+    text-align:left; /* Centers form content */
+    background: #f8f9fa; /* Optional background */
+    padding: 20px; /* Adds spacing inside */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.create-announcement{
+    font-family: 'Metrophobic',sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: left;
+    padding-top: 0px;
+}
+
+.title input{
+    min-width: 849px;
+    min-height: 62px;
+    flex-shrink: 0;
+    border: 2px solid #C622CA;
+    border-radius: 10px;
+    background-color: #F0EAEA;
+    margin-top: 10px;
+}
+
+.message textarea{
+    min-width: 849px;
+    min-height: 316px;
+    border: 2px solid #C622CA;
+    border-radius: 10px;
+    background-color: #F0EAEA;
+    margin-top: 35px;
+}
+
+.title input::placeholder {
+    font-family: 'Metrophobic', sans-serif;
+    font-size: 20px; /* Change this to your desired size */
+    color: #8A8484; /* Optional: Change placeholder color */
+    opacity: 1; /* Ensures placeholder is fully visible */
+    font-style: normal;
+    line-height: normal;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+.message textarea::placeholder {
+    font-family: 'Metrophobic', sans-serif;
+    font-size: 20px; /* Change this to your desired size */
+    color: #8A8484; /* Optional: Change placeholder color */
+    opacity: 1; /* Ensures placeholder is fully visible */
+    font-style: normal;
+    line-height: normal;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right edge */
+    gap: 0px; /* Adds space between buttons */
+    margin-bottom: 10px; /* Adds spacing below the buttons */
+}
+
+.buttons button{
+    min-width: 91.795px;
+    min-height: 34.626px;
+    background-color: #C622CA;
+    border-radius: 5px;
+    color: white; /* Ensures text is visible */
+    border: none;
+    font-size: 16px;
+    font-family: 'Metrophobic',sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Removes underline from <a> */
+}
+
+
+
+
+.btn-primary {
+            background-color: #C622CA;
             border: none;
-            padding: 10px;
+            padding: 10px 10px;
             border-radius: 5px;
             cursor: pointer;
             color: white;
+            transition: background-color 0.3s ease;
         }
+
+        .btn-primary:hover {
+            background-color: #A51E9C ;
+        }
+
         .btn-secondary {
-            background-color: #6c757d;
-            border: none;
-            padding: 10px;
+            background-color: white;
+            border: 2px solid #C622CA;
+            padding: 8px 16px;
             border-radius: 5px;
             cursor: pointer;
-            color: white;
+            color: black;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
         }
+
+        .btn-secondary:hover {
+            background-color: #EA4EED;
+            border-color: #EA4EED;
+        }
+
+
+
+
+
     </style>
 </head>
 <body>
-    <div class="content">
-        <h2>Create Announcement</h2>
+
+    <div class="desktop">
+        <!-- Insert Brand Name -->
+        <div class="brand-name">Learni</div>
+        <!-- Logo Image -->
+        <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+        <!-- Background Element -->
+        <div class="logo-bg"></div>
+        <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
+
+        <div class="container">
+        <h2 class= "create-announcement">Create Announcement</h2>
         
         <form action="/teacher/announcement/create" method="POST">
+
+            <div class="buttons d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Post Announcement</button>
+            </div>
+
             <input type="hidden" name="classNumber" value="<%= classNumber || '' %>">
             <input type="hidden" name="subjectName" value="<%= subjectName || '' %>">
             
-            <div class="mb-3">
-                <label for="title" class="form-label">Title:</label>
-                <input type="text" id="title" name="title" class="form-control" required>
+            <div class="title">
+                <input type="text" id="title" name="title" class="" required placeholder="Title">
             </div>
         
-            <div class="mb-3">
-                <label for="message" class="form-label">Message:</label>
-                <textarea id="message" name="message" class="form-control" rows="4" required></textarea>
+            <div class="message">
+                <textarea id="message" name="message" class="" rows="4" required placeholder="Message"></textarea>
             </div>
-        
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Post Announcement</button>
-                <a href="/teacher/dashboard/class/<%= classNumber || '' %>" class="btn btn-secondary">Back</a>
+
+            <div class="buttons d-flex justify-content-end">
+                <a href="/teacher/dashboard/class/<%= classNumber || '' %>" class="btn btn-secondary ">← Back</a>
             </div>
+
         </form>
         
         <script>
@@ -67,9 +258,9 @@
             });
         </script>
         
-        
-        
-        
-    </div>
+        </div>
+        <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-left">
+        <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-right">
+
 </body>
 </html>

@@ -5,28 +5,330 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teachers List</title>
     <style>
+    @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Metrophobic&family=Nokora:wght@100;300;400;700;900&family=Righteous&display=swap');
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0px;
+        }
+
+        .desktop {
+            position: relative;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 62px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+    z-index: 1;
+  }
+
+  .logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+    z-index: 1;
+  }
+
+  .logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: 0;
+  }
+
+  .ellipse-16 {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 95px;
+    left: 991px;
+    z-index: 0; /* Ensures the ellipse stays behind the form */
+  }
+
+  .ellipse-17 {
+    position: absolute;
+    width: 218px;
+    height: 252px;
+    top: 537px;
+    left: 1270px;
+    z-index: 0; /* Ensures the image stays behind the form */
+}
+
+  .rectangle {
+            overflow: auto;
+            position: absolute;
+            width: 100vw; /* More responsive */
+            max-width: 1404px; /* Limit maximum width */
+            height: 476px;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Fully centers */
+            border-radius: 20px;
+            background: linear-gradient(270deg, #999 0%, #FFF 40%);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            /*z-index: -1;  Push to background */
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-start;
+            align-items:flex-start;
+            padding: 20px;
+        }
+
+  .rectangle h2{
+            margin-left: 30px;
+            color: #000;
+            text-align: center;
+            font-family: 'Nokora', Arial, Helvetica, sans-serif;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .table-container {
+    display: flex;
+    align-items:first baseline; /* Keeps button and table aligned */
+    gap: 20px; /* Adds space between table and button */
+    margin-left: 160px; /* Aligns with rectangle */
+}
+
+    .rectangle table{
+        border: 3px solid #A236A4;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+
+    .rectangle thead {
+    padding: 10px 12px;
+    background: #FFF; /* Adds a strong color to header */
+    color: black;
+    font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    line-height: 130%;
+}
+
+.rectangle tbody {
+    background: #f9f9f9; /* Light background for rows */
+}
+
+.rectangle th {
+    padding: 8px 16px;
+    font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+    line-height: 130%;
+    border: 2px solid #A236A4;
+    text-align: center;
+}
+
+.rectangle td {
+    padding: 8px 16px;
+    font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    text-align: center;
+    line-height: 130%;
+    border: 2px solid #A236A4;
+    text-align: center;
+}
+
+.rectangle tr {
+    transition: 0.3s; /* Smooth hover effect */
+}
+
+.rectangle tbody tr:hover {
+    background: #e6b4e8; /* Light purple on hover */
+}
+
+.edit-button{
+    padding: 10px 14px;
+    min-height: 29px;
+    min-width: 107px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(90deg, #EA4EED 0%, #852C87 100%);
+    color: #FFF;
+    text-align: center;
+    font-family: Metrophobic;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background:#A236A4 ;
+}
+
         #editTeacherForm {
+            min-height: 286px;
+            min-width: 400px;
             display: none;
             position: fixed;
             top: 50%;
-            left: 50%;
+            left: 75%;
             transform: translate(-50%, -50%);
             background: white;
             padding: 20px;
             border: 1px solid #ccc;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         }
+
+        #editTeacherForm h2{
+            margin-left: 10px;
+            margin-top: 10px;
+            font-family: 'Nokora',Arial, Helvetica, sans-serif;
+            color: #000;
+            text-align:left;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+
+        #editTeacherForm .form-group {
+    display: flex;  
+    align-items: center;  /* Aligns label and input in the center */
+    gap: 10px;  /* Spacing between label and input */
+    margin-bottom: 10px;
+    margin-left: 10px;  /* Aligns with form */
+}
+
+        #editTeacherForm label {
+            color: #000;
+            font-family: 'Nokora', Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            font-style: normal;
+            line-height: normal;
+            text-align: left;
+            min-width: 140px; /* Ensures all labels have the same width */
+            }
+
+#editTeacherForm input {
+    flex: 1; /* Allows inputs to fill the available space */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+#editTeacherForm select {
+    flex: 1; /* Allows inputs to fill the available space */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+#editTeacherForm button {
+    margin-left: 10px; /* Keeps buttons aligned */
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #EA4EED 0%, #852C87 100%);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#editTeacherForm .update {
+    margin-left: 10px; /* Keeps buttons aligned */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(90deg, #EA4EED 0%, #852C87 100%);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+#editTeacherForm .cancel {
+    margin-left: 10px; /* Keeps buttons aligned */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 40px;
+    background: #f9f9f9;
+    color: black;
+    font-size: 14px;
+    cursor: pointer;
+    border: 2px solid #EA4EED;
+    transition: 0.3s ease-in-out;;
+}
+
+#editTeacherForm button:hover {
+    background: #EA4EED;
+}
+
+#editTeacherForm .edit-icon{
+            width: 30px; /* Adjust size as needed */
+            height: 30px;
+            object-fit: cover;
+}
     </style>
 </head>
 <body>
-    <h1>Teachers List</h1>
+
+    <div class="desktop">
+        <!-- Insert Brand Name -->
+        <div class="brand-name">Learni</div>
+        <!-- Logo Image -->
+         <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+         <!-- Background Element -->
+          <div class="logo-bg"></div>
+          <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-16">
+          <img src="/images/ellipse-17.png" alt="Ellipse Shape" class="ellipse-17">
+
+
+
+        <div class="rectangle">
+            <h2>View/Manage Teachers</h2>
 
     <% if (teachers && teachers.length > 0) { %>
+        <div class="table-container">
         <table border="1">
             <thead>
                 <tr>
                     <th>Teacher Name</th>
-                    <th>Email</th>
+                    <th>Email ID</th>
                     <th>Subjects</th>
                 </tr>
             </thead>
@@ -42,11 +344,13 @@
         </table>
 
         <br>
-        <button onclick="openEditForm()">Edit a Teacher</button>
+        <button onclick="openEditForm()" class="edit-button">Edit a Teacher</button>
+    </div>
 
         <div id="editTeacherForm">
-            <h2>Edit Teacher</h2>
-            <label for="teacherSelect">Select a Teacher:</label>
+            <h2><img src="/images/editicon.png" alt="Edit Icon" class="edit-icon"> Edit Teacher</h2>
+            <div class="form-group">
+            <label for="teacherSelect">Select Faculty:</label>
             <select id="teacherSelect" onchange="fillTeacherDetails()">
                 <option value="">-- Select a Teacher --</option>
                 <% teachers.forEach(teacher => { %>
@@ -57,6 +361,7 @@
                     </option>
                 <% }); %>
             </select>
+        </div>
 
             <br><br>
             <!-- Hidden fields to store old values -->
@@ -64,19 +369,27 @@
             <input type="hidden" id="oldTeacherEmail">
             <input type="hidden" id="oldTeacherSubjects">
 
-            <label>Teacher Name:</label>
-            <input type="text" id="teacherName" /><br>
+            <div class="form-group">
+                <label>Faculty Name:</label>
+                <input type="text" id="teacherName" required/>
+            </div>
 
-            <label>Email:</label>
-            <input type="email" id="teacherEmail" /><br>
+            <div class="form-group">
+                <label>Email ID:</label>
+                <input type="email" id="teacherEmail" required />
+            </div>
 
-            <label>Subjects:</label>
-            <input type="text" id="teacherSubjects" /><br>
+            <div class="form-group">
+                <label>Subjects:</label>
+                <input type="text" id="teacherSubjects" required />
+            </div>
 
             <br>
-            <button onclick="updateTeacher()">Update</button>
-            <button onclick="closeEditForm()">Cancel</button>
+            <button onclick="updateTeacher()" class="update">Update</button>
+            <button onclick="closeEditForm()" class="cancel">Cancel</button>
         </div>
+        </div>
+    
 
         <script>
             function openEditForm() {
@@ -146,5 +459,6 @@
     <% } else { %>
         <p>No teachers found.</p>
     <% } %>
+</div>
 </body>
 </html>

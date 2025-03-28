@@ -5,68 +5,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onboarding - Add Teachers</title>
     <style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+         * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        html,
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f9f9f9;
+            margin: 0px;
+            height: 100%;
         }
+        /* a blue color as a generic focus style */  
+        button:focus-visible {
+            outline: 2px solid #4a90e2 !important;
+            outline: -webkit-focus-ring-color auto 5px !important;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        .desktop {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .brand-name {
+            position: absolute;
+            width: 154px;
+            top: 42px;
+            left: 80px;
+            font-family: "Righteous", Helvetica;
+            font-weight: 400;
+            color: rgb(255, 215, 0); /* Gold color */
+            font-size: 24px;
+            letter-spacing: 7.20px;
+            line-height: normal;
+            z-index: 1;
+        }
+        
+        .logo {
+            position: absolute;
+            width: 49px;
+            height: 50px;
+            top: 30px;
+            left: 185px;
+            z-index: 1;
+        }
+        .logo-bg {
+            position: absolute;
+            width: 70px;
+            height: 65px;
+            top: 24px;
+            left: 175px;
+            background-color: #111010f0;
+            border-radius: 100px;
+            z-index: 0;
+        }
+
+
+        .rectangle {
+            position: absolute;
+            width: 100vw; /* More responsive */
+            max-width: 1404px; /* Limit maximum width */
+            height: 476px;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Fully centers */
+            border-radius: 10px;
+            background: linear-gradient(270deg, rgb(153, 153, 153) 0%, rgb(255, 255, 255) 40%);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            /*z-index: -1;  Push to background */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        
         .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
             background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            min-width: 600px;
+            max-width: 800px;
+            max-height: 70%;
+            overflow-y: auto;
+            text-align: center;
+            margin-left: 80px;
+            align-self: center;
+            
         }
+
+        .title {
+            font-size: 40px;
+            font-weight: 400;
+            font-style: normal;
+            font-family: "Nokora", Arial, Helvetica, sans-serif;
+            margin-bottom: 12px;
+            margin-left: 80px;
+            line-height: normal;
+            position: relative;
+            color: #000000;
+        }
+
+        .sub-title {
+            position: relative;
+            margin-left: 80px;
+            font-family: "Nokora", Helvetica;
+            font-weight: 400;
+            font-style: normal;
+            color: #000000;
+            font-size: 32px;
+            text-align: left;
+            letter-spacing: 0;
+            line-height: normal;
+            margin-bottom: 20px;
+        }
+
         h1 {
             color: #333;
         }
+
         .class-section {
             margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
             padding-bottom: 15px;
         }
+
+        .class-section h2 {
+            font-family: 'Nokora', Arial, Helvetica, sans-serif;
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 400;
+            
+        }
+
+        .class-section h3 {
+            font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 400;
+            
+        }
+
         .class-section:last-child {
             border-bottom: none;
         }
+
         .subject-section {
             margin-top: 10px;
         }
+
         .teacher-input-group {
             margin: 10px 0;
         }
+
         .teacher-input-group input {
             width: calc(33% - 10px);
             padding: 8px;
             margin-right: 10px;
             margin-bottom: 5px;
         }
+
         .add-button, .remove-button {
+            font-family: 'MetroPhobic', Arial, Helvetica, sans-serif;
+            font-size: 16px ;
+            font-style: normal;
+            font-weight: 400;
             padding: 8px 15px;
-            background: #4facfe;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
+            background: #ea4eed;
+            color: #000000;
+            border: 2px solid;
+            border-radius: 16px;
+            border-color: #ea4eed;
             cursor: pointer;
         }
+
         .add-button:hover, .remove-button:hover {
-            background: #00f2fe;
+            background: #ff00ff;
+            border-color: #ff00ff;
         }
+
         .submit-button {
             display: block;
             margin: 20px auto;
             padding: 10px 20px;
-            background: #4facfe;
-            color: #fff;
+            background: #fff;
+            color: #000000;
             font-size: 16px;
-            border: none;
-            border-radius: 4px;
+            border: 2px solid;
+            border-color: #ea4eed;
+            border-radius: 12px;
             cursor: pointer;
         }
+
         .submit-button:hover {
-            background: #00f2fe;
+            background: #ff00ff;
+            border-color: #ff00ff;
         }
+
+
+    /*All vectors, polygons, ellipses, checkboxes and lines*/
+
+        .line {
+    position: absolute;
+    width: 143px;
+    height: 1px;
+    top: 47.5px;
+    left: 368px;
+    object-fit: cover;
+}
+
+.check-box {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 378px;
+}
+
+.check-box-2 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 411px;
+}
+
+.check-box-3 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 444px;
+}
+
+.check-box-4 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 477px;
+}
+
+.polygon {
+    position: absolute;
+    width: 905px;
+    height: 789px;
+    top: 0;
+    left: 584px;
+    z-index: -1; /* Sends polygon behind other elements */
+  }
+
+  .ellipse-16 {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 95px;
+    left: 991px;
+    z-index: 0; /* Ensures the ellipse stays behind the form */
+  }
+
+  .ellipse-17 {
+    position: absolute;
+    width: 218px;
+    height: 252px;
+    top: 537px;
+    left: 1270px;
+    z-index: 0; /* Ensures the image stays behind the form */
+}
+
+
     </style>
     <script>
         function addTeacherField(subjectId) {
@@ -87,8 +304,41 @@
     </script>
 </head>
 <body>
+    
+    <div class="desktop">
+
+    <!-- Insert Brand Name -->
+    <div class="brand-name">Learni</div>
+    <!-- Logo Image -->
+    <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+    <!-- Background Element -->
+    <div class="logo-bg"></div>
+
+    <!-- Ellipse Image Below the Form -->
+    <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-16">
+
+    <!-- Ellipse Image Positioned as per CSS -->
+    <img src="/images/ellipse-17.png" alt="Ellipse Shape" class="ellipse-17">
+
+    <!-- Polygon Image Below the Form -->
+    <img src="/images/polygon_r.png" alt="Polygon Shape" class="polygon">
+    
+    <div class="rectangle">
+
+        <div class="title">Step 3 of 4</div>
+
+        <!-- Line before checkboxes -->
+        <img src="/images/line-5.png" alt="Line" class="line">
+
+        <!-- Checkbox Images -->
+         <img src="/images/selected-checkbox.png" alt=" Selected-Checkbox" class="check-box">
+         <img src="/images/selected-checkbox.png" alt="Checkbox" class="check-box-2">
+         <img src="/images/selected-checkbox.png" alt="Checkbox" class="check-box-3">
+         <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-4">
+
+        <div class="sub-title">Add Teachers :</div> <!-- New subtitle added -->
+
     <div class="container">
-        <h1>Add Teachers</h1>
         <form action="4" method="POST">
             <input type="hidden" name="name" value="<%= name %>">
             <% Object.keys(subjects).forEach(className => { %>
@@ -107,6 +357,8 @@
             <% }); %>
             <button type="submit" class="submit-button">Submit</button>
         </form>
+      </div>
     </div>
+</div>
 </body>
 </html>
