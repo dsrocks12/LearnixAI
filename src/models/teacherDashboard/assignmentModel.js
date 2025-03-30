@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
 const assignmentSchema = new mongoose.Schema({
-    teacherEmail: { type: String, required: true },
-    teacherName: { type: String, required: true },
     classNumber: { type: String, required: true },
     subject: { type: String, required: true },
     title: { type: String, required: true },

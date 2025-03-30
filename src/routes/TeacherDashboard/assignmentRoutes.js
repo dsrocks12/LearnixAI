@@ -5,7 +5,8 @@ const {
   getNewAssignmentForm,
   createAssignment,
   getEditAssignmentForm,
-  updateAssignment
+  updateAssignment,
+  deleteAssignment
 } = require("../../controllers/teacherDashboard/assignmentController");
 
 const router = express.Router();
@@ -33,5 +34,8 @@ router.get("/edit/:id", getEditAssignmentForm);
 
 // Route to update an assignment
 router.post("/update/:id", upload.single("file"), updateAssignment);
+
+router.post("/delete/:id", deleteAssignment);
+
 
 module.exports = router;

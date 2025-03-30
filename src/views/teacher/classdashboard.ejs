@@ -346,16 +346,31 @@ select:hover {
             <h3>📝 Assignments</h3>
             <a id="createAssignment" href="#" class="btn btn-primary">Create Assignment</a>
             <div class="content-box">
-            <% if (assignments.length === 0) { %>
-                <p>No assignments posted.</p>
-            <% } else { %>
-                <% assignments.forEach(assignment => { %>
-                    <div class="assignment-item">
-                        <strong><%= assignment.title %></strong> - Due: <%= new Date(assignment.dueDate).toLocaleDateString() %>
-                    </div>
-                <% }) %>
-            <% } %>
+                <% if (assignments.length === 0) { %>
+                    <p>No assignments posted.</p>
+                <% } else { %>
+                    <% assignments.forEach(assignment => { %>
+                        <div class="assignment-item">
+                            <strong><%= assignment.title %></strong> - Due: <%= new Date(assignment.dueDate).toLocaleDateString() %>
+        
+                            <!-- Edit Button -->
+                            <a href="/teacher/dashboard/assignment/edit/<%= assignment._id %>" class="btn" style="background-color: #C622CA; color: white;"> ✏️ Edit</a>
+
+        
+                            <!-- Delete Button -->
+                               <!-- Delete Button with Form to Ensure POST Request -->
+                            <form action="/teacher/assignment/delete/<%= assignment._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this assignment?');">
+                                🗑️ Delete
+                              </button>
+                              </form>
+
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
         </div>
+        
         <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
     </div>
 

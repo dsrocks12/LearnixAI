@@ -5,7 +5,7 @@ const router = express.Router();
 const { getStudentDashboard } = require("../controllers/student/studentDashboardController"); 
 const { getStudentClassDashboard } = require("../controllers/student/studentClassController");
 
-console.log("🛠️ Imported getStudentDashboard:", typeof getStudentDashboard);
+console.log(" Imported getStudentDashboard:", typeof getStudentDashboard);
 
 if (typeof getStudentDashboard !== "function") {
     throw new Error(" getStudentDashboard is not a function. Check its export in studentDashboardController.js.");

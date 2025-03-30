@@ -8,7 +8,7 @@ const getClassDashboard = async (req, res) => {
         let { classNumber, subjectName } = req.params;
         const { email } = req.query; 
 
-        console.log(`📩 Fetching data for Class ${classNumber}, Subject: ${subjectName || "N/A"}, Teacher Email: ${email || "N/A"}`);
+       // console.log(`📩 Fetching data for Class ${classNumber}, Subject: ${subjectName || "N/A"}, Teacher Email: ${email || "N/A"}`);
 
       
         if (!subjectName) {
@@ -22,7 +22,7 @@ const getClassDashboard = async (req, res) => {
             subjectName = subject.name; 
         }
 
-        const assignments = await Assignment.find({ classNumber, subjectName });
+        const assignments = await Assignment.find({ classNumber, subject:subjectName });
         const announcements = await Announcement.find({ classNumber, subjectName });
         const studyMaterials = await StudyMaterial.find({ classNumber, subjectName });
         const submissions = await Submission.find({ classNumber, subjectName });

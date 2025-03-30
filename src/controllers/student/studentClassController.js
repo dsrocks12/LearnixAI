@@ -26,8 +26,14 @@ const getStudentClassDashboard = async (req, res) => {
         }).sort({ createdAt: -1 });
 
         // Find assignments by subjectId
-        const assignments = await Assignment.find({ subjectId }).sort({ createdAt: -1 });
-
+        const assignments = await Assignment.find({
+            classNumber: formattedClassNumber,  
+            subject: { $regex: new RegExp(`^${subjectName}$`, "i") }  
+        }).sort({ createdAt: -1 });
+        
+        
+        console.log("Fetched Assignments:", assignments); // Debugging Line
+        
         // Find study materials using classNumber and subjectName filter
         const studyMaterials = await StudyMaterial.find({
             classNumber: formattedClassNumber,

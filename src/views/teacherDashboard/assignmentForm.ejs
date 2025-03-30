@@ -218,93 +218,124 @@ form textarea::placeholder {
 <body>
 
   <div class="desktop">
+    <!-- Brand Name -->
+    <div class="brand-name">Learni</div>
+    <!-- Logo Image -->
+    <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+    <div class="logo-bg"></div>
+    <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
 
-        <!-- Insert Brand Name -->
-        <div class="brand-name">Learni</div>
-        <!-- Logo Image -->
-        <img src="/images/logo.png" alt="LearniX Logo" class="logo">
-        <!-- Background Element -->
-        <div class="logo-bg"></div>
-        <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
-
-  <div class="container">
-      <h2 class= "create-assignment">Create Assignment</h2>
-      <form action="/teacher/assignment/upload" method="POST" enctype="multipart/form-data">
-
+    <div class="container">
+      <h2 class="create-assignment">Create Assignment</h2>
+      <form id="assignmentForm" action="/teacher/assignment/upload" method="POST" enctype="multipart/form-data">
+  
+        <!-- Hidden fields for classNumber and subject -->
+        <input type="hidden" name="classNumber" id="classNumber">
+        <input type="hidden" name="subject" id="subject">
+  
         <div class="buttons d-flex justify-content-end">
           <button type="submit" class="btn btn-primary">Create Assignment</button>
-        </div>        
-
-        <!-- Hidden fields from URL / lookup -->
-        <input type="hidden" name="teacherEmail" value="<%= teacherEmail %>">
-        <input type="hidden" name="teacherName" value="<%= teacherName %>">
-        <input type="hidden" name="classNumber" value="<%= classNumber %>">
-        <input type="hidden" name="subject" value="<%= subject %>">
-        
+        </div>
+  
+        <!-- Manual Entry Fields -->
         <div class="mb-3">
           <label for="title" class="form-label">Title:</label>
-          <input type="text" name="title" id="title"  required placeholder="Enter assignment title...">
+          <input type="text" name="title" id="title" required placeholder="Enter assignment title...">
         </div>
         
         <div class="mb-3">
           <label for="description" class="form-label">Description:</label>
-          <textarea name="description" id="description"  rows="4" required placeholder="Enter assignment description..."></textarea>
+          <textarea name="description" id="description" rows="4" required placeholder="Enter assignment description..."></textarea>
         </div>
         
         <div class="mb-3">
           <label for="dueDate" class="form-label">Due Date:</label>
-          <input type="date" name="dueDate" id="dueDate"  required>
+          <input type="date" name="dueDate" id="dueDate" required>
         </div>
-
+  
         <div class="mb-3">
           <label for="file" class="form-label">Upload File (optional):</label>
-          <input type="file" name="file" id="file" >
+          <input type="file" name="file" id="file">
         </div>
-
+  
         <div class="buttons d-flex justify-content-end">
-          <a href="/teacher/dashboard/class/<%= classNumber %>/<%= subject %>" class="btn btn-secondary">Back</a>
+          <a href="#" id="backButton" class="btn btn-secondary">Back</a>
         </div>
-
+  
       </form>
-  </div>
-
-  <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-left">
-  <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-right">
-
+    </div>
+  
+    <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-left">
+    <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-right">
 </div>
-
+  
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("assignmentForm");
-    
-    form.addEventListener("submit", function (event) {
-      event.preventDefault(); // Prevent default form submission
 
-      // Extract query parameters from current URL
-      const params = new URLSearchParams(window.location.search);
-      const email = params.get("email");
-      const school = params.get("school");
+    if (!form) {
+        console.error("Form not found!");
+        return;
+    }
 
-      // Construct the redirect URL after submission
-      const classNumber = "<%= classNumber %>";
-      const subject = "<%= subject %>";
-      const redirectURL = `/teacher/dashboard/class/${classNumber}/${subject}?email=${encodeURIComponent(email)}&school=${encodeURIComponent(school)}`;
+    // Get the current URL parameters
+    const params = new URLSearchParams(window.location.search);
 
-      // Submit the form using fetch
-      const formData = new FormData(form);
-      fetch(form.action, {
-        method: form.method,
-        body: formData
-      }).then(response => {
-        if (response.ok) {
-          window.location.href = redirectURL; // Redirect on success
-        } else {
-          alert("Error submitting assignment.");
+    // Extract only classNumber and subject
+    const classNumber = params.get("classNumber") || "";
+    const subject = params.get("subject") || "";
+
+    // Remove unwanted parameters (email and school) only if they exist
+    if (params.has("email") || params.has("school")) {
+        params.delete("email");
+        params.delete("school");
+        const newUrl = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+        window.history.replaceState({}, "", newUrl);
+    }
+
+    // Populate hidden input fields
+    const classNumberInput = document.getElementById("classNumber");
+    const subjectInput = document.getElementById("subject");
+
+    if (classNumberInput) classNumberInput.value = classNumber;
+    if (subjectInput) subjectInput.value = subject;
+
+    // Set back button link dynamically
+    const backButton = document.getElementById("backButton");
+    if (backButton) {
+        backButton.href = `/teacher/dashboard/class/${encodeURIComponent(classNumber)}/${encodeURIComponent(subject)}`;
+    }
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                alert("Assignment created successfully!");
+                window.location.href = `/teacher/dashboard/class/${encodeURIComponent(classNumber)}/${encodeURIComponent(subject)}`;
+            } else {
+                console.error("Server Error Response:", data);
+                alert("Error submitting assignment: " + (data.error || "Something went wrong. Check the console for details."));
+            }
+        } catch (error) {
+            console.error("Submission Error:", error);
+            alert("Failed to submit assignment. Please try again.");
         }
-      }).catch(error => console.error("Error:", error));
     });
-  });
+});
+
 </script>
 
+
 </body>
+
 </html>

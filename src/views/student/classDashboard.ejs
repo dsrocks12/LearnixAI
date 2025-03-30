@@ -215,7 +215,8 @@ h3 {
                 
                     <% assignments.forEach(assignment => { %>
                         <div class="assignment-item">
-                        <strong><%= assignment.title %></strong> - Due: <%= assignment.dueDate.toDateString() %>
+                            <strong><%= assignment.title %></strong> - Due: <%= new Date(assignment.dueDate).toLocaleDateString() %>
+
                     </div>
                     <% }) %>
                 
