@@ -147,20 +147,19 @@
 
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const schoolName = urlParams.get("schoolName");
-            
-            if (schoolName) {
-                document.querySelectorAll("button").forEach(button => {
-                    const classNumber = button.getAttribute("data-class-number");
-                    button.onclick = function() {
-                        window.location.href = `/school/students?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
-                        window.location.href = `/school/teachers?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
-                    };
-                });
-            }
+        document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const schoolName = urlParams.get("schoolName");
+
+    if (schoolName) {
+        document.querySelectorAll("button").forEach(button => {
+            const classNumber = button.getAttribute("data-class-number");
+            button.onclick = function () {
+                window.location.href = `/school/teachers?schoolName=${encodeURIComponent(schoolName)}&classNumber=${classNumber}`;
+            };
         });
+    }
+});
     </script>
 </head>
 <body>
@@ -178,15 +177,23 @@
 
     <div class="container">
         <% if (classes && classes.length > 0) { %>
-            <% classes.forEach(classItem => { %>
-                <button data-class-number="<%= classItem.classNumber %>">
-                    <%= classItem.classNumber %>
-                </button>
-            <% }); %>
+            <% 
+            const uniqueClasses = new Set(); 
+            classes.forEach(classItem => {
+                if (!uniqueClasses.has(classItem.classNumber)) {
+                    uniqueClasses.add(classItem.classNumber);
+            %>
+                    <button data-class-number="<%= classItem.classNumber %>">
+                        <%= classItem.classNumber %>
+                    </button>
+            <% 
+                }
+            }); 
+            %>
         <% } else { %>
             <p>No classes found.</p>
         <% } %>
-    </div>
+    </div>    
 </div>
 </div>
 </body>
