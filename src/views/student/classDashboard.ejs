@@ -209,40 +209,67 @@ h3 {
         <div class="section">
             <h3>Assignments</h3>
             <div class="content-box">
-            <% if (assignments.length === 0) { %>
-                <p>No assignments posted.</p>
-            <% } else { %>
-                
+                <% if (assignments.length === 0) { %>
+                    <p>No assignments posted.</p>
+                <% } else { %>
                     <% assignments.forEach(assignment => { %>
                         <div class="assignment-item">
                             <strong><%= assignment.title %></strong> - Due: <%= new Date(assignment.dueDate).toLocaleDateString() %>
-
-                    </div>
+                            <% if (assignment.files && assignment.files.length > 0) { %>
+                                <br>
+                                <a href="<%= assignment.files[0] %>" download class="btn btn-primary btn-sm">
+                                    📥 Download PDF
+                                </a>
+                            <% } %>
+                            <br>
+                            
+                            <!-- Submission Form -->
+                            <form action="/student/dashboard/subject/submit/<%= subjectId %>" method="POST" enctype="multipart/form-data" class="mt-2">
+                                <input type="hidden" name="assignmentId" value="<%= assignment._id %>">
+                                <input type="hidden" name="classNumber" value="<%= assignment.classNumber %>">
+                                <input type="hidden" name="subject" value="<%= assignment.subject %>">
+                                <!-- Remove server-side variable reference for email -->
+                                <input type="hidden" id="emailInput" name="email">
+                                <input type="file" name="submissionFiles" required multiple>
+                                <button type="submit" class="btn btn-success btn-sm">📤 Submit</button>
+                            </form>
+                            
+                            
+                            
+                        </div>
                     <% }) %>
-                
-            <% } %>
+                <% } %>
+            </div>
         </div>
-        <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
-        </div>
-
         
         <div class="section">
             <h3>Study Materials</h3>
             <div class="content-box">
-            <% if (studyMaterials.length === 0) { %>
-                <p>No study materials uploaded.</p>
-            <% } else { %>
-                
+                <% if (studyMaterials.length === 0) { %>
+                    <p>No study materials uploaded.</p>
+                <% } else { %>
                     <% studyMaterials.forEach(material => { %>
-                    <div class="material-item">
-                        <a href="<%= material.fileUrl %>" target="_blank"><%= material.title %></a>
-                    </div>
+                        <div class="material-item">
+                            <a href="<%= material.fileUrl %>" target="_blank">
+                                <%= material.title %>
+                            </a>
+                            <a href="<%= material.fileUrl %>" download class="btn btn-primary btn-sm">
+                                📥 Download PDF
+                            </a>
+                        </div>
                     <% }) %>
-                
-            <% } %>
+                <% } %>
+            </div>
         </div>
-        </div>
-    
-    </div>
+        <script>
+            // Split the pathname into parts
+            const pathParts = window.location.pathname.split('/');
+            // The email should be the last part of the path
+            const emailFromUrl = pathParts[pathParts.length - 1];
+            // Set the hidden input's value to the extracted email
+            document.getElementById('emailInput').value = emailFromUrl;
+          </script>
+          
+        
 </body>
 </html>

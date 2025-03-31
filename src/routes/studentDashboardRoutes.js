@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-
+const multer  = require('multer');
 
 const { getStudentDashboard } = require("../controllers/student/studentDashboardController"); 
-const { getStudentClassDashboard } = require("../controllers/student/studentClassController");
+const { getStudentClassDashboard,postAssignment } = require("../controllers/student/studentClassController");
 
+const upload = multer({ dest: 'uploads/' });
 console.log(" Imported getStudentDashboard:", typeof getStudentDashboard);
 
 if (typeof getStudentDashboard !== "function") {
@@ -21,7 +22,9 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-router.get("/subject/:subjectId", getStudentClassDashboard);
+router.get("/subject/:subjectId/:emailId", getStudentClassDashboard);
+router.post("/subject/submit/:subjectId",upload.array('submissionFiles'),postAssignment);    
 console.log(" Student Dashboard Router Loaded Successfully");
+
 
 module.exports = router;

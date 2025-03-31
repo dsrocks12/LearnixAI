@@ -25,9 +25,9 @@ const getClassDashboard = async (req, res) => {
         const assignments = await Assignment.find({ classNumber, subject:subjectName });
         const announcements = await Announcement.find({ classNumber, subjectName });
         const studyMaterials = await StudyMaterial.find({ classNumber, subjectName });
-        const submissions = await Submission.find({ classNumber, subjectName });
+        const submissions = await Submission.find({ classNumber, subject: subjectName });
 
-       
+       console.log(submissions)
         return res.render("teacher/classDashboard", {
             classNumber,
             subjectName,

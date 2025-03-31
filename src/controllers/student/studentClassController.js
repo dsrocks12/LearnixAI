@@ -2,6 +2,9 @@ const Assignment = require("../../models/teacherDashboard/assignmentModel");
 const Announcement = require("../../models/teacherDashboard/announcementModel");
 const StudyMaterial = require("../../models/teacherDashboard/studyMaterialModel");
 const Subject = require("../../models/school/subjectModel");
+const Submission = require("../../models/teacherDashboard/submissionModel");
+const Class = require('../../models/school/classModel');
+const mongoose = require('mongoose');
 
 const getStudentClassDashboard = async (req, res) => {
     try {
@@ -41,6 +44,7 @@ const getStudentClassDashboard = async (req, res) => {
         }).sort({ createdAt: -1 });
 
         return res.render("student/classDashboard", {
+            subjectId,
             subjectName,
             teacherName,
             announcements,
@@ -52,5 +56,69 @@ const getStudentClassDashboard = async (req, res) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+const postAssignment = async (req, res) => {
+    try {
+        console.log(req.body);
+        // Step 1: Extract subjectId from URL
+        const subjectId = req.params.subjectId; // Assuming subjectId is passed as a URL param
+        const studentEmail = req.body.email;
+        console.log("Subject ID:", subjectId);
+        if (!mongoose.Types.ObjectId.isValid(subjectId)) {
+            console.log(subjectId);
+            return res.status(400).json({ message: "Invalid subject ID" });
+        }
 
-module.exports = { getStudentClassDashboard };
+        // Step 2: Fetch schoolName and classNumber from the Subject model
+        const subject = await Subject.findById(subjectId);
+        if (!subject) {
+            return res.status(404).json({ message: "Subject not found" });
+        }
+        const { schoolName, classNumber } = subject;
+
+        // Step 3: Find the class with the same schoolName and classNumber
+        const classData = await Class.findOne({ schoolName, classNumber });
+        if (!classData) {
+            return res.status(404).json({ message: "Class not found" });
+        }
+        
+        // Step 4: Fetch student details (assuming student's email is from authenticated session)
+        console.log("Student Email:", studentEmail);
+        const student = classData.studentDetails.find(s => s.email === studentEmail);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found in class" });
+        }
+        const studentName = student.studentName;
+
+        // Format classNumber: if it's "Class 1", extract "1"
+        const formattedClassNumber = classNumber.replace(/^Class\s*/i, '');
+        console.log("Formatted Class Number:", formattedClassNumber);
+
+        // Step 5: Handle file upload
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: "No files uploaded" });
+        }
+        // Store file paths (Assuming req.files is populated by multer middleware)
+        const submissionFiles = req.files.map(file => file.path);
+
+        // Step 6: Save submission to database with formattedClassNumber
+        const newSubmission = new Submission({
+            assignmentId: req.body.assignmentId,  // Assuming assignmentId is sent in form data
+            studentEmail,
+            studentName,
+            classNumber: formattedClassNumber,
+            subject: subject.name,
+            submissionFiles
+        });
+
+        await newSubmission.save();
+
+        // Step 7: Send success response
+        res.status(200).json({ message: "Assignment submitted successfully!" });
+
+    } catch (error) {
+        console.error("Error submitting assignment:", error);
+        res.status(500).json({ message: "Error submitting assignment" });
+    }
+};
+
+module.exports = { getStudentClassDashboard, postAssignment };

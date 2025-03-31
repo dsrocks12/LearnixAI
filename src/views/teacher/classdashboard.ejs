@@ -373,25 +373,36 @@ select:hover {
         
         <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
     </div>
-
-        <!-- Study Materials Section -->
-        <div class="section">
-            <h3>📚 Study Materials</h3>
-            <a id="uploadMaterial" href="/teacher/studyMaterial/new?classNumber=<%= classNumber %>&subjectName=<%= subjectName %>" class="btn btn-primary">Upload Material</a>
-            <div class="content-box">
-            <% if (studyMaterials.length === 0) { %>
-                <p>No study materials uploaded.</p>
+     <!-- Submissions Section -->
+     <div class="section">
+        <h3>📩 Submissions</h3>
+        <div class="content-box">
+            <% if (submissions.length === 0) { %>
+                <p>No submissions received.</p>
             <% } else { %>
-                <% studyMaterials.forEach(material => { %>
-                    <div class="material-item">
-                        <a href="<%= material.fileUrl %>" target="_blank"><%= material.title %></a>
-                        <button onclick="confirmDeleteMaterial('<%= material._id %>')" class="btn btn-danger btn-sm">🗑 Delete</button>
+                <% submissions.forEach(submission => { %>
+                    <div class="submission-item">
+                        <p>
+                            <strong>Student:</strong> <%= submission.studentName %> (<%= submission.studentEmail %>)<br>
+                            <strong>Assignment ID:</strong> <%= submission.assignmentId %><br>
+                            <strong>Subject:</strong> <%= submission.subject %><br>
+                            <strong>Submitted on:</strong> <%= new Date(submission.createdAt).toLocaleString() %><br>
+                            <strong>Files:</strong>
+                        </p>
+                        <ul>
+                            <% submission.submissionFiles.forEach(file => { %>
+                                <li>
+                                    <a href="/<%= file %>" target="_blank">
+                                        <%= file.split('/').pop() %>
+                                    </a>
+                                </li>
+                            <% }); %>
+                        </ul>
                     </div>
-                <% }) %>
+                <% }); %>
             <% } %>
         </div>
-        </div>
-
+    </div>
         <script>
             function confirmDeleteMaterial(materialId) {
                 if (confirm("Are you sure you want to delete this study material?")) {
@@ -406,21 +417,6 @@ select:hover {
             }
         </script>
 
-        <!-- Submissions Section -->
-        <div class="section">
-            <h3>📩 Submissions</h3>
-            <div class="content-box">
-            <% if (submissions.length === 0) { %>
-                <p>No submissions received.</p>
-            <% } else { %>
-                <% submissions.forEach(submission => { %>
-                    <div class="submission-item">
-                        <%= submission.studentEmail %> submitted <strong><%= submission.assignmentTitle %></strong>
-                    </div>
-                <% }) %>
-            <% } %>
-        </div>
-    </div>
-</div>
+
 </body>
 </html>
