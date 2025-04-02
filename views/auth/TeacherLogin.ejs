@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Login</title>
+    <link rel="stylesheet" href="/css/teacherlogin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <img  src="/images/teacher_banner4.png" alt="teacher_vector_image" class="banner">
+            <h2>
+                <span class="bold-text">Welcome to,</span> <br>
+                <span class="light-text">Teacher portal</span>
+            </h2>            
+            
+        </div>
+
+        <div class="right-section">
+            <!-- Login form -->
+            <div class="login-card">
+                <div class="div-log">Teacher Login</div>
+                
+                <!--Login form-->
+                <form id="teacherForm">
+                    <div class="div-form-group">
+                        
+                        <select id="schoolDropdown" name="school" required>
+                            <option value="">Select Your School</option>
+                        </select>
+                        <p id="loading" class="loading"></p>
+                    </div>
+                    
+                    <div class="div-form-group">
+                        <label for="email" class="text-wrapper-2">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="div-form-group-2">
+                        <label for="password" class="text-wrapper-3">Password:</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" id="loginButton" class="div-wrapper">
+                        <div class="text-wrapper-4">Login</div>
+                    </button>
+                </form>
+                
+                <div class="message" id="message"></div>
+                <div class="ellipse-2"></div>
+              </div>
+            
+      </div>
+    </div>
+
+    <script>
+        async function fetchSchools() {
+            const schoolDropdown = document.getElementById("schoolDropdown");
+            const messageBox = document.getElementById("message");
+            const loadingText = document.getElementById("loading");
+    
+            schoolDropdown.innerHTML = '<option value="">Loading schools...</option>';
+            loadingText.innerText = "Fetching schools...";
+    
+            try {
+                console.log("➡️ Fetching schools from backend...");
+                const response = await fetch("http://localhost:16000/school/api/schools");
+     
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                if (!data || !Array.isArray(data.schools) || data.schools.length === 0) {
+                    throw new Error("No schools found in response.");
+                }
+    
+                loadingText.innerText = "";
+                schoolDropdown.innerHTML = '<option value="">Select Your School</option>';
+    
+                data.schools.forEach(school => {
+                    const option = document.createElement("option");
+                    option.value = `${school.name}|${school.region}`;  // Store both values
+                    option.textContent = `${school.name} (${school.region})`;
+                    schoolDropdown.appendChild(option);
+                });
+    
+            } catch (error) {
+                console.error("❌ Error fetching schools:", error);
+                messageBox.innerText = `Failed to load schools: ${error.message}`;
+                schoolDropdown.innerHTML = '<option value="">Error loading schools</option>';
+            }
+        }
+    
+        async function loginTeacher(event) {
+            event.preventDefault();
+            const schoolName = document.getElementById("schoolDropdown").value.split("|")[0];
+            const region = document.getElementById("schoolDropdown").value.split("|")[1];
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            
+            // Combine schoolName and region into selectedSchool
+            const selectedSchool = `${schoolName}|${region}`;
+            
+            // Debug: Log the form data
+            console.log("Form Data:", { selectedSchool, email, password });
+    
+    if (!selectedSchool || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+    
+    const loginButton = document.getElementById("loginButton");
+    loginButton.disabled = true;
+    loginButton.innerText = "Logging in...";
+    
+    try {
+        const response = await fetch("http://localhost:16000/teacher/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ selectedSchool, email, password }),
+        });
+    
+        const data = await response.json();
+        console.log("Server Response:", data);
+    
+        if (response.ok) {
+            window.location.href = data.redirect;
+        } else {
+            alert(data.message || "Login failed.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Server error. Please try again later.");
+    } finally {
+        loginButton.disabled = false;
+        loginButton.innerText = "Login";
+    }
+    }
+    
+        window.onload = fetchSchools;
+        document.getElementById("teacherForm").addEventListener("submit", loginTeacher);
+    </script>
+</body>
+</html>

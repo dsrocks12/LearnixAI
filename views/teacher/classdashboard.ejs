@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class <%= classNumber %> Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        function confirmDelete(announcementId) {
+            if (confirm("Are you sure you want to delete this announcement?")) {
+                fetch(`/teacher/announcement/delete/${announcementId}`, { method: 'POST' })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Announcement deleted successfully");
+                        window.location.href = window.location.href; // Refresh page
+                    })
+                    .catch(error => alert("❌ Error deleting announcement"));
+            }
+        }
+
+        //Create New Announcements
+        function handleSelection() {
+        let selectedValue = document.getElementById("announcementOptions").value;
+
+        if (selectedValue === "post") {
+            window.location.href = "/teacher/announcement/new?classNumber=<%= classNumber %>&subjectName=<%= subjectName %>";
+        }
+        
+        // Reset dropdown after selection
+        document.getElementById("announcementOptions").selectedIndex = 0;
+    }
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param) || "";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const email = getQueryParam("email");
+            const schoolName = getQueryParam("school");
+
+            // Update the "Create Assignment" link dynamically
+            const assignmentLink = document.getElementById("createAssignment");
+            if (assignmentLink) {
+                const baseUrl = `/teacher/assignment/new?classNumber=<%= classNumber %>&subject=<%= subjectName %>`;
+                assignmentLink.href = `${baseUrl}&email=${encodeURIComponent(email)}&school=${encodeURIComponent(schoolName)}`;
+            }
+        });
+    </script>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Metrophobic&family=Righteous&display=swap'); 
+
+        body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Brand Elements */
+.brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 80px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.2px;
+    line-height: normal;
+}
+
+.logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+}
+
+.logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: -1;
+}
+
+.ellipse-top {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: -90px;
+    left: 1100px;
+}
+
+.ellipse-left {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: 97vh;
+    left: -90px;
+    z-index: -1;
+}
+
+.ellipse-right {
+    position: absolute;
+    width: 290px;
+    height: 249px;
+    top: 106vh;
+    left: 1150px;
+    z-index: -1;
+}
+
+.ellipse-mid {
+    position: absolute;
+    left: 380px;
+    width: 290px;
+    height: 249px;
+    top: 200vh;
+    z-index: -1;
+}
+
+/* Content Wrapper */
+.all-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.section {
+    width: 90%;
+    max-width: 1195px;
+    align-items: center;
+    margin-top: 80px;
+}
+
+
+/* Section Styling */
+.content-box {
+    padding: 20px;
+    max-width: 1195px;
+    background: transparent;
+    border: 3px solid #ab11ae;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+h3 {
+    font-size: 40px;
+    font-family: 'Metrophobic', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    max-width: 800px;
+    width: 90%;
+    margin-bottom: 20px; /* Reduced space */
+    text-align: left; /* Align text to the left */
+    padding-left: 0px; /* Align with content inside .content-box */
+}
+
+select:hover {
+    background: linear-gradient(90deg, #6A246B 0%, #EA4EED 100%) ;
+}
+
+
+/* Buttons */
+
+
+.btn-danger {
+    font-family: 'Metrophobic',Arial, Helvetica, sans-serif;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-secondary {
+    font-family: 'Metrophobic',Arial, Helvetica, sans-serif;
+    font-style: normal;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.btn-primary { background: linear-gradient(90deg,#EA4EED 0%, #6A246B 100%); }
+.btn-danger { color: black;background-color: #FFF; border: 2px solid #C622CA;}
+.btn-secondary { background-color: #C622CA; }
+
+.btn-primary:hover { background-color: #6A246B; }
+.btn-danger:hover { border: 1px solid; border-color: #C622CA; background-color: #FDF9FF; color: #000; }
+.btn-secondary:hover { background-color: #6A246B; }
+
+/* Individual Items */
+.announcement-item, .assignment-item, .material-item, .submission-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#FDF9FF 0%, #9B8CA0 97%);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25); /* Optional shadow */
+}
+
+/* Timestamp */
+.timestamp {
+    font-size: 0.9rem;
+    color: gray;
+    margin-top: 5px;
+}
+
+.announcement-dropdown {
+    font-family: 'Metrophobic',sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        background: linear-gradient(90deg, #EA4EED 0%, #64246B 100%);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 30px;
+        width: auto;
+        text-align: center;
+        padding: 8px 10px;
+        
+    }
+
+    .announcement-dropdown option.default-option {
+        color: white !important;
+        background: linear-gradient(90deg, #EA4EED 0%, #64246B 100%) !important;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Styling for other options */
+    .announcement-dropdown option {
+        color: black;
+        background: white;
+        font-weight: normal;
+        text-align: center;
+    }
+
+    .btn-primary {
+    font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #EA4EED 0%, #64246B 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    width: auto;
+    text-align: center;
+    padding: 8px 10px;
+}
+
+#uploadMaterial{
+    font-family: 'Metrophobic', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #EA4EED 0%, #64246B 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    width: auto;
+    text-align: center;
+    padding: 8px 10px;
+}
+
+.material-item {
+    display: flex; /* Use flexbox layout */
+    justify-content: space-between; /* Space between title/link and button */
+    align-items: center; /* Vertically align the items (optional) */
+}
+
+.material-item .btn-danger {
+    margin-left: auto;
+    background-color: #FFF; /* Red background color */
+    color: black; /* White text */
+    padding: 6px 12px; /* Padding for better button size */
+    font-size: 14px; /* Font size */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+    </style>
+</head>
+<body>
+
+        <!-- Brand Name, Logo, and Background Elements -->
+        <div class="brand-name">Learni</div>
+        <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+        <div class="logo-bg"></div>
+        <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
+    
+    <div class="all-content">
+
+        <!-- Announcements Section -->
+        <div class="section">
+            <h3>Announcements</h3>
+            <select id="announcementOptions" class="announcement-dropdown" onchange="handleSelection()">
+                <option value="" selected disabled class="default-option">Create New</option>
+                <option value="record">🎙️Record</option>
+                <option value="post">✒️Post</option>
+                <option value="generate">✨Generate</option>
+            </select>
+            <div class="content-box">
+                <% if (announcements.length === 0) { %>
+                    <p>No announcements yet.</p>
+                <% } else { %>
+                    <% announcements.forEach(announcement => { %>
+                        <div class="announcement-item">
+                            <strong><%= announcement.title %></strong>: <%= announcement.message %>
+                            <div class="timestamp">🕒 Posted on: <%= new Date(announcement.createdAt).toLocaleString() %></div>
+                            <br>
+                            <a href="/teacher/announcement/edit/<%= announcement._id %>" class="btn btn-secondary btn-sm">✏️ Edit</a>
+                            <button onclick="confirmDelete('<%= announcement._id %>')" class="btn btn-danger btn-sm">🗑 Delete</button>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-left">
+        <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-right">
+        </div>
+
+        <!-- Assignments Section -->
+        <div class="section">
+            <h3>📝 Assignments</h3>
+            <a id="createAssignment" href="#" class="btn btn-primary">Create Assignment</a>
+            <div class="content-box">
+                <% if (assignments.length === 0) { %>
+                    <p>No assignments posted.</p>
+                <% } else { %>
+                    <% assignments.forEach(assignment => { %>
+                        <div class="assignment-item">
+                            <strong><%= assignment.title %></strong> - Due: <%= new Date(assignment.dueDate).toLocaleDateString() %>
+        
+                            <!-- Edit Button -->
+                            <a href="/teacher/dashboard/assignment/edit/<%= assignment._id %>" class="btn" style="background-color: #C622CA; color: white;"> ✏️ Edit</a>
+
+        
+                            <!-- Delete Button -->
+                               <!-- Delete Button with Form to Ensure POST Request -->
+                            <form action="/teacher/assignment/delete/<%= assignment._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this assignment?');">
+                                🗑️ Delete
+                              </button>
+                              </form>
+
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+        </div>
+        
+        <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
+    </div>
+     <!-- Submissions Section -->
+     <div class="section">
+        <h3>📩 Submissions</h3>
+        <div class="content-box">
+            <% if (submissions.length === 0) { %>
+                <p>No submissions received.</p>
+            <% } else { %>
+                <% submissions.forEach(submission => { %>
+                    <div class="submission-item">
+                        <p>
+                            <strong>Student:</strong> <%= submission.studentName %> (<%= submission.studentEmail %>)<br>
+                            <strong>Assignment ID:</strong> <%= submission.assignmentId %><br>
+                            <strong>Subject:</strong> <%= submission.subject %><br>
+                            <strong>Submitted on:</strong> <%= new Date(submission.createdAt).toLocaleString() %><br>
+                            <strong>Files:</strong>
+                        </p>
+                        <ul>
+                            <% submission.submissionFiles.forEach(file => { %>
+                                <li>
+                                    <a href="/<%= file %>" target="_blank">
+                                        <%= file.split('/').pop() %>
+                                    </a>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+        <script>
+            function confirmDeleteMaterial(materialId) {
+                if (confirm("Are you sure you want to delete this study material?")) {
+                    fetch(`/teacher/studyMaterial/delete/${materialId}`, { method: 'POST' })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert("✅ Study Material deleted successfully");
+                            window.location.reload();
+                        })
+                        .catch(error => alert("❌ Error deleting study material"));
+                }
+            }
+        </script>
+
+
+</body>
+</html>

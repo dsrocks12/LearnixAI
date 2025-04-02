@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+     @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+     @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+     @import url('https://fonts.googleapis.com/css2?family=Metrophobic&family=Nokora:wght@100;300;400;700;900&family=Righteous&display=swap');
+
+
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .desktop {
+            position: relative;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 62px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+    z-index: 1;
+  }
+
+  .logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+    z-index: 1;
+  }
+
+  .logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: 0;
+  }
+
+  .ellipse-top {
+    position: absolute;
+    width: 307px;
+    height: 290px;
+    top: -70px;
+    left: 1100px;
+    z-index: -1;
+}
+
+.ellipse-17 {
+    position: absolute;
+    width: 218px;
+    height: 252px;
+    top: 537px;
+    left: 1270px;
+    z-index: 0; /* Ensures the image stays behind the form */
+}
+
+  .rectangle {
+            position: absolute;
+            width: 100vw; /* More responsive */
+            max-width: 1404px; /* Limit maximum width */
+            height: 476px;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Fully centers */
+            border-radius: 20px;
+            background: linear-gradient(270deg, #999 0%, #FFF 40%);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            /*z-index: -1;  Push to background */
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-start;
+            align-items:self-start;
+            padding: 20px;
+        }
+
+        .rectangle h2{
+            margin-left: 197px;
+            color: #000;
+            text-align: center;
+            font-family: 'Nokora', Arial, Helvetica, sans-serif;
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            margin-bottom: 20px;
+            margin-top: 0px;
+        }
+
+        .rectangle p{
+            margin-left: 197px;
+            color: #000;
+            font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: normal;
+            text-align: left;
+            margin-top: 0px;
+        }
+
+        .button-container {
+            min-width: 213px ;
+            min-height: 217px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 60px;
+            margin-top: 20px;
+            margin-left: 197px;
+            padding: 10px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .button-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px; /* Space between items */
+        }
+
+        .view-teachers, .view-students {
+            min-height: 217px;
+            min-width: 213px;
+            padding: 10px 20px;
+            gap: 10px;
+            box-shadow: 0px 4px 4px #00000080;
+            background: linear-gradient(90deg, rgba(234, 78, 237, 1) 0%, rgba(133, 44, 135, 1) 100%);
+            color: white;
+            text-align: center;
+            font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 10px;
+        }
+
+        .teacher-icon, .student-icon {
+            width: 69px; /* Adjust size as needed */
+            height: 69px;
+            object-fit: cover;
+        }
+
+        .arrow-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        .styled-button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+        }
+    
+    </style>
+</head>
+<body>
+
+    <div class="desktop>">
+        <!-- Insert Brand Name -->
+        <div class="brand-name">Learni</div>
+        <!-- Logo Image -->
+         <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+         <!-- Background Element -->
+          <div class="logo-bg"></div>
+          <img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-top">
+          <img src="/images/ellipse-17.png" alt="Ellipse Shape" class="ellipse-17">
+
+
+
+          <div class="rectangle">
+            <h2>Completed Onboarding!</h2>
+            <p>You have successfully completed the onboarding process. <br>You can now manage teacher and student profiles by selecting <br> the options below.</p>
+
+            <div class="button-container" id="button-container"></div>
+
+
+          </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const schoolName = urlParams.get('schoolName'); // Extract schoolName from query
+
+        // Ensure schoolName is not null to avoid broken links
+        if (schoolName) {
+            const container = document.getElementById("button-container");
+
+            // Create "View Teachers" button
+            const teacherBtn = document.createElement("button");
+            teacherBtn.innerHTML = `<span class="button-content">
+                <img src="/images/teachericon.png" alt="Teacher Icon" class="teacher-icon">
+                <span>View Teachers</span>
+                <img src="/images/arrow.png" alt="Arrow Icon" class="arrow-icon">
+                </span>`;
+            teacherBtn.onclick = () => location.href = `/school/teachers?schoolName=${encodeURIComponent(schoolName)}`;
+            teacherBtn.classList.add("view-teachers");
+
+            // Create "View Students" button
+            const studentBtn = document.createElement("button");
+            studentBtn.innerHTML = `<span class="button-content">
+                <img src="/images/studenticon.png" alt="Student Icon" class="student-icon">
+                <span>View Students</span>
+                <img src="/images/arrow.png" alt="Arrow Icon" class="arrow-icon">
+                </span>`;
+            studentBtn.onclick = () => location.href = `/school/students?schoolName=${encodeURIComponent(schoolName)}`;
+            studentBtn.classList.add("view-students");
+
+            // Append buttons to container
+            container.appendChild(teacherBtn);
+            container.appendChild(studentBtn);
+        } else {
+            document.getElementById("button-container").innerHTML = "<p class='error-message'>Error: schoolName is missing from the URL.</p>";
+        }
+    </script>
+
+
+</body>
+
+</html>

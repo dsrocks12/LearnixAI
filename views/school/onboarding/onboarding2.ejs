@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Select Subjects</title>
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
+         * {
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+        /* a blue color as a generic focus style */  
+        button:focus-visible {
+            outline: 2px solid #4a90e2 !important;
+            outline: -webkit-focus-ring-color auto 5px !important;
+        }
+        a {
+            text-decoration: none;
+        }
+        
+        .desktop {
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 80px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+    z-index: 1;
+  }
+
+  .logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+    z-index: 1;
+  }
+
+  .logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: 0;
+  }
+
+        .rectangle {
+            position: absolute;
+            width: 100vw; /* More responsive */
+            max-width: 1404px; /* Limit maximum width */
+            height: 476px;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Fully centers */
+            border-radius: 10px;
+            background: linear-gradient(270deg, rgb(153, 153, 153) 0%, rgb(255, 255, 255) 40%);
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            /*z-index: -1;  Push to background */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            min-width: 600px;
+            max-width: 800px;
+            max-height: 70%;
+            overflow-y: auto;
+            text-align: center;
+            margin-left: 80px;
+            align-self: center;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: 400;
+            font-family: "Nokora", Arial, Helvetica, sans-serif;
+            margin-bottom: 12px;
+            font-style: normal;
+            margin-left: 80px;
+            line-height: normal;
+            position: relative;
+            color: #000000;
+        }
+
+        .sub-title {
+            position: relative;
+            margin-left: 80px;
+            font-family: "Nokora", Helvetica;
+            font-weight: 400;
+            color: #000000;
+            font-size: 32px;
+            font-weight: 400;
+            font-style: normal;
+            text-align: left;
+            letter-spacing: 0;
+            line-height: normal;
+            margin-bottom: 20px;
+        }
+
+        .class-section {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .class-section h2 {
+            font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            color: #000000;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .checkbox-group label {
+            font-family: 'Metrophobic', Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            font-weight: 400;
+            line-height: normal;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 30px;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+            border: 3px solid #ea4eed ;
+        }
+        .checkbox-group label:hover {
+            background: #ff00ff;
+            color: #fff;
+            border-color: #ff00ff;
+            transform: translateY(-3px);
+        }
+        .checkbox-group input[type="checkbox"] {
+            display: none;
+        }
+        .checkbox-group input[type="checkbox"]:checked + label {
+            background: #ff00ff;
+            color: #fff;
+            border-color: #ff00ff;
+            font-weight: bold;
+        }
+        .submit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 400;
+            border: 2px solid;
+            border-color: #ea4eed;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .submit-button:hover {
+            background: #ff00ff;
+            border-color: #ff00ff;
+            transform: translateY(-3px);
+        }
+
+        /* All ellipses, checkboxes, vectors and images*/
+
+        .ellipse-16 {
+            position: absolute;
+            width: 307px;
+            height: 290px;
+            top: -60px;
+            left: 675px;
+            z-index: 1;
+        }
+
+        .polygon {
+            position: absolute;
+            width: 905px;
+            height: 789px;
+            top: 0;
+            left: 0px;
+            z-index: -1; /* Sends polygon behind other elements */
+        }
+
+  .ellipse-17 {
+    position: absolute;
+    width: 218px;
+    height: 252px;
+    top: 537px;
+    left: 1270px;
+    z-index: -1; /* Ensures the image stays behind the form */
+    }
+
+    .line {
+    position: absolute;
+    width: 143px;
+    height: 1px;
+    top: 47.5px;
+    left: 368px;
+    object-fit: cover;
+}
+
+.check-box {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 378px;
+}
+
+.check-box-2 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 411px;
+}
+
+.check-box-3 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 444px;
+}
+
+.check-box-4 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 40px;
+  left: 477px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        
+        <!-- Insert Brand Name -->
+         <div class="brand-name">Learni</div>
+         <!-- Logo Image -->
+          <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+          <!-- Background Element -->
+           <div class="logo-bg"></div>
+
+        
+    <div class="rectangle">
+        <div class="title">Step 2 of 4</div>
+
+        <!-- Line before checkboxes -->
+        <img src="/images/line-5.png" alt="Line" class="line">
+
+        <!-- Checkbox Images -->
+         <img src="/images/selected-checkbox.png" alt=" Selected-Checkbox" class="check-box">
+         <img src="/images/selected-checkbox.png" alt="Checkbox" class="check-box-2">
+         <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-3">
+         <img src="/images/checkbox2.png" alt="Checkbox" class="check-box-4">
+
+
+        <div class="sub-title">Add Subjects :</div> <!-- New subtitle added -->
+    <div class="container">
+        <form action="3" method="POST">
+            <!-- Hidden inputs for Name and Selected Classes -->
+            <input type="hidden" name="name"  value="<%= name %>">
+            <input type="hidden" name="selectedClasses" value="<%= JSON.stringify(selectedClasses) %>">
+
+            <% selectedClasses.forEach(className => { %>
+                <div class="class-section">
+                    <h2><%= className %></h2>
+                    <div class="checkbox-group">
+                        <div>
+                            <input type="checkbox" id="<%= className %>-English" name="subjects[<%= className %>][]" value="English">
+                            <label for="<%= className %>-English">English</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Science" name="subjects[<%= className %>][]" value="Science">
+                            <label for="<%= className %>-Science">Science</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Hindi" name="subjects[<%= className %>][]" value="Hindi">
+                            <label for="<%= className %>-Hindi">Hindi</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-SocialScience" name="subjects[<%= className %>][]" value="Social Science">
+                            <label for="<%= className %>-SocialScience">Social Science</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-Maths" name="subjects[<%= className %>][]" value="Maths">
+                            <label for="<%= className %>-Maths">Maths</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="<%= className %>-ComputerScience" name="subjects[<%= className %>][]" value="Computer Science">
+                            <label for="<%= className %>-ComputerScience">Computer Science</label>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!--All ellipses, vectors and images-->
+<img src="/images/polygon_l.png" alt="Polygon Shape" class="polygon">
+<img src="/images/ellipse-16.png" alt="Ellipse Shape" class="ellipse-16">
+<img src="/images/ellipse-17.png" alt="Ellipse Shape" class="ellipse-17">
+</div>
+
+</body>
+</html>

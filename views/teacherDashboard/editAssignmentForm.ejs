@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Assignment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f4f4f4; font-family: Arial, sans-serif; }
+    .container { margin-top: 50px; }
+    .form-container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h2>Edit Assignment</h2>
+      <form action="/teacher/assignment/update/<%= assignment._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Hidden fields -->
+        <input type="hidden" name="teacherEmail" value="<%= assignment.teacherEmail %>">
+        <input type="hidden" name="teacherName" value="<%= assignment.teacherName %>">
+        <input type="hidden" name="classNumber" value="<%= assignment.classNumber %>">
+        <input type="hidden" name="subject" value="<%= assignment.subject %>">
+        
+        <div class="mb-3">
+          <label for="title" class="form-label">Title:</label>
+          <input type="text" name="title" id="title" class="form-control" value="<%= assignment.title %>" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="description" class="form-label">Description:</label>
+          <textarea name="description" id="description" class="form-control" rows="4" required><%= assignment.description %></textarea>
+        </div>
+        
+        <div class="mb-3">
+          <label for="dueDate" class="form-label">Due Date:</label>
+          <input type="date" name="dueDate" id="dueDate" class="form-control" value="<%= assignment.dueDate.toISOString().split('T')[0] %>" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Current Files:</label>
+          <ul>
+            <% if (assignment.files && assignment.files.length > 0) { %>
+              <% assignment.files.forEach(file => { %>
+                <li><a href="<%= file %>" target="_blank"><%= file %></a></li>
+              <% }) %>
+            <% } else { %>
+              <li>No files uploaded.</li>
+            <% } %>
+          </ul>
+        </div>
+
+        <div class="mb-3">
+          <label for="file" class="form-label">Upload New File (optional):</label>
+          <input type="file" name="file" id="file" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Assignment</button>
+        <a href="/teacher/dashboard/class/<%= assignment.classNumber %>/<%= assignment.subject %>" class="btn btn-secondary">Back</a>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

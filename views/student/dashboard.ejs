@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+    
+    @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, rgb(234, 78, 237) 0%, rgb(105, 35, 107) 100%);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    padding: 20px;
+    border-radius: 0px 31px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Brand and Logo Styling */
+.brand-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.brand-name {
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: rgb(255, 215, 0); /* Gold color */
+    font-size: 24px;
+    letter-spacing: 7.20px;
+}
+
+.logo {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    left: -10px;
+}
+
+/* Logo Background */
+.logo-bg {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    background-color: #111010f0;
+    border-radius: 50%;
+    left: 83%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+
+.links{
+    margin-top: 50px;
+}
+
+/* Sidebar Links */
+.sidebar a {
+    font-family: "Metrophobic", Helvetica;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-right: 10px;
+    width: 100%;
+    transition: background 0.3s;
+    border-radius: 5px;
+}
+
+.sidebar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px;
+    }
+
+    .brand-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .logo {
+        margin-left: 0;
+    }
+
+    .sidebar a {
+        justify-content: center;
+    }
+}
+
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        
+        .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.subject-card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 243px;
+    height: 255px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background: none; /* Removes gradient background */
+    border-radius: 5px;
+}
+
+.subject-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.book-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.book-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.subject-details {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    text-align:left;
+    color: white;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px 10px;
+    border-radius: 5px;
+    width: 76%;
+    height: 89px;
+}
+
+
+        .no-subjects {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+
+    /* All href icons are below*/
+    .home{
+        justify-content: flex-start;
+    }
+
+    .home .home_icon{
+        height: 20px;
+        width: 20px;
+    }
+
+    .calendar{
+        justify-content: flex-start;
+    }
+
+    .calendar .calendar_icon{
+        height: 20px;
+        width: 20px;
+    }
+
+    .enrolled{
+        justify-content: flex-start;
+    }
+
+    .enrolled .enrolled_icon{
+        height: 20px;
+        width: 20px;
+    }
+
+    .settings{
+        justify-content: flex-start;
+    }
+
+    .settings .settings_icon{
+        height: 20px;
+        width: 20px;
+    }
+
+    /**/
+    .links div {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: background 0.3s;
+    white-space: nowrap;
+    padding-left: 25px;
+}
+
+.links div:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+.links img {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px; /* Spacing between icon and text */
+}
+
+.title {
+    flex-direction: column;
+    text-align: center;
+    display: flex; /* Aligns text and image in a row */
+    align-items: center; /* Vertically centers elements */
+    gap: 15px; /* Adds spacing between text and GIF */
+}
+
+.title-content {
+    display: flex;
+    align-items: center; /* Aligns GIF and h2 in the same row */
+    gap: 0px; /* Adds spacing between GIF and h2 */
+}
+
+.title h2 {
+    font-family: "Metrophobic";
+    font-size: 32px; /* Adjusts text size */
+    font-weight: 400;
+    line-height: normal;
+    font-style: normal;
+    color: #4a00e0; /* Matches your theme */
+    margin: 0; /* Removes default margin */
+}
+
+.title img {
+    width: 105px; /* Adjust GIF size */
+    height: 93px;
+    mix-blend-mode: multiply;
+}
+
+.title p {
+    font-family: "Metal";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 5px; /* Adds space between h2 and quote */
+    color: #000;
+}
+    
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+            <div class="brand-container">
+                <div class="brand-name">Learni</div>
+                <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+                <div class="logo-bg"></div>
+            </div>
+        
+            <div class="links">
+                <div class="home">
+                    <img src="/images/home.png" alt="home_icon" class="home_icon">
+                    <a href="#">Home</a>
+                </div>
+                <div class="calendar">
+                    <img src="/images/calendar.png" alt="calendar_icon" class="calendar_icon">
+                    <a href="#">LearniX Calendar</a>
+                </div>
+                <div class="enrolled">
+                    <img src="/images/enrolled.png" alt="enrolled_icon" class="enrolled_icon">
+                    <a href="#">Enrolled</a>
+                </div>
+                <div class="settings">
+                    <img src="/images/settings.png" alt="settings_icon" class="settings_icon">
+                    <a href="#"> Settings</a>
+                </div>
+            </div>
+    </div>        
+    
+    <div class="content">
+        <div class="title">
+            <div class="title-content">
+                <img src="/images/robo_gif.gif" alt="robo_gif">
+                <h2>Welcome, <%= student.email %>! 👋</h2>
+            </div>
+            <p><strong>Quote of the Day:</strong> <span id="quote">Loading...</span></p>
+        </div>
+
+        <div>         
+        <p><strong>School:</strong> <%= student.schoolName %></p>
+        <p><strong>Region:</strong> <%= student.region %></p>
+
+        
+        
+        <% const bookImages = ["/images/red_book.jpeg", "/images/blue_book.jpeg", "/images/green_book.jpeg"]; %>
+        <h4>Your Courses</h4>
+        <div class="row">
+            <% if (subjects.length === 0) { %>
+                <div class="no-subjects">No subjects assigned yet.</div>
+            <% } else { %>
+                <% subjects.forEach((subject, index) => { %>
+                    <div class="subject-card" data-subject-id="<%= subject.id %>">
+                        <div class="book-container">
+                            <img src="<%= bookImages[index % bookImages.length] %>" alt="Book Image" class="book-image">
+                            <div class="subject-details">
+                                <h5><%= subject.name %></h5>
+                                <p><%= subject.teacherNames %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+        
+
+    <script>
+        // Random Quote Generator
+        const quotes = [
+            "Education is the most powerful weapon which you can use to change the world.",
+            "Success is not the key to happiness. Happiness is the key to success.",
+            "You become what you think about most of the time.",
+            "The beautiful thing about learning is that no one can take it away from you."
+        ];
+        document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to get query parameter values
+        function getQueryParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
+    
+        // Extract email from URL
+        const emailID = getQueryParam("email");
+    
+        // Update subject card links dynamically
+        document.addEventListener("DOMContentLoaded", function () {
+            if (emailID) {
+                document.querySelectorAll(".subject-card").forEach(card => {
+                    const subjectID = card.getAttribute("data-subject-id");
+                    card.onclick = function () {
+                        window.location.href = `/student/dashboard/subject/${subjectID}/${emailID}`;
+                    };
+                });
+            }
+        });
+    </script>
+
+
+</body>
+</html>

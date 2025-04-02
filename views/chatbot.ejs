@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Tutor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #4b2e83;
+            text-align: center;
+        }
+        
+        .chat-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fafafa;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 16px;
+            line-height: 1.5;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .user-message {
+            background-color: #FFFACD;
+            color: black;
+            border-radius: 18px 18px 0 18px;
+            margin-left: auto;
+        }
+        
+        .assistant-message {
+            background-color: #D8BFD8;
+            color: black;
+            border-radius: 18px 18px 18px 0;
+            margin-right: auto;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #userInput {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        #userInput:focus {
+            border-color: #6a0dad;
+        }
+        
+        #sendButton {
+            padding: 12px 24px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        #sendButton:hover {
+            background-color: #5d0a9b;
+        }
+        
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px;
+        }
+        
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #666;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Professor Minakshi's Science Tutor 🧪</h1>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="message assistant-message">
+                Hi there! I'm Professor Minakshi, your science tutor. What would you like to learn about today?
+            </div>
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Ask me anything about science...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const TEACHER_NAME = "Professor Minakshi";
+        const CONCEPTS_BEFORE_MCQ = 3;
+        const FALLBACK_ANSWERS = {
+            "plant require animals for photosynthesis": 
+                "No, plants don't need animals for photosynthesis. They only need sunlight, carbon dioxide, and water.",
+            "plant require cow's milk for photosynthesis": 
+                "No, plants do not require cow's milk for photosynthesis. They use sunlight, carbon dioxide, and water to produce their own food.",
+            "leichen": 
+                "Lichens are a symbiotic association between a fungus and a chlorophyll-containing partner, such as an alga. The fungus provides shelter, water, and certain nutrients, while the alga provides food through photosynthesis."
+        };
+
+        // Application state
+        const state = {
+            messages: [
+                { role: "assistant", content: `Hi there! I'm ${TEACHER_NAME}, your science tutor. What would you like to learn about today?` }
+            ],
+            conceptCount: 0,
+            recentConcepts: [],
+            waitingForAnswer: false,
+            currentQuestion: null
+        };
+
+        // DOM elements
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Initialize the application
+        function init() {
+            sendButton.addEventListener('click', handleUserInput);
+            userInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleUserInput();
+            });
+        }
+
+        // Handle user input
+        async function handleUserInput() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+            userInput.value = '';
+
+            if (state.waitingForAnswer) {
+                const evaluation = await evaluateAnswer(state.currentQuestion, message);
+                addMessage('assistant', evaluation);
+                state.waitingForAnswer = false;
+                state.currentQuestion = null;
+            } else {
+                showTypingIndicator();
+                const response = await generateResponse(message);
+                removeTypingIndicator();
+                
+                addMessage('assistant', response);
+                state.recentConcepts.push(message);
+                state.conceptCount++;
+
+                if (response.includes('?')) {
+                    const questions = response.split('\n').filter(line => line.includes('?'));
+                    if (questions.length > 0) {
+                        state.waitingForAnswer = true;
+                        state.currentQuestion = questions[questions.length - 1];
+                    }
+                }
+            }
+        }
+
+        // Generate response using actual API call to Python backend
+        async function generateResponse(query) {
+            // First check fallback answers
+            const queryLower = query.toLowerCase().trim();
+            for (const [key, answer] of Object.entries(FALLBACK_ANSWERS)) {
+                if (queryLower.includes(key.toLowerCase())) {
+                    return answer;
+                }
+            }
+
+            try {
+                const response = await fetch('http://localhost:8000/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.answer;
+
+            } catch (error) {
+                console.error('Error fetching response:', error);
+                return "Sorry, I encountered an error while processing your request.";
+            }
+        }
+
+        // Evaluate answer using actual API call to Python backend
+        async function evaluateAnswer(question, userAnswer) {
+            try {
+                const response = await fetch('http://localhost:8000/api/evaluate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        user_answer: userAnswer
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data.evaluation;
+
+            } catch (error) {
+                console.error('Error evaluating answer:', error);
+                return "That's an interesting perspective! Let's explore another topic.";
+            }
+        }
+
+        // Add message to chat
+        function addMessage(role, content) {
+            state.messages.push({ role, content });
+            renderMessages();
+        }
+
+        // Render all messages
+        function renderMessages() {
+            chatContainer.innerHTML = state.messages.map(message => `
+                <div class="message ${message.role}-message">
+                    ${message.content}
+                </div>
+            `).join('');
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant-message typing-indicator';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Remove typing indicator
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

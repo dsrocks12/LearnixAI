@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    height: 100vh; /* Full screen height */
+    background-color:#fff;
+}
+
+
+/* Full Page Container */
+.container {
+    display: flex;
+    height: 100vh;
+    width: 90%;
+    margin: 0 auto;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
+    border-radius: 24px;
+}
+
+/* Left Section (60%) */
+.left-section {
+    width: 60%;
+    background-color: #925FE2;
+    display: flex;
+    justify-content: center;
+    align-items: last baseline;
+    border-radius: 24px 0px 0px 24px; /* Top-left, Top-right, Bottom-right, Bottom-left */
+    position: relative;
+    overflow: hidden;
+    z-index: -2;
+
+}
+
+.left-section .banner{
+    position: absolute;
+    width: 737.33px;
+    height: 528px;
+    z-index: 1;
+}
+
+.left-section h2{
+    position: absolute;
+    top: 80px; 
+    left: 35%; 
+    transform: translateX(-50%);    
+    font-size: 60px;
+    font-family: "Poppins", sans-serif;
+    color: aliceblue;
+    line-height: 0.6;
+    z-index: 1;
+}
+
+.light-text {
+    font-weight: 400; /* Lighter font */
+    letter-spacing: 2px;
+}
+
+/* Bold weight for "Student Portal" */
+.bold-text {
+    font-weight: 800; /* Bold font */
+    display: block; /* Ensures it moves to the next line */
+}
+
+.left-section .topright{
+    position: absolute;
+    right: 0;
+    top: 0px;
+    width: 303.95px;
+    height: 248px;
+}
+
+.left-section .topmid{
+    position: absolute;
+    top: 0px;
+    left: 400px;
+    width: 200.9px;
+    height: 173.56px;
+}
+
+.left-section .left{
+    position: absolute;
+    top: 185px;
+    left: -90px;
+    width: 291.18px;
+    height: 259px;
+}
+
+.left-section .bottomright{
+    position: absolute;
+    width: 759.24px;
+    height:426.96px;
+    bottom: 0px;
+    right: 0px;
+    z-index: -1;
+}
+
+.left-section .bottomleft{
+    position: absolute;
+    width: 270.9px;
+    height: 303.56px;
+    left: 70px;
+    z-index: 0;
+}
+
+/* Right Section (40%) */
+/* 🔹 Right Section */
+.right-section {
+    width: 40%;
+    background-color: aliceblue; /* Matches login card */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 24px 24px 0px;
+    padding: 20px;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+/* 🔹 Login Card - Blended with Right Section */
+.right-section .login-card {
+    width: 400px;
+    background: transparent; /* Removes extra background */
+    color: #000;
+    padding: 30px;
+    border-radius: 0; /* Removes card-like effect */
+    box-shadow: none; /* Removes separation */
+    text-align: center;
+}
+
+/* 🔹 Login Title */
+.login-card .div-log {
+    font-size: 38px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 40px;
+}
+
+/* 🔹 Form Input Groups */
+.login-card .div-form-group,
+.login-card .div-form-group-2 {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+/* 🔹 Labels */
+.login-card .text-wrapper-2,
+.login-card .text-wrapper-3 {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 🔹 Inputs & Dropdown */
+.login-card input,
+.login-card select {
+    margin-top: 5px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    color: #000;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+/* 🔹 Focus Effect */
+.login-card input:focus,
+.login-card select:focus {
+    border: 1px solid #925FE2;
+}
+
+/* 🔹 Loading Text */
+.login-card .loading {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}
+
+/* 🔹 Submit Button */
+.div-wrapper {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 25px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+}
+
+/* 🔹 Button Hover Effect */
+.div-wrapper:hover {
+    background: linear-gradient(90deg, #5a67d8, #6b46c1);
+    transform: scale(1.05);
+}
+
+/* 🔹 Responsive Styles */
+@media (max-width: 768px) {
+    .right-section {
+        width: 100%;
+        border-radius: 0px;
+        padding: 10px;
+    }
+
+    .login-card {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .div-wrapper {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
