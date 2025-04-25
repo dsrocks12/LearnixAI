@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+</head>
+<body>
+    <main>
+        <h2>📅 Create New Event</h2>
+        <form action="/teacher/events/create" method="POST" enctype="multipart/form-data">
+            <!-- Include the classNumber and subjectName as hidden fields or as part of the URL -->
+            <input type="hidden" name="classNumber" value="<%= classNumber %>">
+            <input type="hidden" name="subjectName" value="<%= subjectName %>">
+    
+            <label for="title">Event Title:</label>
+            <input type="text" id="title" name="title" required>
+    
+            <label for="dueDate">Event Date:</label>
+            <input type="datetime-local" id="dueDate" name="dueDate" required>
+    
+            <label for="message">Description:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <!-- File upload field (optional) -->
+            <label for="file">Upload File:</label>
+            <input type="file" name="file" id="file">
+
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        </form>
+    </main>
+</body>
+</html>

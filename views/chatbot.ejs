@@ -6,25 +6,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Science Tutor</title>
     <style>
+        @import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+        @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nokora:wght@100;300;400;700;900&display=swap');
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.50);
+            border-radius: 24px;
+        }
+
+        .brand-name {
+    position: absolute;
+    width: 154px;
+    top: 42px;
+    left: 80px;
+    font-family: "Righteous", Helvetica;
+    font-weight: 400;
+    color: #FFD700;
+    font-size: 24px;
+    letter-spacing: 7.20px;
+    line-height: normal;
+  }
+
+  .logo {
+    position: absolute;
+    width: 49px;
+    height: 50px;
+    top: 30px;
+    left: 185px;
+  }
+
+  .logo-bg {
+    position: absolute;
+    width: 70px;
+    height: 65px;
+    top: 24px;
+    left: 175px;
+    background-color: #111010f0;
+    border-radius: 100px;
+    z-index: -1;
+  }
+
+  .ai-text {
+    position: absolute;
+    top: 72px; /* brand-name top (42px) + font size (~24px) + margin */
+    left: 80px; /* same as brand-name for alignment */
+    color: #FFF;
+    font-family: "Prosto One", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+
+  .star1 {
+    width: 20.6px;
+  }
+
+  .star2 {
+    width: 9.67px;
+  }
+
+        .left-section {
+            width: 40%;
+            background-color: #181717;
+            display: flex;
+            justify-content: center;
+            border-radius: 24px 30px 30px 24px; /* Top-left, Top-right, Bottom-right, Bottom-left */
+            position: relative;
+            overflow: hidden;
+            z-index: -2;
         }
         
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .right-section {
+            width: 60%;
+            background-color: aliceblue; /* Matches login card */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0px 24px 24px 0px;
+            justify-content: space-evenly;
+            height: 100%;
+            overflow-y: hidden;
         }
         
         h1 {
             color: #4b2e83;
             text-align: center;
+            font-size: 36px;
+            font-weight: 700;
         }
         
         .chat-container {
@@ -36,6 +127,11 @@
             border-radius: 10px;
             background-color: #fafafa;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         .message {
             margin-bottom: 15px;
@@ -45,6 +141,7 @@
             font-size: 16px;
             line-height: 1.5;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease forwards;
         }
         
         .user-message {
@@ -129,6 +226,19 @@
 </head>
 <body>
     <div class="container">
+
+        <!-- Insert Brand Name -->
+    <div class="brand-name">Learni</div>
+    <div class="ai-text">AI<img src="/images/star1.png" alt="LearniX Logo" class="star1"><img src="/images/star1.png" alt="LearniX Logo" class="star2"></div>
+    <!-- Logo Image -->
+    <img src="/images/logo.png" alt="LearniX Logo" class="logo">
+    <!-- Background Element -->
+    <div class="logo-bg"></div>
+       <div class="left-section">
+
+       </div>
+
+       <div class="right-section">
         <h1>Professor Minakshi's Science Tutor 🧪</h1>
         
         <div class="chat-container" id="chatContainer">
@@ -141,6 +251,7 @@
             <input type="text" id="userInput" placeholder="Ask me anything about science...">
             <button id="sendButton">Send</button>
         </div>
+       </div>
     </div>
 
     <script>

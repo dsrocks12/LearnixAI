@@ -1,0 +1,35 @@
+<!-- views/teacherDashboard/editEventForm.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Event</title>
+    <style>
+        .form-container { max-width: 600px; margin: 20px auto; }
+        label { display: block; margin: 10px 0 5px; }
+        input, textarea { width: 100%; padding: 8px; }
+        button { margin-top: 10px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Edit Event for <%= subjectName %> (Class <%= classNumber %>)</h1>
+        <form method="POST" action="/teacher/events/update/<%= event._id %>" enctype="multipart/form-data">
+
+            <!--Hidden fields-->
+            <input type="hidden" name="classNumber" value="<%= classNumber %>">
+            <input type="hidden" name="subjectName" value="<%= subjectName %>">
+
+            
+            <label>Title: <input type="text" name="title" value="<%= event.title %>" required></label>
+            <label>Message: <textarea name="message" required><%= event.message %></textarea></label>
+            <label>Due Date: <input type="date" name="dueDate" value="<%= event.dueDate.toISOString().split('T')[0] %>" required></label>
+            <label>Attach New File (optional): <input type="file" name="file"></label>
+            <% if (event.fileUrl) { %>
+                <p>Current File: <a href="<%= event.fileUrl %>" target="_blank">View File</a></p>
+            <% } %>
+            <button type="submit">Update Event</button>
+        </form>
+        <a href="/teacher/dashboard/class/<%= classNumber %>/<%= subjectName %>">Back to Dashboard</a>
+    </div>
+</body>
+</html>

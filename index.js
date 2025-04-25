@@ -14,6 +14,8 @@ const studentDashboardRoutes = require('./routes/studentDashboardRoutes');
 const announcementRoutes = require('./routes/TeacherDashboard/announcementRoutes');
 const assignmentRoutes = require('./routes/TeacherDashboard/assignmentRoutes');
 const materialRoutes = require('./routes/TeacherDashboard/studyMaterialRoutes');
+const eventRoutes = require('./routes/TeacherDashboard/eventRoutes');
+
 // const submissionRoutes = require('./routes/teacher/submissionRoutes');
 
 const app = express();
@@ -53,6 +55,8 @@ app.use('/student', studentRoutes);
 app.use('/teacher/announcement', announcementRoutes);
 app.use('/teacher/assignment', assignmentRoutes);
 app.use('/teacher/studyMaterial', materialRoutes);
+app.use('/teacher/events', eventRoutes);
+
 // app.use('/teacher/submission', submissionRoutes);
 
 

@@ -4,64 +4,60 @@ const Assignment = require("../../models/teacherDashboard/assignmentModel");
 const Announcement = require("../../models/teacherDashboard/announcementModel");
 const StudyMaterial = require("../../models/teacherDashboard/studyMaterialModel");
 const Submission = require("../../models/teacherDashboard/submissionModel");
+const Event = require("../../models/teacherDashboard/eventModel"); // ✅ Import Event Model
+
 
 console.log("TeacherDashboardController.js file is executing...");
 
 const getTeacherDashboard = async (req, res) => {
     try {
         const { email } = req.query;
-      
 
         if (!email) {
             console.log("Missing teacher email in request");
-            return res.status(400).json({ message: " Teacher Email is required" });
+            return res.status(400).json({ message: "Teacher Email is required" });
         }
 
-       
         const teacher = await TeacherModel.findOne({ email: new RegExp(`^${email}$`, "i") });
 
         if (!teacher) {
-            console.log(" Teacher not found in database.");
-            return res.status(404).json({ message: " Teacher Not Found" });
+            console.log("Teacher not found in database.");
+            return res.status(404).json({ message: "Teacher Not Found" });
         }
 
         console.log("🔍 Teacher lookup result:", teacher);
 
-       
-        const subjects = await Subject.find({ 
-            schoolName: teacher.schoolName, 
-            "teacherEmails.email": { $regex: new RegExp(`^${email}$`, "i") } 
+        const subjects = await Subject.find({
+            schoolName: teacher.schoolName,
+            "teacherEmails.email": { $regex: new RegExp(`^${email}$`, "i") }
         });
 
         console.log("📚 Subjects found for teacher:", subjects);
 
-       
         const classDataMap = new Map();
 
-for (const subject of subjects) {
-   
-    const cleanClassNumber = subject.classNumber.replace(/class\s*/i, "").trim(); 
+        for (const subject of subjects) {
+            const cleanClassNumber = subject.classNumber.replace(/class\s*/i, "").trim();
 
-    if (!classDataMap.has(cleanClassNumber)) {
-        classDataMap.set(cleanClassNumber, {
-            classNumber: cleanClassNumber, 
-            subjects: [],
-        });
-    }
-    classDataMap.get(cleanClassNumber).subjects.push(subject.name);
-}
-
+            if (!classDataMap.has(cleanClassNumber)) {
+                classDataMap.set(cleanClassNumber, {
+                    classNumber: cleanClassNumber,
+                    subjects: [],
+                });
+            }
+            classDataMap.get(cleanClassNumber).subjects.push(subject.name);
+        }
 
         const classData = Array.from(classDataMap.values());
         console.log("📊 Final processed class data:", classData);
 
-        
         console.log("🕵️ Fetching teacher-related dashboard data...");
-        const [assignments, announcements, studyMaterials, submissions] = await Promise.all([
+        const [assignments, announcements, studyMaterials, submissions, events] = await Promise.all([
             Assignment.find({ teacherEmail: teacher.email }),
             Announcement.find({ teacherEmail: teacher.email }),
             StudyMaterial.find({ teacherEmail: teacher.email }),
-            Submission.find({ teacherEmail: teacher.email })
+            Submission.find({ teacherEmail: teacher.email }),
+            Event.find({ teacherEmail: teacher.email }), // Fetch Events
         ]);
 
         console.log("Assignments found:", assignments.length);
@@ -69,7 +65,6 @@ for (const subject of subjects) {
         console.log("Study Materials found:", studyMaterials.length);
         console.log("Submissions found:", submissions.length);
 
-        
         return res.render("teacher/dashboard", {
             teacher: {
                 name: teacher.name || "Unknown",
@@ -81,7 +76,8 @@ for (const subject of subjects) {
             assignments,
             announcements,
             studyMaterials,
-            submissions
+            submissions,
+            events // Pass events to the view
         });
 
     } catch (error) {

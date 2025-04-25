@@ -5,16 +5,27 @@ const Subject = require("../../models/school/subjectModel");
 const Submission = require("../../models/teacherDashboard/submissionModel");
 const Class = require('../../models/school/classModel');
 const mongoose = require('mongoose');
+const Event = require("../../models/teacherDashboard/eventModel"); // Import Event Model
+const StudentModel = require("../../models/student/studentModel");
+
 
 const getStudentClassDashboard = async (req, res) => {
     try {
-        const { subjectId } = req.params;
+        const { subjectId, emailId } = req.params;
 
         const subject = await Subject.findById(subjectId);
         if (!subject) {
             console.error(`Subject not found for ID: ${subjectId}`);
             return res.status(404).json({ message: "Subject not found." });
         }
+
+        // Fetch student details from the database using student email
+        const student = await StudentModel.findOne({ email: emailId }); // Use emailId here
+        if (!student) {
+            console.error(`Student not found for email: ${emailId}`);
+            return res.status(404).json({ message: "Student not found." });
+        }
+
 
         const { classNumber, name: subjectName, teacherEmails } = subject;
         const teacherName = teacherEmails?.length ? teacherEmails[0].teacherName : "No Teacher Assigned";
@@ -43,13 +54,22 @@ const getStudentClassDashboard = async (req, res) => {
             subjectName: { $regex: new RegExp(`^${subjectName}$`, "i") }
         }).sort({ createdAt: -1 });
 
+        // ✅ Fetch Events for the Student's Class
+        const events = await Event.find({
+            classNumber: formattedClassNumber,
+            subjectName: { $regex: new RegExp(`^${subjectName}$`, "i") }
+        }).sort({ dueDate: -1 });
+        
+
         return res.render("student/classDashboard", {
             subjectId,
             subjectName,
             teacherName,
             announcements,
             assignments,
-            studyMaterials
+            studyMaterials,
+            events,
+            student
         });
     } catch (error) {
         console.error("Error fetching student class dashboard:", error);

@@ -2,7 +2,10 @@ const Assignment = require("../../models/teacherDashboard/assignmentModel");
 const Announcement = require("../../models/teacherDashboard/announcementModel");
 const StudyMaterial = require("../../models/teacherDashboard/studyMaterialModel");
 const Submission = require("../../models/teacherDashboard/submissionModel");
-const Subject = require("../../models/school/subjectModel"); 
+const Subject = require("../../models/school/subjectModel");
+const Event = require("../../models/teacherDashboard/eventModel"); // ✅ Import the Event model
+
+
 const getClassDashboard = async (req, res) => {
     try {
         let { classNumber, subjectName } = req.params;
@@ -26,6 +29,7 @@ const getClassDashboard = async (req, res) => {
         const announcements = await Announcement.find({ classNumber, subjectName });
         const studyMaterials = await StudyMaterial.find({ classNumber, subjectName });
         const submissions = await Submission.find({ classNumber, subject: subjectName });
+        const events = await Event.find({ classNumber, subjectName }).sort({ createdAt: -1 }); // ✅ Fetch Events
 
        console.log(submissions)
         return res.render("teacher/classDashboard", {
@@ -35,6 +39,7 @@ const getClassDashboard = async (req, res) => {
             announcements,
             studyMaterials,
             submissions,
+            events,
             teacherEmail: email || ""  
         });
 

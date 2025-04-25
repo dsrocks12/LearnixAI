@@ -47,6 +47,26 @@
                 assignmentLink.href = `${baseUrl}&email=${encodeURIComponent(email)}&school=${encodeURIComponent(schoolName)}`;
             }
         });
+
+        function confirmDeleteEvent(eventId) {
+        if (confirm("Are you sure you want to delete this event?")) {
+            fetch(`/teacher/events/delete/${eventId}`, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    alert("✅ Event deleted successfully");
+                    window.location.reload();
+                })
+                .catch(error => alert("❌ Error deleting event"));
+        }
+    }
+
+    function allowParticipation(eventId, classNumber, subjectName) {
+    fetch(`/teacher/events/allow-participation/${eventId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ classNumber, subjectName })
+    }).then(() => location.reload());
+}
     </script>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Metrophobic&display=swap');
@@ -209,7 +229,7 @@ select:hover {
 .btn-secondary:hover { background-color: #6A246B; }
 
 /* Individual Items */
-.announcement-item, .assignment-item, .material-item, .submission-item {
+.announcement-item, .assignment-item, .material-item, .submission-item, .event-item {
     margin-bottom: 15px;
     padding: 15px;
     border-radius: 10px;
@@ -301,6 +321,36 @@ select:hover {
     cursor: pointer; /* Pointer cursor on hover */
     transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
+
+/* Style for the file-attachment section */
+.file-attachment {
+    margin-top: 10px; /* Adds space between the event details and the file link */
+    padding: 5px;
+    background-color: transparent; /* Light background to highlight the file section */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Aligns the file link to the left */
+}
+
+.file-attachment a {
+    color: #007bff; /* Blue color for the file link */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold;
+    font-size: 14px; /* Slightly smaller font size */
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.file-attachment a:hover {
+    background-color: #e2e6ea; /* Light gray background on hover */
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.file-attachment img{
+    width: 20px;
+
+}
     </style>
 </head>
 <body>
@@ -372,8 +422,8 @@ select:hover {
         </div>
         
         <img src="/images/ellipse-13.png" alt="Ellipse Shape" class="ellipse-mid">
-    </div>
-     <!-- Submissions Section -->
+
+        <!-- Submissions Section -->
      <div class="section">
         <h3>📩 Submissions</h3>
         <div class="content-box">
@@ -403,6 +453,56 @@ select:hover {
             <% } %>
         </div>
     </div>
+
+    <!-- Events Section -->
+<div class="section">
+    <h3>📅 Events</h3>
+    <a id="createEvent" href="/teacher/events/create?classNumber=<%= classNumber %>&subjectName=<%= subjectName %>" class="btn btn-primary">Create Event</a>
+    <div class="content-box">
+        <% if (events.length === 0) { %>
+            <p>No upcoming events.</p>
+        <% } else { %>
+            <% events.forEach(event => { %>
+                <div class="event-item">
+                    <strong><%= event.title %></strong>: <%+ event.message %>
+                    <div class="timestamp">🕒 Posted on: <%= new Date(event.createdAt).toLocaleDateString() %></div>
+                    <div class="timestamp">🕒 Updated on: <%= new Date(event.updatedAt).toLocaleDateString() %></div>
+                    <div class="timestamp">🕒 Due date: <%= new Date(event.dueDate).toLocaleDateString() %></div>
+                    <% if (event.fileUrl) { %>
+                        <div class="file-attachment">
+                            <a href="<%= event.fileUrl %>" target="_blank"><img src="/images/fileicon.png" alt="fileicon">View Attached File</a>
+                        </div>
+                    <% } %>
+                    <!-- Inside the event loop, add this before the delete button -->
+                    <a href="/teacher/events/update/<%= event._id %>" class="btn btn-secondary btn-sm">✏️ Edit</a>
+                    <button onclick="confirmDeleteEvent('<%= event._id %>')" class="btn btn-danger btn-sm">🗑 Delete</button>
+                    <!-- Add Participation Button -->
+                    <% if (!event.allowParticipation) { %>
+                        <button onclick="allowParticipation('<%= event._id %>', '<%= classNumber %>', '<%= subjectName %>')" class="btn btn-success btn-sm">✅ Allow Participation</button>
+                        <% } else { %>
+                            <span>✅ Participation Allowed</span>
+                            <% } %>
+                    <!-- Display Participants -->
+                     <% if (event.participants && event.participants.length > 0) { %>
+                        <div class="participants">
+                            <strong>Participants:</strong>
+                            <ul>
+                            <% event.participants.forEach(participant => { %>
+                                <li><%= participant.name %> (Class <%= participant.classNumber %>)</li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                        <% } %>
+                    </div>
+                    <% }) %>
+                    <% } %>
+                </div>
+            </div>
+
+
+
+    </div>
+     
         <script>
             function confirmDeleteMaterial(materialId) {
                 if (confirm("Are you sure you want to delete this study material?")) {
